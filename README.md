@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # MyPersonal
 
 Plataforma web front-end para acompanhamento centralizado entre profissionais da saúde (personal trainers, nutricionistas) e seus alunos/clientes.
@@ -138,3 +139,6 @@ Toda a identidade visual (paleta, tipografia, componentes) está documentada em 
 ## 📜 Licença
 
 Projeto acadêmico — PUC Minas — 2026/1.
+=======
+# myPersonal
+>>>>>>> origin/main
