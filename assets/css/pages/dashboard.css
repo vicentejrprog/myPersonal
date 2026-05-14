@@ -1,0 +1,299 @@
+/* ============================================================
+   dashboard.css
+   Dashboard do Profissional e Home do Aluno
+   ============================================================ */
+
+/* Seção: título de bloco */
+.section-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-dark);
+  margin-bottom: var(--space-4);
+}
+
+/* Grid de métricas */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.metric-card {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+}
+
+.metric-card .metric-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+  display: block;
+}
+
+.metric-card .metric-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-dark);
+  line-height: 1;
+}
+
+/* Layout em duas colunas */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Box de seção */
+.dashboard-box {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+/* Lista de alunos recentes */
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--gray-50);
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast);
+}
+
+.recent-item:hover {
+  background-color: var(--green-light);
+}
+
+.recent-item-name {
+  flex: 1;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-dark);
+}
+
+.recent-item-action {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--green-primary);
+  background-color: var(--white);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+}
+
+.recent-item:hover .recent-item-action {
+  background-color: var(--green-primary);
+  color: var(--white);
+  border-color: var(--green-primary);
+}
+
+/* Tabela de consultas/treinos do dia */
+.day-table {
+  width: 100%;
+}
+
+.day-table th {
+  text-align: left;
+  padding: var(--space-3);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.day-table td {
+  padding: var(--space-3);
+  font-size: var(--font-size-sm);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.day-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Lista de compromissos */
+.appointments-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.appointment-row {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--gray-50);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--green-primary);
+}
+
+.appointment-row-time {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--green-dark);
+}
+
+.appointment-row-info {
+  font-size: var(--font-size-sm);
+  color: var(--text-dark);
+}
+
+.appointment-row-aluno {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+/* Quick access cards (Home Aluno) */
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.quick-card {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.quick-card:hover {
+  border-color: var(--green-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.quick-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.quick-card-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-dark);
+}
+
+.quick-card-desc {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.quick-card-arrow {
+  font-size: var(--font-size-lg);
+  color: var(--green-primary);
+}
+
+/* Treino da home (aluno) */
+.training-summary {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.training-summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.training-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-3);
+  background-color: var(--gray-50);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+}
+
+.training-row-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-dark);
+}
+
+.training-row-meta {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.training-row-video {
+  color: var(--green-primary);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-xs);
+}
+
+/* Próximos compromissos (aluno) */
+.next-appointments {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.next-appointment-card {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  border-left: 4px solid var(--green-primary);
+}
+
+.next-appointment-card .date-time {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-1);
+}
+
+.next-appointment-card .title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-dark);
+}
+
+/* Chart placeholder */
+.chart-placeholder {
+  background: linear-gradient(135deg, var(--gray-50) 25%, transparent 25%, transparent 75%, var(--gray-50) 75%),
+              linear-gradient(135deg, var(--gray-50) 25%, transparent 25%, transparent 75%, var(--gray-50) 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  border: 1px dashed var(--gray-300);
+  border-radius: var(--radius-lg);
+  padding: var(--space-12);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}

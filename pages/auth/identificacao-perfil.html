@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyPersonal — Identificação de Perfil</title>
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/variables.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/pages/identificacao-perfil.css">
+</head>
+<body>
+  <main class="profile-page">
+    <header class="profile-header">
+      <h1 class="profile-title">Como você vai usar o MyPersonal?</h1>
+      <p class="profile-subtitle">Escolha seu perfil para personalizar sua experiência</p>
+    </header>
+
+    <div class="profile-cards" id="profile-cards">
+      <!-- Card Personal Nutricionista -->
+      <article class="profile-card" data-profile="personal-nutricionista" data-redirect="../profissional/dashboard.html?perfil=personal-nutricionista">
+        <div class="profile-card-icon">PN</div>
+        <h2 class="profile-card-title">Personal Nutricionista</h2>
+        <div class="profile-card-divider"></div>
+        <p class="profile-card-desc">Profissional que combina treino e nutrição em um único perfil</p>
+        <span class="profile-card-badge">Selecionado</span>
+      </article>
+
+      <!-- Card Nutricionista -->
+      <article class="profile-card" data-profile="nutricionista" data-redirect="../profissional/dashboard.html?perfil=nutricionista">
+        <div class="profile-card-icon">N</div>
+        <h2 class="profile-card-title">Nutricionista</h2>
+        <div class="profile-card-divider"></div>
+        <p class="profile-card-desc">Profissional que registra dietas, avaliações e histórico alimentar</p>
+        <span class="profile-card-badge">Selecionado</span>
+      </article>
+
+      <!-- Card Personal Trainer (selecionado por padrão) -->
+      <article class="profile-card is-selected" data-profile="personal-trainer" data-redirect="../profissional/dashboard.html?perfil=personal-trainer">
+        <div class="profile-card-icon">PT</div>
+        <h2 class="profile-card-title">Personal Trainer</h2>
+        <div class="profile-card-divider"></div>
+        <p class="profile-card-desc">Profissional que monta treinos, acompanha evolução e agenda</p>
+        <span class="profile-card-badge">Selecionado</span>
+      </article>
+
+      <!-- Card Aluno -->
+      <article class="profile-card" data-profile="aluno" data-redirect="../aluno/home.html">
+        <div class="profile-card-icon">A</div>
+        <h2 class="profile-card-title">Aluno</h2>
+        <div class="profile-card-divider"></div>
+        <p class="profile-card-desc">Pessoa que recebe acompanhamento de treino, dieta e evolução física</p>
+        <span class="profile-card-badge">Selecionado</span>
+      </article>
+    </div>
+
+    <div class="profile-action">
+      <button type="button" class="btn btn-primary profile-continue-btn" id="continue-btn">
+        Continuar como Personal Trainer
+      </button>
+      <p class="profile-help">Você poderá alternar entre perfis nas configurações da conta</p>
+    </div>
+  </main>
+
+  <script>
+    // Lógica de seleção do perfil
+    // Atende RNF04: perfis de acesso distintos
+    const cards = document.querySelectorAll(".profile-card");
+    const continueBtn = document.getElementById("continue-btn");
+
+    const labels = {
+      "personal-nutricionista": "Continuar como Personal Nutricionista",
+      "nutricionista": "Continuar como Nutricionista",
+      "personal-trainer": "Continuar como Personal Trainer",
+      "aluno": "Continuar como Aluno"
+    };
+
+    let selectedCard = document.querySelector(".profile-card.is-selected");
+
+    cards.forEach((card) => {
+      card.addEventListener("click", () => {
+        // Remove seleção anterior
+        cards.forEach((c) => c.classList.remove("is-selected"));
+        // Aplica nova seleção
+        card.classList.add("is-selected");
+        selectedCard = card;
+        // Atualiza texto do botão
+        const profile = card.getAttribute("data-profile");
+        continueBtn.textContent = labels[profile];
+      });
+    });
+
+    // Redireciona ao clicar em continuar
+    continueBtn.addEventListener("click", () => {
+      if (selectedCard) {
+        window.location.href = selectedCard.getAttribute("data-redirect");
+      }
+    });
+  </script>
+</body>
+</html>

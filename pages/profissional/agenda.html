@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyPersonal — Agenda</title>
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/variables.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/sidebar.css">
+  <link rel="stylesheet" href="../../assets/css/pages/agenda.css">
+</head>
+<body data-page-title="Agenda">
+  <div class="app-layout">
+    <div id="sidebar-mount"></div>
+    <div id="topbar-mount"></div>
+
+    <main class="main-content">
+
+      <!-- Header da agenda: navegação de mês + novo compromisso -->
+      <div class="agenda-header">
+        <h2 class="agenda-month" id="month-label">Abril 2026</h2>
+        <div class="agenda-nav">
+          <button class="btn-icon" id="prev-month" aria-label="Mês anterior">‹</button>
+          <button class="btn-icon" id="next-month" aria-label="Próximo mês">›</button>
+        </div>
+        <a href="cadastrar-compromisso.html" class="btn btn-primary agenda-new-btn">
+          + Novo compromisso
+        </a>
+      </div>
+
+      <!-- Calendário -->
+      <div class="calendar" id="calendar">
+        <!-- Cabeçalho dos dias -->
+        <div class="calendar-day-header">Dom</div>
+        <div class="calendar-day-header">Seg</div>
+        <div class="calendar-day-header">Ter</div>
+        <div class="calendar-day-header">Qua</div>
+        <div class="calendar-day-header">Qui</div>
+        <div class="calendar-day-header">Sex</div>
+        <div class="calendar-day-header">Sáb</div>
+        <!-- Células do mês geradas via JS -->
+      </div>
+
+      <!-- Legenda -->
+      <div class="calendar-legend">
+        <div class="legend-item"><span class="legend-dot" style="background:var(--green-primary)"></span> Treino</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--blue-info-dark)"></span> Consulta</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--orange-warning)"></span> Avaliação</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--gray-500)"></span> Outro</div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="../../assets/js/sidebar-loader.js"></script>
+  <script>
+    // ======================================================
+    // Calendário simplificado — Abril 2026
+    // Estrutura de dados: cada evento tem dia + label + tipo
+    // ======================================================
+
+    const eventos = {
+      10: [{ label: "Treino 09h - Eliabe", tipo: "treino" }],
+      15: [{ label: "Trocar treino - Eliabe", tipo: "outro" }],
+      22: [{ label: "Avaliação - Ana Paula", tipo: "avaliacao" }],
+      8:  [{ label: "Consulta 14h - Lucas", tipo: "consulta" }],
+      18: [{ label: "Avaliação corporal", tipo: "avaliacao" }],
+    };
+
+    // Abril 2026: começa numa quarta-feira (offset 3)
+    const startOffset = 3;
+    const daysInMonth = 30;
+    const calendar = document.getElementById("calendar");
+
+    // Células vazias antes do dia 1
+    for (let i = 0; i < startOffset; i++) {
+      const empty = document.createElement("div");
+      empty.className = "calendar-cell is-empty";
+      calendar.appendChild(empty);
+    }
+
+    // Dias do mês
+    for (let day = 1; day <= daysInMonth; day++) {
+      const cell = document.createElement("div");
+      cell.className = "calendar-cell";
+
+      const num = document.createElement("div");
+      num.className = "calendar-day-number";
+      num.textContent = day;
+      cell.appendChild(num);
+
+      // Eventos do dia
+      if (eventos[day]) {
+        eventos[day].forEach((ev) => {
+          const evEl = document.createElement("div");
+          evEl.className = `calendar-event event-${ev.tipo}`;
+          evEl.textContent = ev.label;
+          evEl.title = ev.label;
+          cell.appendChild(evEl);
+        });
+      }
+
+      calendar.appendChild(cell);
+    }
+  </script>
+</body>
+</html>

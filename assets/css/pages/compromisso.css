@@ -1,0 +1,114 @@
+/* ============================================================
+   compromisso.css
+   Formulário de cadastro de compromisso (Agenda)
+   ============================================================ */
+
+.form-page-grid {
+  display: grid;
+  grid-template-columns: 1fr 430px;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
+.form-section-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-dark);
+  margin-bottom: var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.form-row {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.form-row.row-2  { grid-template-columns: 1fr 1fr; }
+.form-row.row-3  { grid-template-columns: 1.5fr 1fr 1fr; }
+
+.mini-calendar {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.mini-calendar-header {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-dark);
+  margin-bottom: var(--space-3);
+}
+
+.mini-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.mini-calendar-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+}
+
+.mini-calendar-cell.is-day-name {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+}
+
+.mini-calendar-cell.is-selected {
+  background-color: var(--green-primary);
+  color: var(--white);
+  font-weight: var(--font-weight-bold);
+}
+
+.mini-calendar-cell.has-conflict {
+  background-color: var(--yellow-light);
+  color: var(--orange-warning);
+  font-weight: var(--font-weight-semibold);
+}
+
+.conflicts-list {
+  margin-top: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.conflict-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--yellow-light);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xs);
+  color: var(--orange-warning);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border-color);
+  margin-top: var(--space-6);
+}
+
+@media (max-width: 1024px) {
+  .form-page-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-row.row-3 {
+    grid-template-columns: 1fr;
+  }
+}

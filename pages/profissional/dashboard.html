@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyPersonal — Dashboard do Profissional</title>
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/variables.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/sidebar.css">
+  <link rel="stylesheet" href="../../assets/css/pages/dashboard.css">
+</head>
+<body data-page-title="Dashboard do Profissional">
+  <div class="app-layout">
+    <div id="sidebar-mount"></div>
+    <div id="topbar-mount"></div>
+
+    <main class="main-content">
+
+      <h2 class="section-title">Resumo do dia</h2>
+      <div class="metrics-grid" id="metrics-grid">
+        <!-- preenchido por JS conforme o perfil -->
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Coluna esquerda: Consultas/Treinos do dia -->
+        <section class="dashboard-box">
+          <h2 class="section-title" id="dia-title">Consultas/Treinos do dia</h2>
+          <table class="day-table">
+            <thead>
+              <tr>
+                <th>Aluno</th>
+                <th>Tipo</th>
+                <th>Horário</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="dia-tbody">
+              <!-- preenchido por JS -->
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Coluna direita: Alunos recentes -->
+        <section class="dashboard-box">
+          <h2 class="section-title">Alunos recentes</h2>
+          <div class="recent-list">
+            <div class="recent-item">
+              <div class="avatar avatar-sm">EM</div>
+              <span class="recent-item-name">Eliabe M.</span>
+              <a href="#" class="recent-item-action">ver perfil</a>
+            </div>
+            <div class="recent-item">
+              <div class="avatar avatar-sm">LR</div>
+              <span class="recent-item-name">Lucas R.</span>
+              <a href="#" class="recent-item-action">ver perfil</a>
+            </div>
+            <div class="recent-item">
+              <div class="avatar avatar-sm">AP</div>
+              <span class="recent-item-name">Ana P.</span>
+              <a href="#" class="recent-item-action">ver perfil</a>
+            </div>
+            <div class="recent-item">
+              <div class="avatar avatar-sm">FS</div>
+              <span class="recent-item-name">Fernanda S.</span>
+              <a href="#" class="recent-item-action">ver perfil</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Agenda — próximos compromissos -->
+      <section class="dashboard-box">
+        <h2 class="section-title">Agenda — próximos compromissos</h2>
+        <div class="appointments-list">
+          <div class="appointment-row">
+            <span class="appointment-row-time">10/04 · 09:00</span>
+            <div>
+              <p class="appointment-row-info">Consulta com Eliabe Monteiro</p>
+              <p class="appointment-row-aluno">Avaliação corporal</p>
+            </div>
+            <span class="badge-status active">Confirmado</span>
+          </div>
+          <div class="appointment-row">
+            <span class="appointment-row-time">15/04 · 14:00</span>
+            <div>
+              <p class="appointment-row-info">Renovação de treino — Lucas Rodrigues</p>
+              <p class="appointment-row-aluno">Presencial</p>
+            </div>
+            <span class="badge-status pending">Pendente</span>
+          </div>
+          <div class="appointment-row">
+            <span class="appointment-row-time">22/04 · 08:00</span>
+            <div>
+              <p class="appointment-row-info">Avaliação corporal — Carlos Melo</p>
+              <p class="appointment-row-aluno">Online</p>
+            </div>
+            <span class="badge-status info">Online</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../../assets/js/sidebar-loader.js"></script>
+  <script>
+    // ======================================================
+    // Dashboard dinâmico — métricas e dados variam pelo perfil
+    // Atende: H3i (elementos-chave) e RNF04 (perfis distintos)
+    // ======================================================
+
+    const profile = (new URLSearchParams(window.location.search)).get("perfil")
+                  || localStorage.getItem("mypersonal:perfil")
+                  || "personal-trainer";
+
+    // Métricas por perfil
+    const METRICS = {
+      "personal-trainer": [
+        { label: "Alunos ativos", value: "12" },
+        { label: "Treinos hoje",  value: "5" },
+        { label: "Próx. treino",  value: "14:00" },
+        { label: "Mensagens",     value: "3" },
+      ],
+      "nutricionista": [
+        { label: "Alunos ativos",   value: "12" },
+        { label: "Consultas hoje",  value: "3" },
+        { label: "Próx. consulta",  value: "16:00" },
+        { label: "Mensagens",       value: "3" },
+      ],
+      "personal-nutricionista": [
+        { label: "Alunos ativos",   value: "12" },
+        { label: "Treinos hoje",    value: "5" },
+        { label: "Próx. treino",    value: "14:00" },
+        { label: "Consultas hoje",  value: "3" },
+        { label: "Próx. consulta",  value: "16:00" },
+        { label: "Mensagens",       value: "3" },
+      ],
+    };
+
+    // Dados do dia por perfil
+    const DAY_DATA = {
+      "personal-trainer": {
+        title: "Treinos do dia",
+        rows: [
+          { aluno: "Eliabe Monteiro",  tipo: "Treino A",  hora: "09:00", status: "Concluído" },
+          { aluno: "Lucas Rodrigues",  tipo: "Treino B",  hora: "11:00", status: "Em andamento" },
+          { aluno: "Fernanda Santos",  tipo: "Treino C",  hora: "14:00", status: "Agendado" },
+          { aluno: "Carlos Melo",      tipo: "Treino A",  hora: "16:30", status: "Agendado" },
+        ],
+      },
+      "nutricionista": {
+        title: "Consultas do dia",
+        rows: [
+          { aluno: "Ana Paula",        tipo: "Consulta",    hora: "10:00", status: "Confirmada" },
+          { aluno: "Eliabe Monteiro",  tipo: "Reavaliação", hora: "13:00", status: "Confirmada" },
+          { aluno: "Lucas Rodrigues",  tipo: "Consulta",    hora: "16:00", status: "Agendada" },
+        ],
+      },
+      "personal-nutricionista": {
+        title: "Consultas e Treinos do dia",
+        rows: [
+          { aluno: "Eliabe Monteiro",  tipo: "Treino A",    hora: "09:00", status: "Concluído" },
+          { aluno: "Ana Paula",        tipo: "Consulta",    hora: "10:00", status: "Confirmada" },
+          { aluno: "Lucas Rodrigues",  tipo: "Treino B",    hora: "11:00", status: "Em andamento" },
+          { aluno: "Eliabe Monteiro",  tipo: "Reavaliação", hora: "13:00", status: "Confirmada" },
+          { aluno: "Fernanda Santos",  tipo: "Treino C",    hora: "14:00", status: "Agendado" },
+          { aluno: "Lucas Rodrigues",  tipo: "Consulta",    hora: "16:00", status: "Agendada" },
+        ],
+      },
+    };
+
+    // Atualiza título da topbar
+    document.body.dataset.pageTitle = "Dashboard do Profissional";
+
+    // Renderiza métricas
+    const metrics = METRICS[profile] || METRICS["personal-trainer"];
+    document.getElementById("metrics-grid").innerHTML = metrics.map((m) => `
+      <div class="metric-card">
+        <span class="metric-label">${m.label}</span>
+        <span class="metric-value">${m.value}</span>
+      </div>
+    `).join("");
+
+    // Renderiza dados do dia
+    const day = DAY_DATA[profile] || DAY_DATA["personal-trainer"];
+    document.getElementById("dia-title").textContent = day.title;
+
+    const statusClasses = {
+      "Concluído": "active",
+      "Confirmada": "active",
+      "Em andamento": "info",
+      "Agendado": "pending",
+      "Agendada": "pending",
+    };
+
+    document.getElementById("dia-tbody").innerHTML = day.rows.map((r) => `
+      <tr>
+        <td><strong>${r.aluno}</strong></td>
+        <td>${r.tipo}</td>
+        <td>${r.hora}</td>
+        <td><span class="badge-status ${statusClasses[r.status] || "info"}">${r.status}</span></td>
+      </tr>
+    `).join("");
+  </script>
+</body>
+</html>

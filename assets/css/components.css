@@ -1,0 +1,453 @@
+/* ============================================================
+   components.css — Componentes reutilizáveis
+   Botões, inputs, cards, tabelas, badges, avatares.
+   Segue as classes definidas no template visual do projeto.
+   ============================================================ */
+
+/* ════════════════════════════════════════════════
+   IDENTIDADE VISUAL
+   ════════════════════════════════════════════════ */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-dark);
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--green-primary);
+  color: var(--white);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-base);
+}
+
+/* ════════════════════════════════════════════════
+   BOTÕES
+   ════════════════════════════════════════════════ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-primary,
+.btn-continue {
+  background-color: var(--green-primary);
+  color: var(--white);
+}
+
+.btn-primary:hover,
+.btn-continue:hover {
+  background-color: var(--green-dark);
+}
+
+.btn-secondary,
+.btn-outline {
+  background-color: var(--white);
+  color: var(--text-dark);
+  border-color: var(--border-color);
+}
+
+.btn-secondary:hover,
+.btn-outline:hover {
+  background-color: var(--gray-50);
+  border-color: var(--gray-400);
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-icon:hover {
+  background-color: var(--gray-50);
+  color: var(--text-dark);
+}
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  color: var(--text-secondary);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.btn-logout:hover {
+  background-color: var(--red-light);
+  color: var(--red-dark);
+}
+
+.btn-sm {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-xs);
+}
+
+.btn-lg {
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--font-size-base);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ════════════════════════════════════════════════
+   FORMULÁRIOS
+   ════════════════════════════════════════════════ */
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.input-group label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+}
+
+.form-control,
+.search-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--text-dark);
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-fast);
+}
+
+.form-control:focus,
+.search-input:focus {
+  outline: none;
+  border-color: var(--green-primary);
+}
+
+.form-control.is-invalid {
+  border-color: var(--red-dark);
+}
+
+.form-control::placeholder,
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+textarea.form-control {
+  min-height: 96px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+select.form-control {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3e%3cpath fill='none' stroke='%236B7280' stroke-width='1.5' d='M2 4l4 4 4-4'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right var(--space-4) center;
+  padding-right: var(--space-10);
+}
+
+.error-message {
+  display: none;
+  margin-top: var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--red-dark);
+}
+
+.input-group.has-error .error-message {
+  display: block;
+}
+
+.input-group.has-error .form-control {
+  border-color: var(--red-dark);
+}
+
+/* ════════════════════════════════════════════════
+   CARDS
+   ════════════════════════════════════════════════ */
+
+.card {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+
+.card-header {
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-dark);
+}
+
+.card-subtitle {
+  margin-top: var(--space-1);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Card de métrica (dashboard) */
+.metric-card {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.metric-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.metric-value {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-dark);
+}
+
+/* ════════════════════════════════════════════════
+   TABELAS
+   ════════════════════════════════════════════════ */
+
+.custom-table {
+  width: 100%;
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.custom-table thead {
+  background-color: var(--gray-50);
+}
+
+.custom-table th {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.custom-table td {
+  padding: var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--text-dark);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.custom-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.custom-table tbody tr:hover {
+  background-color: var(--gray-50);
+}
+
+/* ════════════════════════════════════════════════
+   BADGES DE STATUS
+   ════════════════════════════════════════════════ */
+
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-full);
+}
+
+.badge-status.active,
+.badge-status.success {
+  background-color: var(--green-light);
+  color: var(--green-dark);
+}
+
+.badge-status.pending,
+.badge-status.warning {
+  background-color: var(--yellow-light);
+  color: var(--orange-warning);
+}
+
+.badge-status.inactive,
+.badge-status.danger {
+  background-color: var(--red-light);
+  color: var(--red-dark);
+}
+
+.badge-status.info {
+  background-color: var(--blue-info);
+  color: var(--blue-info-dark);
+}
+
+/* ════════════════════════════════════════════════
+   AVATAR
+   ════════════════════════════════════════════════ */
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--gray-200);
+  color: var(--text-secondary);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+}
+
+.avatar-sm { width: 32px; height: 32px; font-size: var(--font-size-xs); }
+.avatar-lg { width: 56px; height: 56px; font-size: var(--font-size-base); }
+.avatar-xl { width: 80px; height: 80px; font-size: var(--font-size-lg); }
+
+/* ════════════════════════════════════════════════
+   COMPROMISSO / EVENTO
+   ════════════════════════════════════════════════ */
+
+.appointment {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--white);
+  border-left: 4px solid var(--green-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.appointment-time {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.appointment-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-dark);
+}
+
+/* ════════════════════════════════════════════════
+   ÁREAS RESERVADAS (placeholders durante desenvolvimento)
+   ════════════════════════════════════════════════ */
+
+.dashed-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8);
+  background-color: var(--gray-50);
+  border: 2px dashed var(--gray-300);
+  border-radius: var(--radius-lg);
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+/* ════════════════════════════════════════════════
+   TABS
+   ════════════════════════════════════════════════ */
+
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: var(--space-6);
+}
+
+.tab {
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.tab:hover {
+  color: var(--text-dark);
+}
+
+.tab.active {
+  color: var(--green-primary);
+  border-bottom-color: var(--green-primary);
+}
+
+/* ════════════════════════════════════════════════
+   UTILIDADES GERAIS
+   ════════════════════════════════════════════════ */
+
+.text-center  { text-align: center; }
+.text-right   { text-align: right; }
+.text-muted   { color: var(--text-muted); }
+.text-success { color: var(--green-primary); }
+.text-danger  { color: var(--red-dark); }
+.text-warning { color: var(--orange-warning); }
+
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold     { font-weight: var(--font-weight-bold); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+
+.mt-2 { margin-top: var(--space-2); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }

@@ -1,0 +1,133 @@
+/* ============================================================
+   agenda.css
+   Calendário mensal da Agenda
+   ============================================================ */
+
+.agenda-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.agenda-month {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-dark);
+}
+
+.agenda-nav {
+  display: flex;
+  gap: var(--space-2);
+  margin-left: var(--space-4);
+}
+
+.agenda-new-btn {
+  margin-left: auto;
+}
+
+/* Grid de calendário */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.calendar-day-header {
+  background-color: var(--gray-50);
+  padding: var(--space-3);
+  text-align: center;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.calendar-day-header:last-child {
+  border-right: none;
+}
+
+.calendar-cell {
+  min-height: 96px;
+  padding: var(--space-2);
+  background-color: var(--white);
+  border-right: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.calendar-cell:hover {
+  background-color: var(--gray-50);
+}
+
+.calendar-cell.is-empty {
+  background-color: var(--gray-50);
+  cursor: default;
+}
+
+.calendar-cell.is-today {
+  background-color: var(--green-light);
+}
+
+.calendar-cell:nth-child(7n) {
+  border-right: none;
+}
+
+.calendar-day-number {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-dark);
+  margin-bottom: var(--space-1);
+}
+
+.calendar-event {
+  background-color: var(--green-primary);
+  color: var(--white);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: 10px;
+  font-weight: var(--font-weight-medium);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calendar-event.event-treino    { background-color: var(--green-primary); }
+.calendar-event.event-consulta  { background-color: var(--blue-info-dark); }
+.calendar-event.event-avaliacao { background-color: var(--orange-warning); }
+.calendar-event.event-outro     { background-color: var(--gray-500); }
+
+/* Legenda */
+.calendar-legend {
+  display: flex;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 768px) {
+  .calendar-cell { min-height: 64px; padding: var(--space-1); }
+  .calendar-event { font-size: 9px; }
+}

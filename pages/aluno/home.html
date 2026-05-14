@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyPersonal — Início</title>
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/variables.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/sidebar.css">
+  <link rel="stylesheet" href="../../assets/css/pages/dashboard.css">
+</head>
+<body data-profile="aluno" data-page-title="Olá, Eliabe!">
+  <div class="app-layout">
+    <div id="sidebar-mount"></div>
+    <div id="topbar-mount"></div>
+
+    <main class="main-content">
+
+      <!-- Acesso rápido -->
+      <h2 class="section-title">Acesso rápido</h2>
+      <div class="quick-grid">
+        <a href="meu-treino.html" class="quick-card">
+          <div class="quick-card-info">
+            <span class="quick-card-title">Meu Treino</span>
+            <span class="quick-card-desc">ver treino de hoje</span>
+          </div>
+          <span class="quick-card-arrow">→</span>
+        </a>
+        <a href="minha-dieta.html" class="quick-card">
+          <div class="quick-card-info">
+            <span class="quick-card-title">Minha Dieta</span>
+            <span class="quick-card-desc">ver plano alimentar</span>
+          </div>
+          <span class="quick-card-arrow">→</span>
+        </a>
+        <a href="estatisticas.html" class="quick-card">
+          <div class="quick-card-info">
+            <span class="quick-card-title">Minha Evolução</span>
+            <span class="quick-card-desc">ver estatísticas</span>
+          </div>
+          <span class="quick-card-arrow">→</span>
+        </a>
+        <a href="agenda.html" class="quick-card">
+          <div class="quick-card-info">
+            <span class="quick-card-title">Agenda</span>
+            <span class="quick-card-desc">próximos compromissos</span>
+          </div>
+          <span class="quick-card-arrow">→</span>
+        </a>
+        <a href="mensagens.html" class="quick-card">
+          <div class="quick-card-info">
+            <span class="quick-card-title">Mensagens</span>
+            <span class="quick-card-desc">falar com profissional</span>
+          </div>
+          <span class="quick-card-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Coluna esq: treino de hoje -->
+        <section>
+          <h2 class="section-title">Treino de hoje</h2>
+          <div class="training-summary">
+            <div class="training-summary-list">
+              <div class="training-row">
+                <span class="training-row-name">Supino reto com barra</span>
+                <span class="training-row-meta">4 séries</span>
+                <span class="training-row-meta">12 reps</span>
+                <a href="#" class="training-row-video">▶ ver vídeo</a>
+              </div>
+              <div class="training-row">
+                <span class="training-row-name">Crucifixo com halteres</span>
+                <span class="training-row-meta">3 séries</span>
+                <span class="training-row-meta">15 reps</span>
+                <a href="#" class="training-row-video">▶ ver vídeo</a>
+              </div>
+              <div class="training-row">
+                <span class="training-row-name">Tríceps na polia</span>
+                <span class="training-row-meta">4 séries</span>
+                <span class="training-row-meta">12 reps</span>
+                <a href="#" class="training-row-video">▶ ver vídeo</a>
+              </div>
+              <div class="training-row">
+                <span class="training-row-name">Desenvolvimento com barra</span>
+                <span class="training-row-meta">3 séries</span>
+                <span class="training-row-meta">10 reps</span>
+                <a href="#" class="training-row-video">▶ ver vídeo</a>
+              </div>
+              <div class="training-row">
+                <span class="training-row-name">Elevação lateral</span>
+                <span class="training-row-meta">3 séries</span>
+                <span class="training-row-meta">15 reps</span>
+                <a href="#" class="training-row-video">▶ ver vídeo</a>
+              </div>
+            </div>
+            <a href="meu-treino.html" class="btn btn-secondary">Registrar observação</a>
+          </div>
+        </section>
+
+        <!-- Coluna dir: próximos compromissos -->
+        <section>
+          <h2 class="section-title">Próximos compromissos</h2>
+          <div class="next-appointments">
+            <div class="next-appointment-card">
+              <p class="date-time">10/04 · 09:00</p>
+              <p class="title">Consulta com Pierre</p>
+            </div>
+            <div class="next-appointment-card">
+              <p class="date-time">15/04 · 14:00</p>
+              <p class="title">Renovação de treino</p>
+            </div>
+            <div class="next-appointment-card">
+              <p class="date-time">22/04 · 08:00</p>
+              <p class="title">Avaliação corporal</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Evolução -->
+      <section>
+        <h2 class="section-title">Minha evolução — resumo</h2>
+        <div class="chart-placeholder">
+          [mini gráfico: peso ou % gordura ao longo do tempo]
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="../../assets/js/sidebar-loader.js"></script>
+</body>
+</html>

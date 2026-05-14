@@ -1,0 +1,38 @@
+/* ============================================================
+   sidebar.css — Estilos específicos da sidebar (extras)
+   Complementa layout.css com submenu, separadores e tooltips
+   ============================================================ */
+
+/* Separador entre grupos no menu */
+.sidebar-divider {
+  height: 1px;
+  background-color: var(--border-color);
+  margin: var(--space-3) var(--space-3);
+}
+
+/* Label de seção dentro do menu */
+.sidebar-section-label {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Item com badge à direita */
+.menu-item-badge {
+  margin-left: auto;
+  background-color: var(--green-primary);
+  color: var(--white);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  min-width: 20px;
+  text-align: center;
+}
+
+.menu-item.active .menu-item-badge {
+  background-color: var(--green-dark);
+}

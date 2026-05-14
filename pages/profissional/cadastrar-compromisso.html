@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyPersonal — Novo Compromisso</title>
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/variables.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/sidebar.css">
+  <link rel="stylesheet" href="../../assets/css/pages/compromisso.css">
+</head>
+<body data-page-title="Novo Compromisso" data-back="agenda.html|Agenda">
+  <div class="app-layout">
+    <div id="sidebar-mount"></div>
+    <div id="topbar-mount"></div>
+
+    <main class="main-content">
+
+      <form id="compromisso-form" novalidate>
+        <div class="form-page-grid">
+          <!-- Coluna esquerda: campos do compromisso -->
+          <div>
+            <h2 class="form-section-title">Dados do compromisso</h2>
+
+            <div class="form-row row-2">
+              <div class="input-group">
+                <label for="tipo">Tipo de compromisso</label>
+                <select id="tipo" name="tipo" class="form-control">
+                  <option value="">Selecione...</option>
+                  <option value="treino">Treino</option>
+                  <option value="consulta">Consulta</option>
+                  <option value="troca-treino">Troca de treino</option>
+                  <option value="avaliacao">Avaliação</option>
+                  <option value="outro">Outro</option>
+                </select>
+                <span class="error-message"></span>
+              </div>
+
+              <div class="input-group">
+                <label for="aluno">Aluno</label>
+                <select id="aluno" name="aluno" class="form-control">
+                  <option value="">Selecionar aluno...</option>
+                  <option value="1">Eliabe Monteiro</option>
+                  <option value="2">Lucas Rodrigues</option>
+                  <option value="3">Ana Paula Silva</option>
+                  <option value="4">Fernanda Santos</option>
+                  <option value="5">Carlos Melo</option>
+                </select>
+                <span class="error-message"></span>
+              </div>
+            </div>
+
+            <div class="form-row row-3">
+              <div class="input-group">
+                <label for="data">Data</label>
+                <input type="date" id="data" name="data" class="form-control">
+                <span class="error-message"></span>
+              </div>
+
+              <div class="input-group">
+                <label for="hora-inicio">Hora início</label>
+                <input type="time" id="hora-inicio" name="hora-inicio" class="form-control">
+                <span class="error-message"></span>
+              </div>
+
+              <div class="input-group">
+                <label for="hora-fim">Hora fim</label>
+                <input type="time" id="hora-fim" name="hora-fim" class="form-control">
+                <span class="error-message"></span>
+              </div>
+            </div>
+
+            <div class="form-row row-2">
+              <div class="input-group">
+                <label for="local">Local / Modalidade</label>
+                <select id="local" name="local" class="form-control">
+                  <option value="">Selecione...</option>
+                  <option value="presencial">Presencial</option>
+                  <option value="online">Online</option>
+                  <option value="academia">Academia</option>
+                </select>
+              </div>
+
+              <div class="input-group">
+                <label for="recorrencia">Recorrência</label>
+                <select id="recorrencia" name="recorrencia" class="form-control">
+                  <option value="nao">Não repete</option>
+                  <option value="semanal">Semanal</option>
+                  <option value="quinzenal">Quinzenal</option>
+                  <option value="mensal">Mensal</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="lembrete">Lembrete</label>
+              <select id="lembrete" name="lembrete" class="form-control" style="max-width: 270px;">
+                <option value="30min">30 min antes</option>
+                <option value="1h">1 hora antes</option>
+                <option value="1dia">1 dia antes</option>
+                <option value="nenhum">Sem lembrete</option>
+              </select>
+            </div>
+
+            <h2 class="form-section-title" style="margin-top: var(--space-6);">Descrição / observações</h2>
+
+            <div class="input-group">
+              <textarea id="descricao" name="descricao" class="form-control" rows="4"
+                placeholder="Detalhes adicionais sobre o compromisso"></textarea>
+            </div>
+          </div>
+
+          <!-- Coluna direita: preview + conflitos -->
+          <div>
+            <h2 class="form-section-title">Posição no calendário</h2>
+
+            <div class="mini-calendar">
+              <div class="mini-calendar-header">Abril 2026</div>
+              <div class="mini-calendar-grid">
+                <div class="mini-calendar-cell is-day-name">D</div>
+                <div class="mini-calendar-cell is-day-name">S</div>
+                <div class="mini-calendar-cell is-day-name">T</div>
+                <div class="mini-calendar-cell is-day-name">Q</div>
+                <div class="mini-calendar-cell is-day-name">Q</div>
+                <div class="mini-calendar-cell is-day-name">S</div>
+                <div class="mini-calendar-cell is-day-name">S</div>
+                <!-- dias gerados via JS -->
+              </div>
+            </div>
+
+            <h2 class="form-section-title" style="margin-top: var(--space-6);">Alunos com agenda neste horário</h2>
+            <div class="conflicts-list">
+              <div class="conflict-item">
+                <strong>Eliabe Monteiro</strong> · 09:00–10:00
+              </div>
+              <div class="conflict-item">
+                <strong>Ana Paula</strong> · 10:30–11:30
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ações -->
+        <div class="form-actions">
+          <a href="agenda.html" class="btn btn-secondary">Cancelar</a>
+          <button type="submit" class="btn btn-primary">Salvar compromisso</button>
+        </div>
+      </form>
+
+    </main>
+  </div>
+
+  <script src="../../assets/js/sidebar-loader.js"></script>
+  <script src="../../assets/js/validation.js"></script>
+  <script>
+    // Preenche o mini calendário
+    const miniGrid = document.querySelector(".mini-calendar-grid");
+    const startOffset = 3;  // abril 2026 começa quarta
+    const daysInMonth = 30;
+    const conflicts = [10, 15]; // dias com conflito (exemplo)
+
+    for (let i = 0; i < startOffset; i++) {
+      const empty = document.createElement("div");
+      empty.className = "mini-calendar-cell";
+      miniGrid.appendChild(empty);
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const cell = document.createElement("div");
+      cell.className = "mini-calendar-cell";
+      cell.textContent = day;
+      if (day === 22) cell.classList.add("is-selected");
+      if (conflicts.includes(day)) cell.classList.add("has-conflict");
+      miniGrid.appendChild(cell);
+    }
+
+    // Validação do formulário
+    setupFormValidation("compromisso-form", {
+      tipo:          [Rules.required],
+      aluno:         [Rules.required],
+      data:          [Rules.required, Rules.date],
+      "hora-inicio": [Rules.required],
+      "hora-fim":    [Rules.required],
+    }, () => {
+      alert("Compromisso salvo com sucesso!");
+      window.location.href = "agenda.html";
+    });
+  </script>
+</body>
+</html>

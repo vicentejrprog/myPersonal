@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyPersonal — Mensagens</title>
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/variables.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/sidebar.css">
+  <link rel="stylesheet" href="../../assets/css/pages/mensagens.css">
+</head>
+<body data-page-title="Mensagens" class="chat-page">
+  <div class="app-layout">
+    <div id="sidebar-mount"></div>
+    <div id="topbar-mount"></div>
+
+    <main class="main-content">
+      <div class="chat-layout">
+
+        <!-- Coluna esq: lista de conversas -->
+        <aside class="chat-list">
+          <div class="chat-search">
+            <input type="search" class="form-control" placeholder="Buscar conversa...">
+          </div>
+
+          <div class="chat-conversations">
+            <div class="chat-conversation is-active" data-conv="ana">
+              <div class="avatar avatar-sm">AP</div>
+              <div class="chat-conv-info">
+                <p class="chat-conv-name">Ana Paula</p>
+                <p class="chat-conv-preview">Treino atualizado!</p>
+              </div>
+              <span class="chat-conv-time">Agora</span>
+            </div>
+
+            <div class="chat-conversation" data-conv="eliabe">
+              <div class="avatar avatar-sm">EM</div>
+              <div class="chat-conv-info">
+                <p class="chat-conv-name">Eliabe Monteiro</p>
+                <p class="chat-conv-preview">Dieta revisada</p>
+              </div>
+              <span class="chat-conv-time">Ontem</span>
+            </div>
+
+            <div class="chat-conversation" data-conv="suporte">
+              <div class="avatar avatar-sm">S</div>
+              <div class="chat-conv-info">
+                <p class="chat-conv-name">Suporte MyPersonal</p>
+                <p class="chat-conv-preview">Bem-vindo!</p>
+              </div>
+              <span class="chat-conv-time">3d</span>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Coluna dir: conversa ativa -->
+        <section class="chat-thread">
+          <header class="chat-thread-header">
+            <p class="name" id="thread-name">Ana Paula</p>
+            <p class="status">● Online</p>
+          </header>
+
+          <div class="chat-messages" id="chat-messages">
+            <div class="message message-sent">
+              <span class="message-author">Você</span>
+              <div class="message-bubble">Olá! Atualizei sua dieta para esta semana.</div>
+            </div>
+
+            <div class="message message-received">
+              <span class="message-author">Ana Paula</span>
+              <div class="message-bubble">Ótimo! Vi que adicionou mais frutas.</div>
+            </div>
+
+            <div class="message message-sent">
+              <span class="message-author">Você</span>
+              <div class="message-bubble">Perfeito. Qualquer dúvida, me avisa.</div>
+            </div>
+
+            <div class="message message-received">
+              <span class="message-author">Ana Paula</span>
+              <div class="message-bubble">Certo! Obrigada.</div>
+            </div>
+          </div>
+
+          <form class="chat-input" id="chat-form">
+            <input type="text" id="message-input" class="form-control" placeholder="Digite uma mensagem..." autocomplete="off">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </form>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../../assets/js/sidebar-loader.js"></script>
+  <script>
+    // ======================================================
+    // Lógica do chat: envio de mensagens (apenas front-end)
+    // ======================================================
+
+    const form = document.getElementById("chat-form");
+    const input = document.getElementById("message-input");
+    const messages = document.getElementById("chat-messages");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+
+      // Cria nova mensagem
+      const msg = document.createElement("div");
+      msg.className = "message message-sent";
+      msg.innerHTML = `
+        <span class="message-author">Você</span>
+        <div class="message-bubble">${text}</div>
+      `;
+      messages.appendChild(msg);
+
+      // Limpa input e scroll
+      input.value = "";
+      messages.scrollTop = messages.scrollHeight;
+    });
+
+    // Troca de conversa ativa
+    const convs = document.querySelectorAll(".chat-conversation");
+    const threadName = document.getElementById("thread-name");
+
+    convs.forEach((conv) => {
+      conv.addEventListener("click", () => {
+        convs.forEach((c) => c.classList.remove("is-active"));
+        conv.classList.add("is-active");
+        threadName.textContent = conv.querySelector(".chat-conv-name").textContent;
+      });
+    });
+
+    // Auto-scroll para a última mensagem ao carregar
+    messages.scrollTop = messages.scrollHeight;
+  </script>
+</body>
+</html>
