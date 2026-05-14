@@ -40,7 +40,7 @@ npx http-server
 ```
 
 ### Opção 3 — GitHub Pages
-A aplicação está disponível em: `https://<usuario>.github.io/mypersonal/`
+A aplicação está disponível em: `https://vicentejrprog.github.io/myPersonal/`
 
 ## 📁 Estrutura do projeto
 
