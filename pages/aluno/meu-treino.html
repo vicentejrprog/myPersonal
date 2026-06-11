@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Treino | MyPersonal</title>
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/css/variables.css">
+    <link rel="stylesheet" href="../../assets/css/components.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <link rel="stylesheet" href="../../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../../assets/css/pages/meu-treino.css">
+    <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body data-profile="aluno" data-page-title="Meu Treino">
+
+    <div class="app-layout">
+        <div id="sidebar-mount"></div>
+        <div id="topbar-mount"></div>
+
+        <main class="main-content conteudo-aluno">
+                <div class="grupo-abas-treino">
+                    <button type="button" class="aba-treino ativa">Treino A</button>
+                    <button type="button" class="aba-treino">Treino B</button>
+                    <button type="button" class="aba-treino">Treino C</button>
+                </div>
+
+                <div class="barra-info-topo">
+                    <div class="controle-status">
+                        <span class="rotulo-secao">Status do treino de hoje</span>
+                        <div class="botoes-status-grupo">
+                            <button type="button" class="btn-status">Não iniciado</button>
+                            <button type="button" class="btn-status ativo">Em andamento</button>
+                            <button type="button" class="btn-status">Concluído</button>
+                        </div>
+                    </div>
+                    <div class="exibicao-data">
+                        <span class="rotulo-secao">Data</span>
+                        <div class="valor-data">03/04/2026</div>
+                    </div>
+                </div>
+
+                <section class="secao-exercicios">
+                    <div class="alinhamento-cabecalho-tabela">
+                        <span class="legenda-tabela">Exercícios — visualize e registre seu desempenho</span>
+                        <span class="legenda-tabela destaque-registro">Seu Registro</span>
+                    </div>
+
+                    <div class="tabela-mista-aluno">
+                        <div class="linha-topo-tabela">
+                            <div class="w-num">#</div>
+                            <div class="w-ex">Exercício</div>
+                            <div class="w-alvo">Séries</div>
+                            <div class="w-alvo">Reps</div>
+                            <div class="w-alvo">Desc.</div>
+                            <div class="w-video">Vídeo</div>
+                            <div class="w-reg">Séries real.</div>
+                            <div class="w-reg">Reps real.</div>
+                            <div class="w-reg">Carga (kg)</div>
+                            <div class="w-obs">Obs.</div>
+                        </div>
+
+                        <div class="corpo-tabela-aluno" id="container-exercicios">
+                            <div class="linha-treino" data-id="1">
+                                <div class="w-num">1</div>
+                                <div class="w-ex">
+                                    <div class="nome-treino">Supino reto com barra</div>
+                                    <div class="dica-prof">Manter escápulas retraídas</div>
+                                </div>
+                                <div class="w-alvo alvo-series">4</div>
+                                <div class="w-alvo alvo-reps">12</div>
+                                <div class="w-alvo alvo-desc">60s</div>
+                                <div class="w-video">
+                                    <button type="button" class="btn-play">▶</button>
+                                </div>
+                                <div class="w-reg"><input type="text" placeholder="-"></div>
+                                <div class="w-reg"><input type="text" placeholder="-"></div>
+                                <div class="w-reg"><input type="text" placeholder="-"></div>
+                                <div class="w-obs"><input type="text" placeholder="Notas..."></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="grid-feedback-final">
+                    <div class="card-observacoes">
+                        <label class="rotulo-secao">Observações e dificuldades gerais</label>
+                        <p class="instrucao-campo">Relate dores, dificuldades ou adaptações feitas hoje.</p>
+                        <textarea rows="4" placeholder="Escreva aqui suas observações sobre o treino..."></textarea>
+                    </div>
+
+                    <div class="card-sensacao">
+                        <label class="rotulo-secao">Sensação geral</label>
+                        <p class="instrucao-campo">Como se sentiu ao terminar?</p>
+                        <div class="lista-emojis">
+                            <button type="button" class="btn-emoji-aluno">
+                                <span class="emoji-img">😥</span>
+                                <span class="emoji-txt">Ruim</span>
+                            </button>
+                            <button type="button" class="btn-emoji-aluno">
+                                <span class="emoji-img">😐</span>
+                                <span class="emoji-txt">Ok</span>
+                            </button>
+                            <button type="button" class="btn-emoji-aluno selecionado">
+                                <span class="emoji-img">😁</span>
+                                <span class="emoji-txt">Boa</span>
+                            </button>
+                            <button type="button" class="btn-emoji-aluno">
+                                <span class="emoji-img">🔥</span>
+                                <span class="emoji-txt">Ótima</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="rodape-acoes">
+                    <button type="button" class="btn-voltar-simples">Cancelar</button>
+                    <button type="button" class="botao-principal-verde">Salvar registro de treino</button>
+                </footer>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="modal-video">
+        <div class="modal-container">
+            <header class="modal-header">
+                <h3 id="modal-titulo-exercicio">Supino reto com barra</h3>
+                <button type="button" class="btn-fechar-modal" id="btn-fechar-x">&times;</button>
+            </header>
+
+            <div class="modal-body">
+                <div class="container-player-video">
+                    <iframe id="modal-iframe-video" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+                <div class="modal-info-tecnica">
+                    <div class="item-info-modal">
+                        <span class="label-modal">Séries</span>
+                        <strong id="modal-info-series">4</strong>
+                    </div>
+                    <div class="item-info-modal">
+                        <span class="label-modal">Reps</span>
+                        <strong id="modal-info-reps">12</strong>
+                    </div>
+                    <div class="item-info-modal">
+                        <span class="label-modal">Descanso</span>
+                        <strong id="modal-info-desc">60s</strong>
+                    </div>
+                </div>
+
+                <p class="modal-observacao-prof" id="modal-dica-professor">Obs: Manter escápulas retraídas durante o movimento.</p>
+            </div>
+
+            <footer class="modal-footer">
+                <button type="button" class="btn-fechar-footer" id="btn-fechar-master">Fechar</button>
+            </footer>
+        </div>
+    </div>
+
+    <script src="../../assets/js/sidebar-loader.js"></script>
+    <script src="../../assets/js/meu-treino.js"></script>
+</body>
+</html>

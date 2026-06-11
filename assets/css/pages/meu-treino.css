@@ -1,0 +1,628 @@
+
+
+/* Organiza o conteudo da pagina de treino do aluno. */
+.conteudo-aluno {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-height: calc(100vh - var(--topbar-height));
+    padding-bottom: 24px;
+}
+
+.conteudo-aluno > * + * {
+    margin-top: 0;
+}
+
+/* Abas de grupos de treino. */
+.grupo-abas-treino {
+    display: flex;
+    gap: 12px;
+}
+
+.aba-treino {
+    background-color: var(--cor-fundo-campo);
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-texto-secundario);
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.aba-treino.ativa {
+    background-color: var(--cor-secundaria);
+    color: var(--cor-primaria-hover);
+    border-color: var(--cor-primaria);
+}
+
+
+/* Linha com status do treino e data. */
+.barra-info-topo {
+    display: flex;
+    gap: 48px;
+    align-items: flex-end;
+}
+
+.rotulo-secao {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 12px;
+}
+
+.botoes-status-grupo {
+    display: flex;
+    background-color: var(--cor-fundo-campo);
+    padding: 4px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--cor-borda);
+}
+
+.btn-status {
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cor-texto-secundario);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.btn-status.ativo {
+    background-color: var(--cor-superficie);
+    color: var(--cor-primaria);
+    box-shadow: var(--shadow-sm);
+}
+
+.valor-data {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cor-texto);
+    padding: 8px 0;
+}
+
+
+.alinhamento-cabecalho-tabela {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding: 0 4px;
+}
+
+.legenda-tabela {
+    font-size: 13px;
+    color: var(--cor-texto-secundario);
+}
+
+.destaque-registro {
+    font-weight: 700;
+    color: var(--cor-primaria);
+    text-transform: uppercase;
+    margin-right: 22%;
+}
+
+/* Tabela com prescricao e registro do aluno. */
+.tabela-mista-aluno {
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--radius-xl);
+    background-color: var(--cor-superficie);
+    overflow: hidden;
+}
+
+.linha-topo-tabela {
+    display: flex;
+    background-color: var(--cor-fundo-campo);
+    border-bottom: 1px solid var(--cor-borda);
+    padding: 14px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--cor-texto-secundario);
+}
+
+.linha-treino {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.tabela-mista-aluno .linha-treino:last-child {
+    border-bottom: none;
+}
+
+/* Distribuição das colunas */
+.w-num { width: 35px; font-weight: 600; color: var(--cor-texto-secundario); }
+.w-ex { flex: 4; }
+.w-alvo { width: 65px; text-align: center; color: var(--cor-texto-secundario); font-size: 13px; }
+.w-video { width: 60px; text-align: center; }
+.w-reg { width: 85px; padding: 0 4px; }
+.w-obs { width: 150px; padding-left: 8px; }
+
+.nome-treino { font-size: 14px; font-weight: 600; color: var(--cor-texto); }
+.dica-prof { font-size: 12px; color: var(--cor-texto-secundario); }
+
+/* Ícone de Play  */
+/* Botao para abrir video demonstrativo. */
+.btn-play {
+    background: var(--cor-secundaria);
+    border: none;
+    color: var(--cor-primaria-hover);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-fast);
+}
+
+.btn-play:hover {
+    background-color: var(--cor-primaria);
+    color: var(--cor-superficie);
+}
+
+/* Campos de Input do Registro */
+.w-reg input, .w-obs input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 6px;
+    text-align: center;
+    font-size: 13px;
+    background-color: var(--cor-superficie);
+    outline: none;
+    transition: var(--transition-fast);
+}
+
+.w-obs input { text-align: left; }
+
+.w-reg input:focus, .w-obs input:focus {
+    border-color: var(--cor-primaria);
+    background-color: var(--cor-fundo);
+}
+
+
+/* Grade de observacoes e sensacao geral. */
+.grid-feedback-final {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 32px;
+}
+
+.instrucao-campo {
+    font-size: 12px;
+    color: var(--cor-texto-secundario);
+    margin-top: -8px;
+    margin-bottom: 12px;
+}
+
+textarea {
+    width: 100%;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--radius-xl);
+    padding: 16px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: none;
+    background-color: var(--cor-fundo-campo);
+    outline: none;
+    transition: var(--transition-fast);
+    min-height: 112px;
+}
+
+textarea:focus {
+    background-color: var(--cor-superficie);
+    border-color: var(--cor-primaria);
+}
+
+/* Cards de Sensação Geral */
+/* Opcoes de sensacao ao final do treino. */
+.lista-emojis {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-emoji-aluno {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    padding: 14px 8px;
+    border-radius: var(--radius-xl);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.emoji-img { font-size: 20px; }
+.emoji-txt { font-size: 12px; font-weight: 600; color: var(--cor-texto-secundario); }
+
+.btn-emoji-aluno:hover { border-color: var(--cor-texto-secundario); }
+
+.btn-emoji-aluno.selecionado {
+    background-color: var(--cor-secundaria);
+    border-color: var(--cor-primaria);
+}
+.btn-emoji-aluno.selecionado .emoji-txt { color: var(--cor-primaria-hover); }
+
+
+/* Acoes finais de cancelamento e salvamento. */
+.rodape-acoes {
+    height: auto;
+    background-color: transparent;
+    border-top: 1px solid var(--cor-borda);
+    padding: 20px 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.btn-voltar-simples {
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-texto-secundario);
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.btn-voltar-simples:hover {
+    background-color: var(--cor-fundo-campo);
+    border-color: var(--cor-texto-secundario);
+    color: var(--cor-texto);
+}
+
+.botao-principal-verde {
+    background-color: var(--cor-primaria);
+    color: var(--cor-superficie);
+    border: none;
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.botao-principal-verde:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+
+/* Sobreposicao do modal de video. */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: color-mix(in srgb, var(--cor-texto) 60%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.modal-overlay.ativo {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-container {
+    background-color: var(--cor-superficie);
+    width: 90%;
+    max-width: 640px;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.95);
+    transition: transform 0.2s ease-in-out;
+}
+
+.modal-overlay.ativo .modal-container {
+    transform: scale(1);
+}
+
+.modal-header {
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--cor-fundo);
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.modal-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--cor-texto);
+    margin: 0;
+}
+
+.btn-fechar-modal {
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    color: var(--cor-texto-suave);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.btn-fechar-modal:hover {
+    color: var(--cor-texto);
+}
+
+.modal-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+}
+
+/* Box do Player de Vídeo */
+/* Area responsiva do player de video. */
+.container-player-video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: var(--cor-borda);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.container-player-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.modal-info-tecnica {
+    display: flex;
+    gap: 40px;
+    border-bottom: 1px solid var(--cor-borda);
+    padding-bottom: 16px;
+}
+
+.item-info-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.label-modal {
+    font-size: 11px;
+    color: var(--cor-texto-suave);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.item-info-modal strong {
+    font-size: 16px;
+    color: var(--cor-texto);
+    font-weight: 700;
+}
+
+.modal-observacao-prof {
+    font-size: 13px;
+    color: var(--cor-texto-secundario);
+    line-height: 1.5;
+    margin: 0;
+}
+
+
+.modal-footer {
+    padding: 16px 24px;
+    display: flex;
+    justify-content: center;
+    background-color: var(--cor-fundo);
+    border-top: 1px solid var(--cor-borda);
+}
+
+.btn-fechar-footer {
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-texto);
+    padding: 10px 48px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.btn-fechar-footer:hover {
+    background-color: var(--cor-fundo-campo);
+    color: var(--cor-texto);
+}
+
+@media (max-width: 1180px) {
+    .conteudo-aluno {
+        gap: 24px;
+    }
+
+    .tabela-mista-aluno {
+        overflow-x: auto;
+    }
+
+    .linha-topo-tabela,
+    .linha-treino {
+        min-width: 920px;
+    }
+
+    .grid-feedback-final {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 900px) {
+    .grupo-abas-treino,
+    .botoes-status-grupo,
+    .lista-emojis {
+        flex-wrap: wrap;
+    }
+
+    .aba-treino,
+    .btn-status,
+    .btn-emoji-aluno {
+        flex: 1 1 140px;
+    }
+
+    .barra-info-topo {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .destaque-registro {
+        margin-right: 0;
+    }
+
+    .linha-topo-tabela {
+        display: none;
+    }
+
+    .tabela-mista-aluno {
+        border-radius: var(--radius-lg);
+        overflow: visible;
+        background-color: transparent;
+        border: none;
+    }
+
+    .linha-treino {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        min-width: 0;
+        padding: 16px;
+        margin-bottom: 12px;
+        border: 1px solid var(--cor-borda);
+        border-radius: var(--radius-lg);
+        background-color: var(--cor-superficie);
+    }
+
+    .w-num,
+    .w-ex,
+    .w-alvo,
+    .w-video,
+    .w-reg,
+    .w-obs {
+        width: auto;
+        padding: 0;
+        text-align: left;
+    }
+
+    .w-num {
+        grid-column: 1 / 2;
+    }
+
+    .w-ex {
+        grid-column: 1 / -1;
+    }
+
+    .w-reg {
+        grid-column: span 2;
+    }
+
+    .w-obs {
+        grid-column: 1 / -1;
+    }
+
+    .w-alvo::before,
+    .w-video::before,
+    .w-reg::before,
+    .w-obs::before {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--cor-texto-secundario);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .alvo-series::before { content: "Series"; }
+    .alvo-reps::before { content: "Reps"; }
+    .alvo-desc::before { content: "Desc."; }
+    .w-video::before { content: "Video"; }
+    .linha-treino .w-reg:nth-of-type(7)::before { content: "Series real."; }
+    .linha-treino .w-reg:nth-of-type(8)::before { content: "Reps real."; }
+    .linha-treino .w-reg:nth-of-type(9)::before { content: "Carga"; }
+    .w-obs::before { content: "Obs."; }
+
+    .rodape-acoes {
+        position: static;
+        height: auto;
+        padding: 16px 0 0;
+        gap: 12px;
+        flex-wrap: wrap;
+        box-shadow: none;
+    }
+
+    .btn-voltar-simples,
+    .botao-principal-verde {
+        flex: 1 1 180px;
+    }
+}
+
+@media (max-width: 560px) {
+    .conteudo-aluno {
+        gap: 18px;
+        padding-bottom: 32px;
+    }
+
+    .alinhamento-cabecalho-tabela {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .modal-overlay {
+        align-items: flex-end;
+    }
+
+    .modal-container {
+        width: 100%;
+        max-height: 92vh;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .modal-info-tecnica {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+}

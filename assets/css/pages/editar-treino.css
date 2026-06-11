@@ -1,0 +1,521 @@
+/* Organiza texto e link de retorno em coluna. */
+.alinhamento-esquerda {
+    display: flex;
+    flex-direction: column;
+}
+
+.botao-voltar {
+    font-size: 13px;
+    color: var(--cor-texto-secundario);
+    text-decoration: none;
+    margin-bottom: 4px;
+    font-weight: 500;
+    transition: var(--transition-fast);
+}
+
+.botao-voltar:hover {
+    color: var(--cor-primaria);
+}
+
+/* Container principal do formulario de treino. */
+.conteudo-formulario {
+    flex-grow: 1;
+    padding: 40px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding-bottom: 120px;
+}
+
+.secao-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.rotulo-campo {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 12px;
+}
+
+
+/* Abas para alternar grupos de treino. */
+.grupo-abas-treino {
+    display: flex;
+    gap: 8px;
+}
+
+.aba-treino {
+    background-color: var(--cor-fundo-campo);
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-texto-secundario);
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.aba-treino:hover {
+    color: var(--cor-texto);
+    border-color: var(--cor-texto-secundario);
+}
+
+.aba-treino.ativa {
+    background-color: var(--cor-secundaria);
+    color: var(--cor-primaria-hover);
+    border-color: var(--cor-primaria);
+}
+
+.aba-treino.botao-novo-grupo {
+    background-color: transparent;
+    border-style: dashed;
+    color: var(--cor-primaria);
+    border-color: var(--cor-primaria);
+}
+
+
+/* Distribui campos principais lado a lado. */
+.grade-inputs {
+    display: flex;
+    gap: 24px;
+}
+
+.campo-texto {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Campos editaveis do formulario. */
+input[type="text"], textarea {
+    width: 100%;
+    background-color: var(--cor-fundo-campo);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--radius-lg);
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--cor-texto);
+    outline: none;
+    transition: var(--transition-fast);
+}
+
+input[type="text"]:focus, textarea:focus {
+    border-color: var(--cor-primaria);
+    background-color: var(--cor-superficie);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--cor-primaria) 10%, transparent);
+}
+
+
+/* Tabela flexivel de exercicios do treino. */
+.tabela-exercicios {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background-color: var(--cor-superficie);
+    margin-bottom: 16px;
+}
+
+.linha-cabecalho {
+    display: flex;
+    background-color: var(--cor-fundo-campo);
+    border-bottom: 1px solid var(--cor-borda);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--cor-texto-secundario);
+    padding: 14px 16px;
+}
+
+.linha-corpo {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--cor-borda);
+    padding: 10px 16px;
+    background-color: var(--cor-superficie);
+    transition: background-color 0.15s ease-in-out;
+}
+
+.linha-corpo:hover {
+    background-color: var(--cor-fundo);
+}
+
+#corpoTabela .linha-corpo:last-child {
+    border-bottom: none;
+}
+
+.col-num { width: 35px; font-size: 13px; font-weight: 600; color: var(--cor-texto-secundario); text-align: left; }
+.col-exercicio { flex: 4; padding-right: 12px; }
+.col-dados { width: 90px; padding-right: 12px; }
+.col-obs { flex: 4; padding-right: 12px; }
+.col-video { flex: 3; padding-right: 12px; }
+.col-remover { width: 40px; display: flex; justify-content: center; align-items: center; }
+
+.linha-corpo input[type="text"] {
+    padding: 10px 14px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+/* Botão de Excluir Exercício (×) */
+/* Botao para remover exercicio da tabela. */
+.btn-remover {
+    background-color: transparent;
+    border: none;
+    color: var(--cor-texto-suave);
+    font-size: 20px;
+    font-weight: 500;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    line-height: 1;
+    transition: var(--transition-fast);
+}
+
+.btn-remover:hover {
+    background-color: var(--cor-erro-fundo);
+    color: var(--cor-erro-texto);
+}
+
+
+/* Acao para inserir novo exercicio. */
+.botao-adicionar-linha {
+    align-self: flex-start;
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-texto);
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-fast);
+}
+
+.botao-adicionar-linha:hover {
+    background-color: var(--cor-fundo-campo);
+    border-color: var(--cor-texto-secundario);
+}
+
+.botao-adicionar-linha:active {
+    transform: scale(0.98);
+}
+
+
+/* Barra inferior com acoes de salvamento. */
+.rodape-acoes {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: calc(100% - var(--sidebar-width));
+    height: 80px;
+    background-color: var(--cor-superficie);
+    border-top: 1px solid var(--cor-borda);
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+    box-shadow: 0 -4px 12px color-mix(in srgb, var(--cor-texto) 2%, transparent);
+}
+
+.botoes-salvamento {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-acao {
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    border: 1px solid transparent;
+}
+
+.btn-cancelar {
+    background-color: var(--cor-superficie);
+    border-color: var(--cor-borda);
+    color: var(--cor-texto-secundario);
+}
+
+.btn-cancelar:hover {
+    background-color: var(--cor-fundo-campo);
+    color: var(--cor-texto);
+}
+
+.btn-salvar-notificar {
+    background-color: var(--cor-primaria);
+    color: var(--cor-superficie);
+    box-shadow: 0 2px 4px color-mix(in srgb, var(--cor-primaria) 10%, transparent);
+}
+
+.btn-salvar-notificar:hover {
+    background-color: var(--cor-primaria-hover);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--cor-primaria-hover) 20%, transparent);
+}
+
+
+/* Camada de confirmacao exibida apos salvar. */
+.modal-sobreposicao {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: color-mix(in srgb, var(--cor-texto) 50%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.modal-sobreposicao.visivel {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-card {
+    background-color: var(--cor-superficie);
+    padding: 40px;
+    border-radius: var(--radius-xl);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    transform: scale(0.95);
+    transition: transform 0.2s ease-in-out;
+}
+
+.modal-sobreposicao.visivel .modal-card {
+    transform: scale(1);
+}
+
+.modal-icone {
+    width: 56px;
+    height: 56px;
+    background-color: var(--cor-fundo-campo);
+    color: var(--cor-texto);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px auto;
+}
+
+.modal-titulo {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cor-texto);
+    margin-bottom: 8px;
+}
+
+.modal-subtitulo {
+    font-size: 14px;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 32px;
+}
+
+.modal-botoes {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.btn-modal-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 240px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition-fast);
+    border: 1px solid var(--cor-primaria);
+    background-color: var(--cor-primaria);
+    color: var(--cor-superficie);
+    box-shadow: 0 2px 4px color-mix(in srgb, var(--cor-primaria) 10%, transparent);
+}
+
+.btn-modal-link:hover {
+    background-color: var(--cor-primaria-hover);
+    border-color: var(--cor-primaria-hover);
+    color: var(--cor-superficie);
+}
+
+@media (max-width: 1180px) {
+    .conteudo-formulario {
+        padding: 32px;
+        padding-bottom: 120px;
+    }
+
+    .tabela-exercicios {
+        overflow-x: auto;
+    }
+
+    .linha-cabecalho,
+    .linha-corpo {
+        min-width: 980px;
+    }
+}
+
+@media (max-width: 900px) {
+    .conteudo-formulario {
+        padding: 24px;
+        padding-bottom: 32px;
+        gap: 24px;
+    }
+
+    .grupo-abas-treino,
+    .grade-inputs,
+    .rodape-acoes,
+    .botoes-salvamento {
+        flex-wrap: wrap;
+    }
+
+    .aba-treino {
+        flex: 1 1 140px;
+    }
+
+    .grade-inputs {
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .linha-cabecalho {
+        display: none;
+    }
+
+    .tabela-exercicios {
+        gap: 12px;
+        overflow: visible;
+        border: none;
+        background-color: transparent;
+    }
+
+    #corpoTabela {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .linha-corpo {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        min-width: 0;
+        padding: 16px;
+        border: 1px solid var(--cor-borda);
+        border-radius: var(--radius-lg);
+        background-color: var(--cor-superficie);
+    }
+
+    .linha-corpo:hover {
+        background-color: var(--cor-superficie);
+    }
+
+    .col-num,
+    .col-exercicio,
+    .col-dados,
+    .col-obs,
+    .col-video,
+    .col-remover {
+        width: auto;
+        padding: 0;
+    }
+
+    .col-num {
+        grid-column: 1 / -1;
+    }
+
+    .col-exercicio,
+    .col-obs,
+    .col-video {
+        grid-column: 1 / -1;
+    }
+
+    .linha-corpo .col-exercicio::before,
+    .linha-corpo .col-dados::before,
+    .linha-corpo .col-obs::before,
+    .linha-corpo .col-video::before {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--cor-texto-secundario);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .linha-corpo .col-exercicio::before { content: "Exercicio"; }
+    .linha-corpo .col-dados:nth-of-type(3)::before { content: "Series"; }
+    .linha-corpo .col-dados:nth-of-type(4)::before { content: "Reps"; }
+    .linha-corpo .col-dados:nth-of-type(5)::before { content: "Desc."; }
+    .linha-corpo .col-obs::before { content: "Observacao"; }
+    .linha-corpo .col-video::before { content: "Link video"; }
+
+    .col-remover {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+    }
+
+    .rodape-acoes {
+        position: static;
+        width: 100%;
+        height: auto;
+        padding: 16px 0 0;
+        gap: 12px;
+        box-shadow: none;
+    }
+
+    .botoes-salvamento,
+    .btn-acao,
+    .botao-adicionar-linha {
+        width: 100%;
+    }
+}
+
+@media (max-width: 560px) {
+    .conteudo-formulario {
+        padding: 16px;
+        padding-bottom: 24px;
+    }
+
+    .linha-corpo {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-sobreposicao {
+        align-items: flex-end;
+        padding: 0 12px 12px;
+    }
+
+    .modal-card {
+        max-width: none;
+        padding: 28px 20px;
+    }
+}

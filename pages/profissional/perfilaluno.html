@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Aluno | MyPersonal</title>
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/css/variables.css">
+    <link rel="stylesheet" href="../../assets/css/components.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <link rel="stylesheet" href="../../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../../assets/css/pages/dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/pages/perfil.css">
+    <link rel="stylesheet" href="../../assets/css/pages/acoes-profissional.css">
+    <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body data-profile="personal-trainer" data-active-page="alunos" data-page-title="Perfil do Aluno — Eliabe Monteiro" data-back="meus-alunos.html|Meus Alunos">
+
+    <div class="app-layout">
+        <div id="sidebar-mount"></div>
+        <div id="topbar-mount"></div>
+
+        <main class="main-content">
+            <header class="student-header dashboard-box">
+                <div class="avatar avatar-lg">EM</div>
+                <div>
+                    <h2 class="student-name">Eliabe Monteiro</h2>
+                    <p class="page-subtitle">Aluno desde: Jan/2025</p>
+                </div>
+                <div class="perfil-acoes">
+                    <button class="btn btn-secondary" onclick="window.location.href='editar-aluno.html'">✏ Editar</button>
+                    <button class="btn-excluir">🗑 Excluir</button>
+                </div>
+            </header>
+
+            <nav class="tabs" aria-label="Seções do aluno">
+                <a href="perfilaluno.html" class="tab active">Treino</a>
+                <a href="perfil_do_aluno_aba_dieta.html" class="tab">Dieta</a>
+                <a href="estatisticaprofissional.html" class="tab">Estatísticas</a>
+            </nav>
+
+            <div class="grade-conteudo">
+                <div class="coluna-esquerda">
+                    <section class="secao-conteudo">
+                        <h2 class="titulo-secao">Treino atual</h2>
+                        <div class="caixa-conteudo caixa-treino-atual">
+                            <div class="texto-interno-placeholder">[tabela: exercício / séries / reps / observação / vídeo]</div>
+                        </div>
+                        <a href="editar-treino.html" class="botao-principal-arredondado" style="text-decoration: none; text-align: center;">Editar treino</a>
+                    </section>
+                </div>
+
+                <div class="coluna-direita">
+                    <section class="secao-conteudo">
+                        <h2 class="titulo-secao">Última avaliação</h2>
+                        <div class="caixa-conteudo caixa-ultima-avaliacao">
+                            [medidas corporais: peso / %gordura / etc]
+                        </div>
+                    </section>
+
+                    <section class="secao-conteudo">
+                        <h2 class="titulo-secao">Observações do profissional</h2>
+                        <div class="caixa-conteudo caixa-observacoes">
+                            [textarea: observações livres]
+                        </div>
+                        <button type="button" class="botao-principal-arredondado">Salvar</button>
+                    </section>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script src="../../assets/js/sidebar-loader.js"></script>
+    <script src="../../assets/js/meus-alunos.js"></script>
+</body>
+</html>

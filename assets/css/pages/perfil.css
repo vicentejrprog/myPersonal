@@ -1,0 +1,229 @@
+
+
+/* Container principal do perfil do aluno. */
+.conteudo-perfil {
+    padding: 40px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+/* Cabecalho com foto e dados do aluno. */
+.bloco-cabecalho-aluno {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.foto-perfil-grande {
+    flex: 0 0 auto;
+    width: 64px;
+    height: 64px;
+    background-color: var(--cor-secundaria);
+    color: var(--cor-primaria-hover);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 64px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.informacoes-aluno {
+    min-width: 0;
+    padding-top: 8px;
+}
+
+.nome-aluno {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--cor-texto);
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+}
+
+.metadados-aluno {
+    font-size: 14px;
+    color: var(--cor-texto-secundario);
+}
+
+.limpar-flutuacao {
+    display: none;
+}
+
+/* Navegacao interna entre abas do perfil. */
+.abas-navegacao {
+    margin-bottom: 32px;
+    border-bottom: 2px solid var(--cor-borda);
+}
+
+.botao-aba {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cor-texto-secundario);
+    text-decoration: none;
+    margin-bottom: -2px;
+    transition: var(--transition-fast);
+    border-bottom: 2px solid transparent;
+}
+
+.botao-aba:hover {
+    color: var(--cor-texto);
+}
+
+.botao-aba.aba-ativa {
+    color: var(--cor-primaria);
+    border-bottom: 2px solid var(--cor-primaria);
+}
+
+/* Layout de colunas do conteudo do perfil. */
+.grade-conteudo {
+    display: grid;
+    grid-template-columns: minmax(0, 1.85fr) minmax(280px, 1fr);
+    gap: 32px;
+    width: 100%;
+}
+
+.coluna-esquerda {
+    min-width: 0;
+}
+
+.coluna-direita {
+    min-width: 0;
+}
+
+.secao-conteudo {
+    margin-bottom: 24px;
+}
+
+/* Rotulo de cada secao do perfil. */
+.titulo-secao {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 12px;
+}
+
+/* Caixa visual para conteudos e placeholders. */
+.caixa-conteudo {
+    width: 100%;
+    background-color: var(--cor-fundo);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    color: var(--cor-texto-secundario);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.caixa-treino-atual { height: 340px; position: relative; }
+.caixa-ultima-avaliacao { height: 150px; }
+.caixa-observacoes { height: 100px; }
+
+.texto-interno-placeholder {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+/* Botao principal usado nas acoes do perfil. */
+.botao-principal-arredondado {
+    display: inline-block;
+    background-color: var(--cor-primaria);
+    border: none;
+    color: var(--cor-superficie);
+    padding: 12px 32px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 16px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 4px color-mix(in srgb, var(--cor-primaria) 10%, transparent);
+    transition: var(--transition-fast);
+}
+
+.botao-principal-arredondado:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+@media (max-width: 1024px) {
+    .conteudo-perfil {
+        padding: 32px;
+    }
+
+    .grade-conteudo {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .caixa-treino-atual {
+        height: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .conteudo-perfil {
+        padding: 24px;
+    }
+
+    .abas-navegacao {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 2px;
+    }
+
+    .botao-aba {
+        flex: 0 0 auto;
+        padding: 12px 18px;
+    }
+
+    .botao-principal-arredondado {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 520px) {
+    .conteudo-perfil {
+        padding: 16px;
+    }
+
+    .bloco-cabecalho-aluno {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .informacoes-aluno {
+        padding-top: 0;
+    }
+
+    .nome-aluno {
+        font-size: 20px;
+    }
+
+    .metadados-aluno {
+        line-height: 1.5;
+    }
+
+    .caixa-conteudo {
+        padding: 18px;
+    }
+
+    .caixa-treino-atual,
+    .caixa-ultima-avaliacao,
+    .caixa-observacoes {
+        min-height: 140px;
+        height: auto;
+    }
+
+    .texto-interno-placeholder {
+        position: static;
+    }
+}

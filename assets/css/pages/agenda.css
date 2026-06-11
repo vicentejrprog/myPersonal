@@ -3,6 +3,7 @@
    Calendário mensal da Agenda
    ============================================================ */
 
+/* Cabecalho com mes atual, navegacao e acao principal. */
 .agenda-header {
   display: flex;
   align-items: center;
@@ -27,6 +28,7 @@
 }
 
 /* Grid de calendário */
+/* Grade principal do calendario mensal. */
 .calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -36,6 +38,7 @@
   overflow: hidden;
 }
 
+/* Linha com nomes dos dias da semana. */
 .calendar-day-header {
   background-color: var(--gray-50);
   padding: var(--space-3);
@@ -52,6 +55,7 @@
   border-right: none;
 }
 
+/* Celula de dia no calendario. */
 .calendar-cell {
   min-height: 96px;
   padding: var(--space-2);
@@ -87,6 +91,7 @@
   margin-bottom: var(--space-1);
 }
 
+/* Marcador compacto de compromisso no dia. */
 .calendar-event {
   background-color: var(--green-primary);
   color: var(--white);
@@ -104,8 +109,10 @@
 .calendar-event.event-consulta  { background-color: var(--blue-info-dark); }
 .calendar-event.event-avaliacao { background-color: var(--orange-warning); }
 .calendar-event.event-outro     { background-color: var(--gray-500); }
+.calendar-event.event-feriado   { background-color: var(--cor-erro-texto); }
 
 /* Legenda */
+/* Legenda das cores dos tipos de evento. */
 .calendar-legend {
   display: flex;
   gap: var(--space-4);
@@ -127,7 +134,10 @@
   border-radius: var(--radius-sm);
 }
 
+/* Reduz altura e texto dos eventos no mobile. */
 @media (max-width: 768px) {
-  .calendar-cell { min-height: 64px; padding: var(--space-1); }
-  .calendar-event { font-size: 9px; }
+  /* Celula de dia no calendario. */
+.calendar-cell { min-height: 64px; padding: var(--space-1); }
+  /* Marcador compacto de compromisso no dia. */
+.calendar-event { font-size: 9px; }
 }

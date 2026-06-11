@@ -8,6 +8,7 @@
    IDENTIDADE VISUAL
    ════════════════════════════════════════════════ */
 
+/* Marca do produto usada em barras e areas institucionais. */
 .brand {
   display: flex;
   align-items: center;
@@ -33,6 +34,7 @@
    BOTÕES
    ════════════════════════════════════════════════ */
 
+/* Base compartilhada para botoes. */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -131,6 +133,7 @@
    FORMULÁRIOS
    ════════════════════════════════════════════════ */
 
+/* Agrupa label, controle e mensagens de formulario. */
 .input-group {
   display: flex;
   flex-direction: column;
@@ -201,10 +204,38 @@ select.form-control {
   border-color: var(--red-dark);
 }
 
+/* Wrapper para campo de senha com botão de alternância */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper .form-control {
+  padding-right: 2.5rem;
+}
+
+.password-toggle {
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  padding: 0;
+  line-height: 1;
+}
+
+.password-toggle:hover {
+  color: var(--text-dark);
+}
+
 /* ════════════════════════════════════════════════
    CARDS
    ════════════════════════════════════════════════ */
 
+/* Card generico para blocos de conteudo. */
 .card {
   background-color: var(--white);
   border: 1px solid var(--border-color);
@@ -237,6 +268,7 @@ select.form-control {
 }
 
 /* Card de métrica (dashboard) */
+/* Card de metrica usado em dashboards. */
 .metric-card {
   background-color: var(--white);
   border: 1px solid var(--border-color);
@@ -260,6 +292,7 @@ select.form-control {
    TABELAS
    ════════════════════════════════════════════════ */
 
+/* Tabela padronizada para listagens. */
 .custom-table {
   width: 100%;
   background-color: var(--white);
@@ -302,6 +335,7 @@ select.form-control {
    BADGES DE STATUS
    ════════════════════════════════════════════════ */
 
+/* Badge visual para estados e feedbacks. */
 .badge-status {
   display: inline-flex;
   align-items: center;
@@ -338,6 +372,7 @@ select.form-control {
    AVATAR
    ════════════════════════════════════════════════ */
 
+/* Avatar circular para iniciais de usuarios. */
 .avatar {
   display: inline-flex;
   align-items: center;
@@ -360,6 +395,7 @@ select.form-control {
    COMPROMISSO / EVENTO
    ════════════════════════════════════════════════ */
 
+/* Bloco de compromisso/evento em listas. */
 .appointment {
   display: flex;
   flex-direction: column;

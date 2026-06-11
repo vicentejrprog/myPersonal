@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil do Aluno | MyPersonal</title>
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/variables.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/sidebar.css">
+  <link rel="stylesheet" href="../../assets/css/pages/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/pages/estatisticas.css">
+  <link rel="stylesheet" href="../../assets/css/pages/acoes-profissional.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body data-page-title="Perfil do Aluno — Eliabe Monteiro" data-back="meus-alunos.html|Meus Alunos" data-active-page="alunos">
+  <div class="app-layout">
+    <div id="sidebar-mount"></div>
+    <div id="topbar-mount"></div>
+
+    <main class="main-content">
+      <header class="student-header dashboard-box">
+        <div class="avatar avatar-lg">EM</div>
+        <div>
+          <h2 class="student-name">Eliabe Monteiro</h2>
+          <p class="page-subtitle">Aluno desde: Jan/2025</p>
+        </div>
+        <div class="perfil-acoes">
+          <button class="btn btn-secondary" onclick="window.location.href='editar-aluno.html'">✏ Editar</button>
+          <button class="btn-excluir">🗑 Excluir</button>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="Seções do aluno">
+        <a href="perfilaluno.html" class="tab">Treino</a>
+        <a href="perfil_do_aluno_aba_dieta.html" class="tab">Dieta</a>
+        <a href="estatisticaprofissional.html" class="tab active">Estatísticas</a>
+      </nav>
+
+      <div class="grid grid-sidebar">
+        <section>
+          <h2 class="section-title">Última avaliação corporal</h2>
+
+          <div class="estatisticas-grid">
+            <div class="metric-card">
+              <span class="metric-label">Peso atual</span>
+              <strong class="metric-value">82 kg</strong>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">% Gordura</span>
+              <strong class="metric-value">18%</strong>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Massa magra</span>
+              <strong class="metric-value">67 kg</strong>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">IMC</span>
+              <strong class="metric-value">25.3</strong>
+            </div>
+          </div>
+
+          <p class="data-ultima-avaliacao">Última avaliação: 10/05/2026</p>
+
+          <div class="evolucao-container">
+            <div class="grafico-box">
+              <h2 class="section-title">Evolução do peso</h2>
+              <div class="chart-placeholder">[gráfico de linha: peso ao longo do tempo]</div>
+            </div>
+            <div class="grafico-box">
+              <h2 class="section-title">Evolução % gordura</h2>
+              <div class="chart-placeholder">[gráfico de linha: % gordura ao longo do tempo]</div>
+            </div>
+          </div>
+
+          <section class="historico-container">
+            <h2 class="section-title">Histórico de avaliações</h2>
+            <table class="tabela-avaliacoes">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Peso</th>
+                  <th>% Gordura</th>
+                  <th>IMC</th>
+                  <th>Observação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Jan/2026</td>
+                  <td>85 kg</td>
+                  <td>21%</td>
+                  <td>25.3</td>
+                  <td>Início do acompanhamento</td>
+                </tr>
+                <tr>
+                  <td>Fev/2026</td>
+                  <td>83 kg</td>
+                  <td>20%</td>
+                  <td>24.9</td>
+                  <td>Boa aderência</td>
+                </tr>
+                <tr>
+                  <td>Mar/2026</td>
+                  <td>82 kg</td>
+                  <td>18%</td>
+                  <td>24.1</td>
+                  <td>Meta parcial atingida</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+
+        <aside class="coluna-lateral-acoes">
+          <section class="dashboard-box">
+            <h2 class="section-title">Ações</h2>
+
+            <a href="novaavaliacaoprofissional.html" class="card-link-acao">
+              <div class="card-acao">
+                <div class="icone-circulo">+</div>
+                <div class="texto-acao">
+                  <strong>Nova avaliação corporal</strong>
+                  <span>Registrar nova medição</span>
+                </div>
+              </div>
+            </a>
+
+            <a href="historicoprofissional.html" class="card-link-acao">
+              <div class="card-acao">
+                <div class="icone-circulo">≡</div>
+                <div class="texto-acao">
+                  <strong>Visualizar histórico</strong>
+                  <span>Treinos, dietas e avaliações</span>
+                </div>
+              </div>
+            </a>
+          </section>
+
+          <section class="dashboard-box secao-observacoes">
+            <h2 class="section-title">Observações do profissional</h2>
+            <textarea class="form-control" placeholder="Digite aqui as observações sobre a evolução do aluno..."></textarea>
+            <button class="btn btn-primary" type="button">Salvar</button>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <script src="../../assets/js/sidebar-loader.js"></script>
+  <script src="../../assets/js/meus-alunos.js"></script>
+</body>
+</html>

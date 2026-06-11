@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meus Alunos | MyPersonal</title>
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/variables.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/sidebar.css">
+  <link rel="stylesheet" href="../../assets/css/pages/meus-alunos.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body data-page-title="Meus Alunos">
+  <div class="app-layout">
+    <div id="sidebar-mount"></div>
+    <div id="topbar-mount"></div>
+
+    <main class="main-content">
+
+      <!-- Tela: Lista de Alunos -->
+      <div class="tela ativa" id="telaMeusAlunos">
+        <div class="alunos-toolbar">
+          <input type="text" class="search-input" placeholder="Buscar aluno..." id="searchInput" />
+          <button class="btn btn-primary" onclick="irParaCadastro()">+ Cadastrar aluno</button>
+        </div>
+
+
+
+        <div class="versao-tabela ativa tabela-wrapper" id="tabelaCompleta">
+          <table class="alunos-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Último Treino</th>
+                <th>Próx. Treino</th>
+                <th>Última Consulta</th>
+                <th>Próx. Consulta</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody class="corpo-tabela" id="corpoCompleta">
+              <tr data-nome="Eliabe Monteiro" data-status="ativo" data-email="eliabe@email.com" data-tel="(11) 99999-0001" data-nasc="15/03/1995" data-sexo="Masc" data-cidade="São Paulo" data-peso="82" data-altura="178" data-gordura="18" data-objetivo="Hipertrofia">
+                <td>Eliabe Monteiro</td><td>Seg, 07/04</td><td>10/04 – 09h</td><td>Seg, 07/04</td><td>10/04 – 09h</td>
+                <td><span class="status ativo">Ativo</span></td>
+                <td><button class="btn-perfil" onclick="verPerfil(this)">Ver perfil</button></td>
+              </tr>
+              <tr data-nome="Lucas Rodrigues" data-status="ativo" data-email="lucas@email.com" data-tel="(11) 99999-0002" data-nasc="22/07/1998" data-sexo="Masc" data-cidade="Campinas" data-peso="75" data-altura="175" data-gordura="15" data-objetivo="Emagrecimento">
+                <td>Lucas Rodrigues</td><td>Qua, 02/04</td><td>15/04 – 14h</td><td>Qua, 02/04</td><td>15/04 – 14h</td>
+                <td><span class="status ativo">Ativo</span></td>
+                <td><button class="btn-perfil" onclick="verPerfil(this)">Ver perfil</button></td>
+              </tr>
+              <tr data-nome="Ana Paula" data-status="inativo" data-email="ana@email.com" data-tel="(11) 99999-0003" data-nasc="10/11/1992" data-sexo="Fem" data-cidade="Rio de Janeiro" data-peso="60" data-altura="162" data-gordura="22" data-objetivo="Condicionamento">
+                <td>Ana Paula</td><td>Sex, 28/03</td><td>12/04 – 10h</td><td>Sex, 28/03</td><td>12/04 – 10h</td>
+                <td><span class="status inativo">Inativo</span></td>
+                <td><button class="btn-perfil" onclick="verPerfil(this)">Ver perfil</button></td>
+              </tr>
+              <tr data-nome="Fernanda Santos" data-status="ativo" data-email="fernanda@email.com" data-tel="(11) 99999-0004" data-nasc="05/06/1996" data-sexo="Fem" data-cidade="Belo Horizonte" data-peso="58" data-altura="165" data-gordura="20" data-objetivo="Hipertrofia">
+                <td>Fernanda Santos</td><td>Ter, 08/04</td><td>17/04 – 11h</td><td>Ter, 08/04</td><td>17/04 – 11h</td>
+                <td><span class="status ativo">Ativo</span></td>
+                <td><button class="btn-perfil" onclick="verPerfil(this)">Ver perfil</button></td>
+              </tr>
+              <tr data-nome="Carlos Melo" data-status="novo" data-email="carlos@email.com" data-tel="(11) 99999-0005" data-nasc="30/01/2000" data-sexo="Masc" data-cidade="Curitiba" data-peso="70" data-altura="172" data-gordura="21" data-objetivo="Saúde geral">
+                <td>Carlos Melo</td><td>—</td><td>22/04 – 08h</td><td>—</td><td>22/04 – 08h</td>
+                <td><span class="status novo">Novo</span></td>
+                <td><button class="btn-perfil" onclick="verPerfil(this)">Ver perfil</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="../../assets/js/sidebar-loader.js"></script>
+  <script src="../../assets/js/meus-alunos.js"></script>
+</body>
+</html>

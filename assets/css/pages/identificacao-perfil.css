@@ -3,6 +3,7 @@
    Tela de seleção de perfil (4 cards interativos)
    ============================================================ */
 
+/* Centraliza a selecao de perfil na tela. */
 .profile-page {
   min-height: 100vh;
   display: flex;
@@ -13,6 +14,7 @@
   background-color: var(--white);
 }
 
+/* Titulo e subtitulo da escolha de perfil. */
 .profile-header {
   text-align: center;
   margin-bottom: var(--space-10);
@@ -30,6 +32,7 @@
   color: var(--text-secondary);
 }
 
+/* Grade dos cards de perfis disponiveis. */
 .profile-cards {
   display: grid;
   grid-template-columns: repeat(4, 224px);
@@ -37,6 +40,7 @@
   margin-bottom: var(--space-10);
 }
 
+/* Card clicavel de perfil. */
 .profile-card {
   display: flex;
   flex-direction: column;
@@ -63,6 +67,7 @@
   background-color: var(--white);
 }
 
+/* Circulo com iniciais do perfil. */
 .profile-card-icon {
   width: 52px;
   height: 52px;
@@ -77,6 +82,7 @@
   margin-bottom: var(--space-4);
 }
 
+/* Estado selecionado do icone do perfil. */
 .profile-card.is-selected .profile-card-icon {
   background-color: var(--green-primary);
   color: var(--white);
@@ -104,6 +110,7 @@
   flex: 1;
 }
 
+/* Indicador visual do perfil selecionado. */
 .profile-card-badge {
   position: absolute;
   bottom: var(--space-4);
@@ -118,10 +125,12 @@
   display: none;
 }
 
+/* Exibe o indicador quando o perfil esta selecionado. */
 .profile-card.is-selected .profile-card-badge {
   display: block;
 }
 
+/* Area de confirmacao e ajuda. */
 .profile-action {
   display: flex;
   flex-direction: column;
@@ -141,20 +150,25 @@
 }
 
 /* Responsivo */
+/* Ajusta os cards para tablets. */
 @media (max-width: 1024px) {
-  .profile-cards {
+  /* Grade dos cards de perfis disponiveis. */
+.profile-cards {
     grid-template-columns: repeat(2, 224px);
   }
 }
 
+/* Empilha os cards no celular. */
 @media (max-width: 540px) {
-  .profile-cards {
+  /* Grade dos cards de perfis disponiveis. */
+.profile-cards {
     grid-template-columns: 1fr;
     width: 100%;
     max-width: 320px;
   }
 
-  .profile-card {
+  /* Card clicavel de perfil. */
+.profile-card {
     height: auto;
     min-height: 200px;
   }

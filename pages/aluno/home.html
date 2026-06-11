@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MyPersonal — Início</title>
+  <title>Início | MyPersonal</title>
   <link rel="stylesheet" href="../../assets/css/reset.css">
   <link rel="stylesheet" href="../../assets/css/variables.css">
   <link rel="stylesheet" href="../../assets/css/components.css">
   <link rel="stylesheet" href="../../assets/css/layout.css">
   <link rel="stylesheet" href="../../assets/css/sidebar.css">
   <link rel="stylesheet" href="../../assets/css/pages/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
 </head>
 <body data-profile="aluno" data-page-title="Olá, Eliabe!">
   <div class="app-layout">
@@ -35,21 +36,21 @@
           </div>
           <span class="quick-card-arrow">→</span>
         </a>
-        <a href="estatisticas.html" class="quick-card">
+        <a href="estatisticaaluno.html" class="quick-card">
           <div class="quick-card-info">
             <span class="quick-card-title">Minha Evolução</span>
             <span class="quick-card-desc">ver estatísticas</span>
           </div>
           <span class="quick-card-arrow">→</span>
         </a>
-        <a href="agenda.html" class="quick-card">
+        <a href="../profissional/agenda.html?perfil=aluno" class="quick-card">
           <div class="quick-card-info">
             <span class="quick-card-title">Agenda</span>
             <span class="quick-card-desc">próximos compromissos</span>
           </div>
           <span class="quick-card-arrow">→</span>
         </a>
-        <a href="mensagens.html" class="quick-card">
+        <a href="../profissional/mensagens.html?perfil=aluno" class="quick-card">
           <div class="quick-card-info">
             <span class="quick-card-title">Mensagens</span>
             <span class="quick-card-desc">falar com profissional</span>
@@ -63,38 +64,7 @@
         <section>
           <h2 class="section-title">Treino de hoje</h2>
           <div class="training-summary">
-            <div class="training-summary-list">
-              <div class="training-row">
-                <span class="training-row-name">Supino reto com barra</span>
-                <span class="training-row-meta">4 séries</span>
-                <span class="training-row-meta">12 reps</span>
-                <a href="#" class="training-row-video">▶ ver vídeo</a>
-              </div>
-              <div class="training-row">
-                <span class="training-row-name">Crucifixo com halteres</span>
-                <span class="training-row-meta">3 séries</span>
-                <span class="training-row-meta">15 reps</span>
-                <a href="#" class="training-row-video">▶ ver vídeo</a>
-              </div>
-              <div class="training-row">
-                <span class="training-row-name">Tríceps na polia</span>
-                <span class="training-row-meta">4 séries</span>
-                <span class="training-row-meta">12 reps</span>
-                <a href="#" class="training-row-video">▶ ver vídeo</a>
-              </div>
-              <div class="training-row">
-                <span class="training-row-name">Desenvolvimento com barra</span>
-                <span class="training-row-meta">3 séries</span>
-                <span class="training-row-meta">10 reps</span>
-                <a href="#" class="training-row-video">▶ ver vídeo</a>
-              </div>
-              <div class="training-row">
-                <span class="training-row-name">Elevação lateral</span>
-                <span class="training-row-meta">3 séries</span>
-                <span class="training-row-meta">15 reps</span>
-                <a href="#" class="training-row-video">▶ ver vídeo</a>
-              </div>
-            </div>
+            <div class="training-summary-list" id="training-list"></div>
             <a href="meu-treino.html" class="btn btn-secondary">Registrar observação</a>
           </div>
         </section>
@@ -102,20 +72,7 @@
         <!-- Coluna dir: próximos compromissos -->
         <section>
           <h2 class="section-title">Próximos compromissos</h2>
-          <div class="next-appointments">
-            <div class="next-appointment-card">
-              <p class="date-time">10/04 · 09:00</p>
-              <p class="title">Consulta com Pierre</p>
-            </div>
-            <div class="next-appointment-card">
-              <p class="date-time">15/04 · 14:00</p>
-              <p class="title">Renovação de treino</p>
-            </div>
-            <div class="next-appointment-card">
-              <p class="date-time">22/04 · 08:00</p>
-              <p class="title">Avaliação corporal</p>
-            </div>
-          </div>
+          <div class="next-appointments" id="appointments-list"></div>
         </section>
       </div>
 
@@ -131,5 +88,41 @@
   </div>
 
   <script src="../../assets/js/sidebar-loader.js"></script>
+  <script>
+    // ======================================================
+    // Home do Aluno — renderização dinâmica
+    // Atende: US05, US07, US09 / RF01, RF03, RF05, RF07
+    // ======================================================
+
+    const treinoDeHoje = [
+      { nome: "Supino reto com barra",     series: 4, reps: 12, video: "#" },
+      { nome: "Crucifixo com halteres",    series: 3, reps: 15, video: "#" },
+      { nome: "Tríceps na polia",          series: 4, reps: 12, video: "#" },
+      { nome: "Desenvolvimento com barra", series: 3, reps: 10, video: "#" },
+      { nome: "Elevação lateral",          series: 3, reps: 15, video: "#" },
+    ];
+
+    const proximosCompromissos = [
+      { dataHora: "10/04 · 09:00", titulo: "Consulta com Pierre" },
+      { dataHora: "15/04 · 14:00", titulo: "Renovação de treino" },
+      { dataHora: "22/04 · 08:00", titulo: "Avaliação corporal" },
+    ];
+
+    document.getElementById("training-list").innerHTML = treinoDeHoje.map((ex) => `
+      <div class="training-row">
+        <span class="training-row-name">${ex.nome}</span>
+        <span class="training-row-meta">${ex.series} séries</span>
+        <span class="training-row-meta">${ex.reps} reps</span>
+        <a href="${ex.video}" class="training-row-video">▶ ver vídeo</a>
+      </div>
+    `).join("");
+
+    document.getElementById("appointments-list").innerHTML = proximosCompromissos.map((c) => `
+      <div class="next-appointment-card">
+        <p class="date-time">${c.dataHora}</p>
+        <p class="title">${c.titulo}</p>
+      </div>
+    `).join("");
+  </script>
 </body>
 </html>

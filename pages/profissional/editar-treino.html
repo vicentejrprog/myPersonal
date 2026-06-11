@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Treino | MyPersonal</title>
+    <link rel="stylesheet" href="../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../assets/css/variables.css">
+    <link rel="stylesheet" href="../../assets/css/components.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <link rel="stylesheet" href="../../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../../assets/css/pages/editar-treino.css">
+    <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body data-profile="personal-trainer" data-active-page="alunos" data-page-title="Editar Treino - Eliabe Monteiro" data-back="perfilaluno.html|Perfil do Aluno">
+
+    <div class="app-layout">
+        <div id="sidebar-mount"></div>
+        <div id="topbar-mount"></div>
+
+        <main class="main-content">
+
+            <form id="formTreino" class="conteudo-formulario" onsubmit="event.preventDefault();">
+
+                <section class="secao-form">
+                    <label class="rotulo-campo">Grupo de treino</label>
+                    <div class="grupo-abas-treino">
+                        <button type="button" class="aba-treino ativa" onclick="selecionarAba(this)">Treino A</button>
+                        <button type="button" class="aba-treino" onclick="selecionarAba(this)">Treino B</button>
+                        <button type="button" class="aba-treino" onclick="selecionarAba(this)">Treino C</button>
+                        <button type="button" class="aba-treino botao-novo-grupo" onclick="criarNovoGrupo()">+ Novo grupo</button>
+                    </div>
+                </section>
+
+                <section class="secao-form grade-inputs">
+                    <div class="campo-texto">
+                        <label for="nomeGrupo" class="rotulo-campo">Nome do grupo</label>
+                        <input type="text" id="nomeGrupo" placeholder="Ex: Treino A — Peito e Tríceps" required>
+                    </div>
+                    <div class="campo-texto">
+                        <label for="musculaturaAlvo" class="rotulo-campo">Musculatura alvo</label>
+                        <input type="text" id="musculaturaAlvo" placeholder="Ex: Peitoral, Tríceps, Ombros">
+                    </div>
+                </section>
+
+                <section class="secao-form">
+                    <label class="rotulo-campo">Exercícios</label>
+
+                    <div class="tabela-exercicios">
+                        <div class="linha-cabecalho">
+                            <div class="col-num">#</div>
+                            <div class="col-exercicio">Exercício</div>
+                            <div class="col-dados">Séries</div>
+                            <div class="col-dados">Reps</div>
+                            <div class="col-dados">Desc.</div>
+                            <div class="col-obs">Observação</div>
+                            <div class="col-video">Link vídeo</div>
+                            <div class="col-remover"></div>
+                        </div>
+
+                        <div id="corpoTabela"></div>
+                    </div>
+
+                    <button type="button" class="botao-adicionar-linha" onclick="adicionarLinha()">+ Adicionar exercício</button>
+                </section>
+
+                <section class="secao-form">
+                    <label for="obsGerais" class="rotulo-campo">Observações gerais</label>
+                    <textarea id="obsGerais" rows="4" placeholder="Instruções gerais, avisos de segurança, progressão esperada..."></textarea>
+                </section>
+
+                <footer class="rodape-acoes">
+                    <button type="button" class="btn-acao btn-cancelar" onclick="limparFormulario()">Limpar campos</button>
+                    <div class="botoes-salvamento">
+                        <button type="button" class="btn-acao btn-salvar-notificar" onclick="salvarDados(true)">Salvar e notificar aluno</button>
+                    </div>
+                </footer>
+
+            </form>
+        </main>
+
+    </div>
+
+    <div id="modalConfirmacao" class="modal-sobreposicao">
+        <div class="modal-card">
+            <div class="modal-icone">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h2 class="modal-titulo">Treino salvo!</h2>
+            <p class="modal-subtitulo">O treino foi atualizado e o aluno foi notificado.</p>
+
+            <div class="modal-botoes">
+                <a href="perfilaluno.html" class="btn-modal-link">Voltar ao perfil</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../assets/js/sidebar-loader.js"></script>
+    <script src="../../assets/js/editar-treino.js"></script>
+</body>
+</html>

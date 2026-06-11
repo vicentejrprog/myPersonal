@@ -1,0 +1,171 @@
+/* ============================================================
+   formulario-avaliacao.css
+   Formulário de avaliação corporal do profissional
+   ============================================================ */
+
+.formulario-avaliacao {
+  width: 100%;
+}
+
+.formulario-avaliacao .grid-sidebar > section,
+.formulario-avaliacao .grid-sidebar > aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4, 1rem);
+}
+
+.bloco-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4, 1rem);
+  background-color: var(--white, var(--branco));
+  border: 1px solid var(--border-color, var(--cinza-borda));
+  border-radius: var(--radius-lg, 8px);
+  padding: var(--space-5, 1.25rem);
+}
+
+.grid-formulario {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4, 1rem);
+}
+
+.medidas-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.comparativo-lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 0.75rem);
+}
+
+.item-comparativo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3, 0.75rem);
+  background-color: var(--gray-50, var(--cinza-fundo));
+  border: 1px solid var(--border-color, var(--cinza-borda));
+  border-radius: var(--radius-md, 6px);
+  padding: var(--space-3, 0.75rem) var(--space-4, 1rem);
+}
+
+.item-comparativo span {
+  color: var(--text-secondary, var(--texto-secundario));
+  font-size: var(--font-size-sm, 0.875rem);
+}
+
+.item-comparativo strong {
+  color: var(--text-dark, var(--texto-escuro));
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+.fotos-progresso {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3, 0.75rem);
+}
+
+.foto-placeholder {
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--gray-50, var(--cinza-fundo));
+  border: 1px dashed var(--gray-300, var(--cinza-borda));
+  border-radius: var(--radius-md, 6px);
+  color: var(--text-muted, var(--texto-secundario));
+  font-size: var(--font-size-sm, 0.875rem);
+}
+
+.btns-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4, 1rem);
+  margin-top: var(--space-6, 1.5rem);
+  padding-top: var(--space-5, 1.25rem);
+  border-top: 1px solid var(--border-color, var(--cinza-borda));
+}
+
+.success-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6, 1.5rem);
+  background-color: rgba(17, 24, 39, 0.55);
+}
+
+.success-modal.is-open {
+  display: flex;
+}
+
+.success-modal-card {
+  width: min(100%, 600px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5, 1.25rem);
+  background-color: var(--white, var(--branco));
+  border-radius: var(--radius-xl, 12px);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-10, 2.5rem);
+  text-align: center;
+}
+
+.success-modal-icon {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--green-light, var(--verde-claro));
+  border-radius: var(--radius-full, 9999px);
+  color: var(--green-dark, var(--verde-escuro));
+  font-size: var(--font-size-3xl, 1.875rem);
+  font-weight: var(--font-weight-bold, 700);
+}
+
+.success-modal-card h2 {
+  color: var(--text-dark, var(--texto-escuro));
+  font-size: var(--font-size-2xl, 1.5rem);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+.success-modal-card p {
+  color: var(--text-secondary, var(--texto-secundario));
+  font-size: var(--font-size-base, 1rem);
+}
+
+.success-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4, 1rem);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .grid-formulario,
+  .medidas-grid,
+  .fotos-progresso {
+    grid-template-columns: 1fr;
+  }
+
+  .btns-footer {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .success-modal-card {
+    padding: var(--space-8, 2rem) var(--space-5, 1.25rem);
+  }
+
+  .success-modal-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,245 @@
+/* ============================================================
+   configuracoes.css
+   Tela de configuracoes da conta
+   ============================================================ */
+
+.configuracoes-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.configuracoes-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.6fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.configuracoes-coluna {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.configuracoes-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+
+.configuracoes-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.configuracoes-card-title {
+  color: var(--text-dark);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.configuracoes-card-description {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.configuracoes-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.configuracoes-form .input-group {
+  margin-bottom: 0;
+}
+
+.configuracoes-form .input-group-full {
+  grid-column: 1 / -1;
+}
+
+.configuracoes-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.preferencia-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background-color: var(--gray-50);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.preferencia-item strong {
+  display: block;
+  color: var(--text-dark);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.preferencia-item span {
+  display: block;
+  margin-top: var(--space-1);
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+}
+
+.switch-control {
+  position: relative;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 24px;
+}
+
+.switch-control input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.switch-slider {
+  position: absolute;
+  inset: 0;
+  background-color: var(--gray-300);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.switch-slider::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background-color: var(--white);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast);
+}
+
+.switch-control input:checked + .switch-slider {
+  background-color: var(--green-primary);
+}
+
+.switch-control input:checked + .switch-slider::before {
+  transform: translateX(20px);
+}
+
+.configuracoes-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding-top: var(--space-1);
+}
+
+.success-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  background-color: rgba(17, 24, 39, 0.55);
+}
+
+.success-modal.is-open {
+  display: flex;
+}
+
+.success-modal-card {
+  width: min(100%, 600px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  background-color: var(--white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-10);
+  text-align: center;
+}
+
+.success-modal-icon {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--green-light);
+  border-radius: var(--radius-full);
+  color: var(--green-dark);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.success-modal-card h2 {
+  color: var(--text-dark);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+}
+
+.success-modal-card p {
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+}
+
+.success-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1024px) {
+  .configuracoes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .configuracoes-form {
+    grid-template-columns: 1fr;
+  }
+
+  .preferencia-item {
+    align-items: flex-start;
+  }
+
+  .configuracoes-actions {
+    flex-direction: column-reverse;
+  }
+
+  .configuracoes-actions .btn {
+    width: 100%;
+  }
+
+  .configuracoes-card-actions {
+    justify-content: stretch;
+  }
+
+  .configuracoes-card-actions .btn {
+    width: 100%;
+  }
+
+  .success-modal-card {
+    padding: var(--space-8) var(--space-5);
+  }
+
+  .success-modal-actions,
+  .success-modal-actions .btn {
+    width: 100%;
+  }
+}

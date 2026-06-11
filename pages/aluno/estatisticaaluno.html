@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estatísticas | MyPersonal</title>
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/variables.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/sidebar.css">
+  <link rel="stylesheet" href="../../assets/css/pages/estatisticas.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body data-profile="aluno" data-page-title="Estatísticas">
+  <div class="app-layout">
+    <div id="sidebar-mount"></div>
+    <div id="topbar-mount"></div>
+
+    <main class="main-content">
+      <section>
+        <h2 class="section-title">Avaliações corporais</h2>
+
+        <div class="estatisticas-grid">
+          <div class="metric-card">
+            <span class="metric-label">Peso atual</span>
+            <strong class="metric-value">82 kg</strong>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">% Gordura</span>
+            <strong class="metric-value">18%</strong>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Massa magra</span>
+            <strong class="metric-value">67 kg</strong>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Treinos no mês</span>
+            <strong class="metric-value">14</strong>
+          </div>
+        </div>
+
+        <p class="data-ultima-avaliacao">Última avaliação: 10/05/2026</p>
+      </section>
+
+      <section class="evolucao-container">
+        <div class="grafico-box">
+          <h2 class="section-title">Evolução do peso</h2>
+          <div class="chart-placeholder">[gráfico de linha: peso ao longo do tempo]</div>
+        </div>
+        <div class="grafico-box">
+          <h2 class="section-title">Evolução % gordura</h2>
+          <div class="chart-placeholder">[gráfico de linha: % gordura ao longo do tempo]</div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section-title">Histórico de avaliações</h2>
+        <div class="table-wrapper">
+          <table class="custom-table tabela-avaliacoes">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Peso</th>
+                <th>% Gordura</th>
+                <th>IMC</th>
+                <th>Observação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Jan/2026</td>
+                <td>85 kg</td>
+                <td>21%</td>
+                <td>25.3</td>
+                <td>Início do acompanhamento</td>
+              </tr>
+              <tr>
+                <td>Fev/2026</td>
+                <td>83 kg</td>
+                <td>20%</td>
+                <td>24.9</td>
+                <td>Boa aderência</td>
+              </tr>
+              <tr>
+                <td>Mar/2026</td>
+                <td>82 kg</td>
+                <td>18%</td>
+                <td>24.1</td>
+                <td>Meta parcial atingida</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../../assets/js/sidebar-loader.js"></script>
+</body>
+</html>

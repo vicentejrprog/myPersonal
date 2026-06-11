@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurações | MyPersonal</title>
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/variables.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/sidebar.css">
+  <link rel="stylesheet" href="../../assets/css/pages/configuracoes.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body data-page-title="Configurações" data-back="dashboard.html|Dashboard" data-active-page="configuracoes">
+  <div class="app-layout">
+    <div id="sidebar-mount"></div>
+    <div id="topbar-mount"></div>
+
+    <main class="main-content configuracoes-page">
+      <div class="page-header">
+        <div>
+          <h2 class="page-title">Configurações</h2>
+          <p class="page-subtitle">Gerencie seus dados, segurança e preferências da conta.</p>
+        </div>
+      </div>
+
+      <div class="configuracoes-grid">
+        <section class="configuracoes-coluna">
+          <div class="configuracoes-card">
+            <div class="configuracoes-card-header">
+              <h3 class="configuracoes-card-title">Dados da conta</h3>
+              <p class="configuracoes-card-description">Atualize as informações principais do seu perfil.</p>
+            </div>
+
+            <form class="configuracoes-form">
+              <div class="input-group">
+                <label for="nome">Nome</label>
+                <input class="form-control" type="text" id="nome" value="Pierre">
+              </div>
+
+              <div class="input-group">
+                <label for="sobrenome">Sobrenome</label>
+                <input class="form-control" type="text" id="sobrenome" value="Silva">
+              </div>
+
+              <div class="input-group input-group-full">
+                <label for="email">E-mail</label>
+                <input class="form-control" type="email" id="email" value="pierre@email.com">
+              </div>
+
+              <div class="input-group">
+                <label for="telefone">Telefone</label>
+                <input class="form-control" type="tel" id="telefone" value="(31) 99999-9999">
+              </div>
+
+              <div class="input-group">
+                <label for="cidade">Cidade</label>
+                <input class="form-control" type="text" id="cidade" value="Belo Horizonte">
+              </div>
+            </form>
+          </div>
+
+          <div class="configuracoes-card">
+            <div class="configuracoes-card-header">
+              <h3 class="configuracoes-card-title">Segurança</h3>
+              <p class="configuracoes-card-description">Altere sua senha de acesso à plataforma.</p>
+            </div>
+
+            <form class="configuracoes-form">
+              <div class="input-group input-group-full">
+                <label for="senha-atual">Senha atual</label>
+                <input class="form-control" type="password" id="senha-atual" placeholder="Digite sua senha atual">
+              </div>
+
+              <div class="input-group">
+                <label for="nova-senha">Nova senha</label>
+                <input class="form-control" type="password" id="nova-senha" placeholder="Nova senha">
+              </div>
+
+              <div class="input-group">
+                <label for="confirmar-senha">Confirmar senha</label>
+                <input class="form-control" type="password" id="confirmar-senha" placeholder="Confirmar nova senha">
+              </div>
+            </form>
+
+            <div class="configuracoes-card-actions">
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-open-settings-modal
+                data-modal-title="Nova senha salva com sucesso!"
+                data-modal-message="Sua senha foi atualizada com segurança."
+              >Salvar nova senha
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="configuracoes-coluna">
+          <div class="configuracoes-card">
+            <div class="configuracoes-card-header">
+              <h3 class="configuracoes-card-title">Preferências</h3>
+              <p class="configuracoes-card-description">Escolha como deseja receber atualizações.</p>
+            </div>
+
+            <label class="preferencia-item">
+              <span>
+                <strong>Notificações por e-mail</strong>
+                <span>Receba avisos importantes no e-mail cadastrado.</span>
+              </span>
+              <span class="switch-control">
+                <input type="checkbox" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+
+            <label class="preferencia-item">
+              <span>
+                <strong>Lembretes de agenda</strong>
+                <span>Seja avisado sobre compromissos próximos.</span>
+              </span>
+              <span class="switch-control">
+                <input type="checkbox" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+
+            <label class="preferencia-item">
+              <span>
+                <strong>Mensagens de alunos</strong>
+                <span>Receba alertas quando houver novas mensagens.</span>
+              </span>
+              <span class="switch-control">
+                <input type="checkbox">
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <div class="configuracoes-actions">
+            <a href="dashboard.html" class="btn btn-secondary">Cancelar</a>
+            <button
+              class="btn btn-primary"
+              type="button"
+              data-open-settings-modal
+              data-modal-title="Configurações salvas!"
+              data-modal-message="Suas alterações foram atualizadas com sucesso."
+            >Salvar alterações
+            </button>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div class="success-modal" id="settings-success-modal" aria-hidden="true">
+    <div class="success-modal-card" role="dialog" aria-modal="true" aria-labelledby="settings-success-title">
+      <div class="success-modal-icon">✓</div>
+      <h2 id="settings-success-title">Configurações salvas!</h2>
+      <p id="settings-success-message">Suas alterações foram atualizadas com sucesso.</p>
+      <div class="success-modal-actions">
+        <button class="btn btn-primary" type="button" id="settings-success-close">Continuar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../assets/js/sidebar-loader.js"></script>
+  <script src="../../assets/js/settings-alerts.js"></script>
+</body>
+</html>

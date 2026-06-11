@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil do Aluno | MyPersonal</title>
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/variables.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/sidebar.css">
+  <link rel="stylesheet" href="../../assets/css/pages/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/pages/acoes-profissional.css">
+  <link rel="stylesheet" href="../../assets/css/pages/dietas.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body data-page-title="Perfil do Aluno — Eliabe Monteiro" data-back="meus-alunos.html|Meus Alunos" data-active-page="alunos">
+  <div class="app-layout">
+    <div id="sidebar-mount"></div>
+    <div id="topbar-mount"></div>
+
+    <main class="main-content">
+      <header class="student-header dashboard-box">
+        <div class="avatar avatar-lg">EM</div>
+        <div>
+          <h2 class="student-name">Eliabe Monteiro</h2>
+          <p class="page-subtitle">Aluno desde: Jan/2025</p>
+        </div>
+        <div class="perfil-acoes">
+          <button class="btn btn-secondary" onclick="window.location.href='editar-aluno.html'">✏ Editar</button>
+          <button class="btn-excluir">🗑 Excluir</button>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="Seções do aluno">
+        <a href="perfilaluno.html" class="tab">Treino</a>
+        <a href="perfil_do_aluno_aba_dieta.html" class="tab active">Dieta</a>
+        <a href="estatisticaprofissional.html" class="tab">Estatísticas</a>
+      </nav>
+
+      <div class="profile-diet-grid space-top">
+        <section class="section-block">
+          <h2 class="section-title">Dieta atual</h2>
+          <div class="days">
+            <span class="day active">Seg</span>
+            <span class="day">Ter</span>
+            <span class="day">Qua</span>
+            <span class="day">Qui</span>
+            <span class="day">Sex</span>
+            <span class="day">Sáb</span>
+            <span class="day">Dom</span>
+          </div>
+
+          <div class="summary-list">
+            <div class="summary-item">
+              <strong>Café da manhã — 07h</strong>
+              <div class="muted-box">
+                <ul class="food-list">
+                  <li><span>Aveia com banana</span><strong>210 kcal</strong></li>
+                  <li><span>Iogurte natural</span><strong>120 kcal</strong></li>
+                </ul>
+              </div>
+            </div>
+            <div class="summary-item">
+              <strong>Almoço — 12h</strong>
+              <div class="muted-box">
+                <ul class="food-list">
+                  <li><span>Arroz, frango e salada</span><strong>418 kcal</strong></li>
+                </ul>
+              </div>
+            </div>
+            <div class="summary-item">
+              <strong>Lanche — 16h</strong>
+              <div class="muted-box">
+                <ul class="food-list">
+                  <li><span>Pão integral, queijo e maçã</span><strong>305 kcal</strong></li>
+                </ul>
+              </div>
+            </div>
+            <div class="summary-item">
+              <strong>Jantar — 20h</strong>
+              <div class="muted-box">
+                <ul class="food-list">
+                  <li><span>Omelete, batata doce e brócolis</span><strong>376 kcal</strong></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="section-title">Totais do dia</h2>
+          <div class="totals">
+            <div class="total-card"><span>Calorias</span><strong>1.434 kcal</strong></div>
+            <div class="total-card"><span>Proteína</span><strong>118 g</strong></div>
+            <div class="total-card"><span>Carboidrato</span><strong>152 g</strong></div>
+            <div class="total-card"><span>Gordura</span><strong>42 g</strong></div>
+          </div>
+
+          <a class="btn btn-primary" href="cadastrar_editar_dieta.html">Editar dieta</a>
+        </section>
+
+        <section>
+          <div class="section-block">
+            <h2 class="section-title">Última avaliação nutricional</h2>
+            <div class="muted-box tall-box">
+              <div class="diet-metric-grid">
+                <div class="diet-metric-card"><span>Peso</span><strong>78 kg</strong></div>
+                <div class="diet-metric-card"><span>Gordura</span><strong>18%</strong></div>
+                <div class="diet-metric-card"><span>IMC</span><strong>24,1</strong></div>
+                <div class="diet-metric-card"><span>Massa magra</span><strong>64 kg</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <h2 class="section-title">Observações do profissional</h2>
+            <div class="muted-box medium-box">
+              <p class="note-box">Aluno mantendo boa adesão ao plano. Reforçar consumo de água e revisar porções do jantar no próximo retorno.</p>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <h2 class="section-title">Histórico de versões da dieta</h2>
+            <div class="muted-box medium-box">
+              <ul class="history-list">
+                <li><span>12/05/2026</span><strong>Versão atual</strong></li>
+                <li><span>28/04/2026</span><strong>Ajuste de calorias</strong></li>
+                <li><span>10/04/2026</span><strong>Plano inicial</strong></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="../../assets/js/sidebar-loader.js"></script>
+  <script src="../../assets/js/meus-alunos.js"></script>
+</body>
+</html>

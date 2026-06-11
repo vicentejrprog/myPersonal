@@ -3,6 +3,7 @@
    Formulário de cadastro de compromisso (Agenda)
    ============================================================ */
 
+/* Layout do formulario e painel lateral. */
 .form-page-grid {
   display: grid;
   grid-template-columns: 1fr 430px;
@@ -10,6 +11,7 @@
   margin-bottom: var(--space-8);
 }
 
+/* Titulo visual de cada bloco do formulario. */
 .form-section-title {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
@@ -19,6 +21,7 @@
   border-bottom: 1px solid var(--border-color);
 }
 
+/* Linhas de campos com variacoes de colunas. */
 .form-row {
   display: grid;
   gap: var(--space-4);
@@ -28,6 +31,7 @@
 .form-row.row-2  { grid-template-columns: 1fr 1fr; }
 .form-row.row-3  { grid-template-columns: 1.5fr 1fr 1fr; }
 
+/* Calendario pequeno usado para selecionar data. */
 .mini-calendar {
   background-color: var(--white);
   border: 1px solid var(--border-color);
@@ -49,6 +53,7 @@
   gap: 2px;
 }
 
+/* Celula individual do mini calendario. */
 .mini-calendar-cell {
   aspect-ratio: 1;
   display: flex;
@@ -78,6 +83,7 @@
   font-weight: var(--font-weight-semibold);
 }
 
+/* Lista de conflitos de agenda detectados. */
 .conflicts-list {
   margin-top: var(--space-3);
   display: flex;
@@ -96,6 +102,7 @@
   color: var(--orange-warning);
 }
 
+/* Rodape com acoes do formulario. */
 .form-actions {
   display: flex;
   justify-content: space-between;
@@ -104,8 +111,10 @@
   margin-top: var(--space-6);
 }
 
+/* Empilha formulario e painel em telas menores. */
 @media (max-width: 1024px) {
-  .form-page-grid {
+  /* Layout do formulario e painel lateral. */
+.form-page-grid {
     grid-template-columns: 1fr;
   }
   .form-row.row-3 {

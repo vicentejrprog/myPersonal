@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MyPersonal — Agenda</title>
+  <title>Agenda | MyPersonal</title>
   <link rel="stylesheet" href="../../assets/css/reset.css">
   <link rel="stylesheet" href="../../assets/css/variables.css">
   <link rel="stylesheet" href="../../assets/css/components.css">
   <link rel="stylesheet" href="../../assets/css/layout.css">
   <link rel="stylesheet" href="../../assets/css/sidebar.css">
   <link rel="stylesheet" href="../../assets/css/pages/agenda.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
 </head>
 <body data-page-title="Agenda">
   <div class="app-layout">
@@ -49,6 +50,7 @@
         <div class="legend-item"><span class="legend-dot" style="background:var(--blue-info-dark)"></span> Consulta</div>
         <div class="legend-item"><span class="legend-dot" style="background:var(--orange-warning)"></span> Avaliação</div>
         <div class="legend-item"><span class="legend-dot" style="background:var(--gray-500)"></span> Outro</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--cor-erro-texto)"></span> Feriado</div>
       </div>
 
     </main>
@@ -57,53 +59,123 @@
   <script src="../../assets/js/sidebar-loader.js"></script>
   <script>
     // ======================================================
-    // Calendário simplificado — Abril 2026
-    // Estrutura de dados: cada evento tem dia + label + tipo
+    // Calendário dinâmico — navegação de meses + feriados
+    // Chaves no formato "YYYY-MM-DD" para casar com BrasilAPI
+    // H5a — fetch client-side de API pública de feriados
+    // RF01 / US01
     // ======================================================
 
-    const eventos = {
-      10: [{ label: "Treino 09h - Eliabe", tipo: "treino" }],
-      15: [{ label: "Trocar treino - Eliabe", tipo: "outro" }],
-      22: [{ label: "Avaliação - Ana Paula", tipo: "avaliacao" }],
-      8:  [{ label: "Consulta 14h - Lucas", tipo: "consulta" }],
-      18: [{ label: "Avaliação corporal", tipo: "avaliacao" }],
+    const eventosPorDia = {
+      "2026-04-08": [{ label: "Consulta 14h - Lucas",    tipo: "consulta"  }],
+      "2026-04-10": [{ label: "Treino 09h - Eliabe",     tipo: "treino"    }],
+      "2026-04-15": [{ label: "Trocar treino - Eliabe",  tipo: "outro"     }],
+      "2026-04-18": [{ label: "Avaliação corporal",       tipo: "avaliacao" }],
+      "2026-04-22": [{ label: "Avaliação - Ana Paula",    tipo: "avaliacao" }],
+      "2026-05-05": [{ label: "Treino 10h - Fernanda",   tipo: "treino"    }],
+      "2026-05-20": [{ label: "Consulta - Ana Paula",    tipo: "consulta"  }],
+      "2026-06-03": [{ label: "Avaliação - Lucas",       tipo: "avaliacao" }],
+      "2026-06-11": [{ label: "Treino 08h - Eliabe",     tipo: "treino"    }],
+      "2026-07-10": [{ label: "Consulta 09h - Fernanda", tipo: "consulta"  }],
     };
 
-    // Abril 2026: começa numa quarta-feira (offset 3)
-    const startOffset = 3;
-    const daysInMonth = 30;
-    const calendar = document.getElementById("calendar");
+    const feriadosPorAno = {};
+    const calendar   = document.getElementById("calendar");
+    const monthLabel = document.getElementById("month-label");
 
-    // Células vazias antes do dia 1
-    for (let i = 0; i < startOffset; i++) {
-      const empty = document.createElement("div");
-      empty.className = "calendar-cell is-empty";
-      calendar.appendChild(empty);
+    const NOMES_MES = [
+      "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+      "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",
+    ];
+
+    const today = new Date();
+    let currentYear  = today.getFullYear();
+    let currentMonth = today.getMonth(); // 0-indexed
+
+    function isoDate(y, m, d) {
+      return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
     }
 
-    // Dias do mês
-    for (let day = 1; day <= daysInMonth; day++) {
-      const cell = document.createElement("div");
-      cell.className = "calendar-cell";
+    function renderCalendar(year, month) {
+      monthLabel.textContent = `${NOMES_MES[month]} ${year}`;
 
-      const num = document.createElement("div");
-      num.className = "calendar-day-number";
-      num.textContent = day;
-      cell.appendChild(num);
+      // Remove células anteriores, preserva os cabeçalhos de dia da semana
+      calendar.querySelectorAll(".calendar-cell").forEach((el) => el.remove());
 
-      // Eventos do dia
-      if (eventos[day]) {
-        eventos[day].forEach((ev) => {
+      const offset      = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const todayKey    = isoDate(today.getFullYear(), today.getMonth(), today.getDate());
+
+      for (let i = 0; i < offset; i++) {
+        const empty = document.createElement("div");
+        empty.className = "calendar-cell is-empty";
+        calendar.appendChild(empty);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const key  = isoDate(year, month, day);
+        const cell = document.createElement("div");
+        cell.className = "calendar-cell";
+        cell.dataset.date = key;
+
+        if (key === todayKey) cell.classList.add("is-today");
+
+        const num = document.createElement("div");
+        num.className = "calendar-day-number";
+        num.textContent = day;
+        cell.appendChild(num);
+
+        (eventosPorDia[key] || []).forEach((ev) => {
           const evEl = document.createElement("div");
           evEl.className = `calendar-event event-${ev.tipo}`;
           evEl.textContent = ev.label;
           evEl.title = ev.label;
           cell.appendChild(evEl);
         });
+
+        calendar.appendChild(cell);
       }
 
-      calendar.appendChild(cell);
+      // Calendário funcional — feriados decoram de forma assíncrona
+      decorarFeriados(year, month);
     }
+
+    async function decorarFeriados(year, month) {
+      if (!feriadosPorAno[year]) {
+        try {
+          const res = await fetch(`https://brasilapi.com.br/api/feriados/v1/${year}`);
+          if (!res.ok) return;
+          feriadosPorAno[year] = await res.json();
+        } catch (e) {
+          return; // falha silenciosa; calendário segue sem feriados
+        }
+      }
+
+      const monthStr = String(month + 1).padStart(2, "0");
+      feriadosPorAno[year].forEach((f) => {
+        if (!f.date.startsWith(`${year}-${monthStr}`)) return;
+        const cell = calendar.querySelector(`[data-date="${f.date}"]`);
+        if (!cell) return;
+        const evEl = document.createElement("div");
+        evEl.className = "calendar-event event-feriado";
+        evEl.textContent = f.name;
+        evEl.title = f.name;
+        cell.appendChild(evEl);
+      });
+    }
+
+    document.getElementById("prev-month").addEventListener("click", () => {
+      if (currentMonth === 0) { currentMonth = 11; currentYear--; }
+      else { currentMonth--; }
+      renderCalendar(currentYear, currentMonth);
+    });
+
+    document.getElementById("next-month").addEventListener("click", () => {
+      if (currentMonth === 11) { currentMonth = 0; currentYear++; }
+      else { currentMonth++; }
+      renderCalendar(currentYear, currentMonth);
+    });
+
+    renderCalendar(currentYear, currentMonth);
   </script>
 </body>
 </html>

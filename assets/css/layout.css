@@ -1,6 +1,6 @@
 /* ============================================================
    layout.css — Estruturas principais de layout
-   Sidebar, topbar, área de conteúdo e responsividade
+   Sidebar, topbar e área de conteúdo
    ============================================================ */
 
 /* ════════════════════════════════════════════════
@@ -17,21 +17,32 @@
   min-height: 100vh;
 }
 
+#sidebar-mount {
+  grid-area: sidebar;
+}
+
+#topbar-mount {
+  grid-area: topbar;
+}
+
 /* ════════════════════════════════════════════════
    SIDEBAR
    ════════════════════════════════════════════════ */
 
 .sidebar {
-  grid-area: sidebar;
   display: flex;
   flex-direction: column;
   background-color: var(--white);
   border-right: 1px solid var(--border-color);
   padding: var(--space-6) 0;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
   height: 100vh;
   overflow-y: auto;
+  z-index: 20;
 }
 
 .sidebar-header {
@@ -123,16 +134,18 @@
    ════════════════════════════════════════════════ */
 
 .topbar {
-  grid-area: topbar;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--space-8);
   background-color: var(--white);
   border-bottom: 1px solid var(--border-color);
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 10;
+  left: var(--sidebar-width);
+  right: 0;
+  height: var(--topbar-height);
+  z-index: 15;
 }
 
 .topbar-title {
@@ -336,87 +349,3 @@
   text-decoration: underline;
 }
 
-/* ════════════════════════════════════════════════
-   RESPONSIVIDADE
-   ════════════════════════════════════════════════ */
-
-/* Tablet — < 1024px */
-@media (max-width: 1024px) {
-  .grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .grid-3 { grid-template-columns: repeat(2, 1fr); }
-
-  .grid-sidebar {
-    grid-template-columns: 1fr;
-  }
-
-  .main-content {
-    padding: var(--space-6);
-  }
-}
-
-/* Mobile — < 768px */
-@media (max-width: 768px) {
-  .app-layout {
-    grid-template-columns: var(--sidebar-width-mobile) 1fr;
-  }
-
-  .sidebar {
-    padding: var(--space-4) 0;
-  }
-
-  .sidebar-header { padding: 0; text-align: center; }
-  .sidebar-header .brand span { display: none; }
-
-  .menu-item {
-    justify-content: center;
-    padding: var(--space-3);
-  }
-
-  .menu-item span:not(.menu-item-icon) {
-    display: none;
-  }
-
-  .user-profile-sidebar {
-    padding: var(--space-3);
-    justify-content: center;
-  }
-
-  .side-info { display: none; }
-
-  .topbar {
-    padding: 0 var(--space-4);
-  }
-
-  .grid-2,
-  .grid-3,
-  .grid-4 {
-    grid-template-columns: 1fr;
-  }
-
-  .auth-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .auth-brand {
-    display: none;
-  }
-
-  .auth-form-wrapper {
-    padding: var(--space-6);
-  }
-
-  .page-title {
-    font-size: var(--font-size-xl);
-  }
-}
-
-/* Mobile pequeno — < 480px */
-@media (max-width: 480px) {
-  .main-content {
-    padding: var(--space-4);
-  }
-
-  .card {
-    padding: var(--space-4);
-  }
-}

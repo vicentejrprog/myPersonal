@@ -4,14 +4,16 @@
    ============================================================ */
 
 /* Seção: título de bloco */
+/* Titulo de secoes do dashboard/home. */
 .section-title {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
-  color: var(--text-dark);
+  color: var(--cor-texto);
   margin-bottom: var(--space-4);
 }
 
 /* Grid de métricas */
+/* Grade responsiva dos cards de resumo. */
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -19,28 +21,8 @@
   margin-bottom: var(--space-8);
 }
 
-.metric-card {
-  background-color: var(--white);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4) var(--space-5);
-}
-
-.metric-card .metric-label {
-  font-size: var(--font-size-xs);
-  color: var(--text-secondary);
-  margin-bottom: var(--space-2);
-  display: block;
-}
-
-.metric-card .metric-value {
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--text-dark);
-  line-height: 1;
-}
-
 /* Layout em duas colunas */
+/* Layout em duas colunas para blocos principais. */
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
@@ -49,20 +31,23 @@
 }
 
 @media (max-width: 1024px) {
-  .dashboard-grid {
+  /* Layout em duas colunas para blocos principais. */
+.dashboard-grid {
     grid-template-columns: 1fr;
   }
 }
 
 /* Box de seção */
+/* Caixa visual para secoes internas do dashboard. */
 .dashboard-box {
-  background-color: var(--white);
-  border: 1px solid var(--border-color);
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
   border-radius: var(--radius-lg);
   padding: var(--space-5);
 }
 
 /* Lista de alunos recentes */
+/* Lista vertical de alunos recentes. */
 .recent-list {
   display: flex;
   flex-direction: column;
@@ -74,39 +59,40 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-3) var(--space-4);
-  background-color: var(--gray-50);
+  background-color: var(--cor-fundo);
   border-radius: var(--radius-md);
   transition: background-color var(--transition-fast);
 }
 
 .recent-item:hover {
-  background-color: var(--green-light);
+  background-color: var(--cor-secundaria);
 }
 
 .recent-item-name {
   flex: 1;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  color: var(--text-dark);
+  color: var(--cor-texto);
 }
 
 .recent-item-action {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
-  color: var(--green-primary);
-  background-color: var(--white);
+  color: var(--cor-primaria);
+  background-color: var(--cor-superficie);
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--cor-borda);
 }
 
 .recent-item:hover .recent-item-action {
-  background-color: var(--green-primary);
-  color: var(--white);
-  border-color: var(--green-primary);
+  background-color: var(--cor-primaria);
+  color: var(--cor-superficie);
+  border-color: var(--cor-primaria);
 }
 
 /* Tabela de consultas/treinos do dia */
+/* Tabela de atividades do dia. */
 .day-table {
   width: 100%;
 }
@@ -116,15 +102,15 @@
   padding: var(--space-3);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
-  color: var(--text-secondary);
+  color: var(--cor-texto-secundario);
   text-transform: uppercase;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--cor-borda);
 }
 
 .day-table td {
   padding: var(--space-3);
   font-size: var(--font-size-sm);
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--cor-borda-suave);
 }
 
 .day-table tr:last-child td {
@@ -132,6 +118,7 @@
 }
 
 /* Lista de compromissos */
+/* Lista de proximos compromissos. */
 .appointments-list {
   display: flex;
   flex-direction: column;
@@ -144,28 +131,29 @@
   gap: var(--space-4);
   align-items: center;
   padding: var(--space-3) var(--space-4);
-  background-color: var(--gray-50);
+  background-color: var(--cor-fundo);
   border-radius: var(--radius-md);
-  border-left: 3px solid var(--green-primary);
+  border-left: 3px solid var(--cor-primaria);
 }
 
 .appointment-row-time {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  color: var(--green-dark);
+  color: var(--cor-primaria-hover);
 }
 
 .appointment-row-info {
   font-size: var(--font-size-sm);
-  color: var(--text-dark);
+  color: var(--cor-texto);
 }
 
 .appointment-row-aluno {
   font-size: var(--font-size-xs);
-  color: var(--text-secondary);
+  color: var(--cor-texto-secundario);
 }
 
 /* Quick access cards (Home Aluno) */
+/* Grade de atalhos da home do aluno. */
 .quick-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -174,8 +162,8 @@
 }
 
 .quick-card {
-  background-color: var(--white);
-  border: 1px solid var(--border-color);
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   display: flex;
@@ -189,7 +177,7 @@
 }
 
 .quick-card:hover {
-  border-color: var(--green-primary);
+  border-color: var(--cor-primaria);
   box-shadow: var(--shadow-md);
 }
 
@@ -202,23 +190,24 @@
 .quick-card-title {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  color: var(--text-dark);
+  color: var(--cor-texto);
 }
 
 .quick-card-desc {
   font-size: var(--font-size-xs);
-  color: var(--text-secondary);
+  color: var(--cor-texto-secundario);
 }
 
 .quick-card-arrow {
   font-size: var(--font-size-lg);
-  color: var(--green-primary);
+  color: var(--cor-primaria);
 }
 
 /* Treino da home (aluno) */
+/* Resumo do treino exibido na home do aluno. */
 .training-summary {
-  background-color: var(--white);
-  border: 1px solid var(--border-color);
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
   border-radius: var(--radius-lg);
   padding: var(--space-5);
 }
@@ -236,28 +225,29 @@
   gap: var(--space-4);
   align-items: center;
   padding: var(--space-3);
-  background-color: var(--gray-50);
+  background-color: var(--cor-fundo);
   border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
 }
 
 .training-row-name {
   font-weight: var(--font-weight-medium);
-  color: var(--text-dark);
+  color: var(--cor-texto);
 }
 
 .training-row-meta {
   font-size: var(--font-size-xs);
-  color: var(--text-secondary);
+  color: var(--cor-texto-secundario);
 }
 
 .training-row-video {
-  color: var(--green-primary);
+  color: var(--cor-primaria);
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-xs);
 }
 
 /* Próximos compromissos (aluno) */
+/* Cards de proximos compromissos do aluno. */
 .next-appointments {
   display: flex;
   flex-direction: column;
@@ -265,35 +255,36 @@
 }
 
 .next-appointment-card {
-  background-color: var(--white);
-  border: 1px solid var(--border-color);
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-4);
-  border-left: 4px solid var(--green-primary);
+  border-left: 4px solid var(--cor-primaria);
 }
 
 .next-appointment-card .date-time {
   font-size: var(--font-size-xs);
-  color: var(--text-secondary);
+  color: var(--cor-texto-secundario);
   margin-bottom: var(--space-1);
 }
 
 .next-appointment-card .title {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  color: var(--text-dark);
+  color: var(--cor-texto);
 }
 
 /* Chart placeholder */
+/* Placeholder visual para graficos futuros. */
 .chart-placeholder {
-  background: linear-gradient(135deg, var(--gray-50) 25%, transparent 25%, transparent 75%, var(--gray-50) 75%),
-              linear-gradient(135deg, var(--gray-50) 25%, transparent 25%, transparent 75%, var(--gray-50) 75%);
+  background: linear-gradient(135deg, var(--cor-fundo) 25%, transparent 25%, transparent 75%, var(--cor-fundo) 75%),
+              linear-gradient(135deg, var(--cor-fundo) 25%, transparent 25%, transparent 75%, var(--cor-fundo) 75%);
   background-size: 20px 20px;
   background-position: 0 0, 10px 10px;
-  border: 1px dashed var(--gray-300);
+  border: 1px dashed var(--cor-borda-suave);
   border-radius: var(--radius-lg);
   padding: var(--space-12);
   text-align: center;
-  color: var(--text-muted);
+  color: var(--cor-texto-suave);
   font-size: var(--font-size-sm);
 }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Aluno | MyPersonal</title>
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/variables.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/sidebar.css">
+  <link rel="stylesheet" href="../../assets/css/pages/meus-alunos.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body data-page-title="Editar Aluno" data-active-page="meus-alunos" data-back="perfilaluno.html|Perfil do Aluno">
+  <div class="app-layout">
+    <div id="sidebar-mount"></div>
+    <div id="topbar-mount"></div>
+
+    <main class="main-content">
+
+      <!-- Tela: Cadastrar / Editar Aluno -->
+      <div class="tela ativa" id="telaCadastro">
+        <div class="duas-colunas">
+          <div class="coluna-esquerda">
+            <div class="secao-titulo">Dados pessoais</div>
+            <div class="grade-campos">
+              <div class="campo"><label>Nome completo</label><input type="text" id="inputNome" placeholder="Ex: Eliabe Monteiro" /></div>
+              <div class="campo"><label>E-mail</label><input type="email" id="inputEmail" placeholder="Ex: eliabe@email.com" /></div>
+              <div class="campo"><label>Telefone</label><input type="text" id="inputTel" placeholder="(11) 99999-9999" /></div>
+              <div class="campo"><label>Nascimento</label><input type="text" id="inputNasc" placeholder="DD/MM/AAAA" /></div>
+              <div class="campo"><label>Sexo</label><input type="text" id="inputSexo" placeholder="Masc / Fem" /></div>
+              <div class="campo"><label>Cidade</label><input type="text" id="inputCidade" placeholder="Ex: São Paulo" /></div>
+            </div>
+            <div class="secao-titulo">Dados físicos iniciais</div>
+            <div class="grade-campos">
+              <div class="campo"><label>Peso (kg)</label><input type="text" id="inputPeso" placeholder="Ex: 80" /></div>
+              <div class="campo"><label>Altura (cm)</label><input type="text" id="inputAltura" placeholder="Ex: 175" /></div>
+              <div class="campo"><label>% Gordura</label><input type="text" id="inputGordura" placeholder="Ex: 20" /></div>
+              <div class="campo"><label>Objetivo</label><input type="text" id="inputObjetivo" placeholder="Ex: Hipertrofia" /></div>
+            </div>
+            <div class="secao-titulo">Observações iniciais</div>
+            <div class="campo">
+              <label>Observações, restrições ou informações relevantes</label>
+              <textarea placeholder="Observações, restrições ou informações relevantes"></textarea>
+            </div>
+            <button class="btn-salvar" onclick="salvarAluno()">Salvar aluno</button>
+          </div>
+          <div class="coluna-direita">
+            <div class="secao-titulo">Vínculo e acesso</div>
+            <div class="grade-campos">
+              <div class="campo campo-inteiro"><label>Profissional responsável</label><input type="text" placeholder="Pierre" /></div>
+              <div class="campo campo-inteiro"><label>Tipo de acompanhamento</label><input type="text" placeholder="Musculação / Nutrição / Ambos" /></div>
+              <div class="campo campo-inteiro"><label>Data de início</label><input type="text" placeholder="DD/MM/AAAA" /></div>
+            </div>
+            <div class="secao-titulo">Foto do aluno (opcional)</div>
+            <div class="upload-foto" onclick="document.getElementById('inputFoto').click()">[área de upload de foto]</div>
+            <input type="file" id="inputFoto" accept="image/*" style="display:none;" />
+            <hr class="separador" />
+            <div class="secao-titulo">Credenciais de acesso</div>
+            <div class="grade-campos">
+              <div class="campo campo-inteiro"><label>Login / e-mail</label><input type="text" placeholder="Preenchido automaticamente" disabled /></div>
+              <div class="campo campo-inteiro"><label>Senha provisória</label><input type="text" placeholder="Gerada automaticamente" disabled /></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Modal: Sucesso ao cadastrar -->
+  <div class="overlay" id="overlaySuccesso">
+    <div class="modal">
+      <div class="modal-icone">✓</div>
+      <div class="modal-titulo">Aluno cadastrado!</div>
+      <div class="modal-subtitulo" id="modalSubtitulo">foi adicionado com sucesso.</div>
+      <div class="modal-botoes">
+        <button onclick="voltarParaMeusAlunos()">Voltar para lista</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../assets/js/sidebar-loader.js"></script>
+  <script src="../../assets/js/meus-alunos.js"></script>
+</body>
+</html>

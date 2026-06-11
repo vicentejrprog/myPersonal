@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MyPersonal — Mensagens</title>
+  <title>Mensagens | MyPersonal</title>
   <link rel="stylesheet" href="../../assets/css/reset.css">
   <link rel="stylesheet" href="../../assets/css/variables.css">
   <link rel="stylesheet" href="../../assets/css/components.css">
   <link rel="stylesheet" href="../../assets/css/layout.css">
   <link rel="stylesheet" href="../../assets/css/sidebar.css">
   <link rel="stylesheet" href="../../assets/css/pages/mensagens.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
 </head>
 <body data-page-title="Mensagens" class="chat-page">
   <div class="app-layout">
@@ -62,27 +63,7 @@
             <p class="status">● Online</p>
           </header>
 
-          <div class="chat-messages" id="chat-messages">
-            <div class="message message-sent">
-              <span class="message-author">Você</span>
-              <div class="message-bubble">Olá! Atualizei sua dieta para esta semana.</div>
-            </div>
-
-            <div class="message message-received">
-              <span class="message-author">Ana Paula</span>
-              <div class="message-bubble">Ótimo! Vi que adicionou mais frutas.</div>
-            </div>
-
-            <div class="message message-sent">
-              <span class="message-author">Você</span>
-              <div class="message-bubble">Perfeito. Qualquer dúvida, me avisa.</div>
-            </div>
-
-            <div class="message message-received">
-              <span class="message-author">Ana Paula</span>
-              <div class="message-bubble">Certo! Obrigada.</div>
-            </div>
-          </div>
+          <div class="chat-messages" id="chat-messages"></div>
 
           <form class="chat-input" id="chat-form">
             <input type="text" id="message-input" class="form-control" placeholder="Digite uma mensagem..." autocomplete="off">
@@ -97,46 +78,117 @@
   <script src="../../assets/js/sidebar-loader.js"></script>
   <script>
     // ======================================================
-    // Lógica do chat: envio de mensagens (apenas front-end)
+    // Chat de Mensagens — estado por conversa + localStorage
     // ======================================================
 
-    const form = document.getElementById("chat-form");
-    const input = document.getElementById("message-input");
-    const messages = document.getElementById("chat-messages");
+    const CONVERSAS_PADRAO = {
+      ana: {
+        nome: "Ana Paula",
+        status: "● Online",
+        mensagens: [
+          { autor: "Você",      texto: "Olá! Atualizei sua dieta para esta semana.", tipo: "sent"     },
+          { autor: "Ana Paula", texto: "Ótimo! Vi que adicionou mais frutas.",        tipo: "received" },
+          { autor: "Você",      texto: "Perfeito. Qualquer dúvida, me avisa.",        tipo: "sent"     },
+          { autor: "Ana Paula", texto: "Certo! Obrigada.",                            tipo: "received" },
+        ],
+      },
+      eliabe: {
+        nome: "Eliabe Monteiro",
+        status: "● Offline",
+        mensagens: [
+          { autor: "Eliabe Monteiro", texto: "Professor, a dieta foi revisada?",   tipo: "received" },
+          { autor: "Você",            texto: "Sim! Ajustei as calorias do jantar.", tipo: "sent"     },
+          { autor: "Eliabe Monteiro", texto: "Ótimo, obrigado!",                    tipo: "received" },
+        ],
+      },
+      suporte: {
+        nome: "Suporte MyPersonal",
+        status: "● Online",
+        mensagens: [
+          { autor: "Suporte MyPersonal", texto: "Bem-vindo ao MyPersonal! Como posso ajudar?", tipo: "received" },
+          { autor: "Você",               texto: "Oi! Preciso de ajuda com a agenda.",           tipo: "sent"     },
+          { autor: "Suporte MyPersonal", texto: "Claro! O que aconteceu?",                      tipo: "received" },
+        ],
+      },
+    };
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const text = input.value.trim();
-      if (!text) return;
+    function carregarConversas() {
+      try {
+        const salvo = localStorage.getItem("mypersonal:conversas");
+        if (salvo) {
+          const parsed = JSON.parse(salvo);
+          // Garante que novas conversas do padrão apareçam mesmo com storage antigo
+          Object.keys(CONVERSAS_PADRAO).forEach((key) => {
+            if (!parsed[key]) parsed[key] = JSON.parse(JSON.stringify(CONVERSAS_PADRAO[key]));
+          });
+          return parsed;
+        }
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(CONVERSAS_PADRAO));
+    }
 
-      // Cria nova mensagem
-      const msg = document.createElement("div");
-      msg.className = "message message-sent";
-      msg.innerHTML = `
-        <span class="message-author">Você</span>
-        <div class="message-bubble">${text}</div>
-      `;
-      messages.appendChild(msg);
+    function salvarConversas() {
+      try {
+        localStorage.setItem("mypersonal:conversas", JSON.stringify(conversas));
+      } catch (e) {}
+    }
 
-      // Limpa input e scroll
-      input.value = "";
-      messages.scrollTop = messages.scrollHeight;
-    });
+    const conversas = carregarConversas();
+    let ativaConv = "ana";
 
-    // Troca de conversa ativa
-    const convs = document.querySelectorAll(".chat-conversation");
+    const messagesEl = document.getElementById("chat-messages");
     const threadName = document.getElementById("thread-name");
+    const statusEl   = document.querySelector(".chat-thread-header .status");
+    const form       = document.getElementById("chat-form");
+    const input      = document.getElementById("message-input");
 
-    convs.forEach((conv) => {
+    function renderThread(convId) {
+      const conv = conversas[convId];
+      threadName.textContent = conv.nome;
+      statusEl.textContent   = conv.status;
+
+      messagesEl.innerHTML = "";
+      conv.mensagens.forEach((m) => {
+        const msgEl = document.createElement("div");
+        msgEl.className = `message message-${m.tipo}`;
+
+        const authorEl = document.createElement("span");
+        authorEl.className = "message-author";
+        authorEl.textContent = m.autor;
+
+        const bubbleEl = document.createElement("div");
+        bubbleEl.className = "message-bubble";
+        bubbleEl.textContent = m.texto;
+
+        msgEl.appendChild(authorEl);
+        msgEl.appendChild(bubbleEl);
+        messagesEl.appendChild(msgEl);
+      });
+
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    document.querySelectorAll(".chat-conversation").forEach((conv) => {
       conv.addEventListener("click", () => {
-        convs.forEach((c) => c.classList.remove("is-active"));
+        document.querySelectorAll(".chat-conversation").forEach((c) => c.classList.remove("is-active"));
         conv.classList.add("is-active");
-        threadName.textContent = conv.querySelector(".chat-conv-name").textContent;
+        ativaConv = conv.dataset.conv;
+        renderThread(ativaConv);
       });
     });
 
-    // Auto-scroll para a última mensagem ao carregar
-    messages.scrollTop = messages.scrollHeight;
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const texto = input.value.trim();
+      if (!texto) return;
+
+      conversas[ativaConv].mensagens.push({ autor: "Você", texto, tipo: "sent" });
+      salvarConversas();
+      renderThread(ativaConv);
+      input.value = "";
+    });
+
+    renderThread(ativaConv);
   </script>
 </body>
 </html>

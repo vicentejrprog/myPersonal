@@ -4,6 +4,7 @@
    consistência visual entre os browsers.
    ============================================================ */
 
+/* Normaliza box model e remove espacamentos padrao. */
 *,
 *::before,
 *::after {
@@ -12,12 +13,14 @@
   padding: 0;
 }
 
+/* Define comportamento base do documento. */
 html {
   font-size: 16px;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 
+/* Define legibilidade e altura minima da pagina. */
 body {
   min-height: 100vh;
   line-height: 1.5;
@@ -25,6 +28,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Impede midias de ultrapassarem o container. */
 img,
 picture,
 video,
@@ -35,6 +39,7 @@ svg {
   height: auto;
 }
 
+/* Faz controles herdarem tipografia e cor. */
 input,
 button,
 textarea,
@@ -49,6 +54,7 @@ button {
   cursor: pointer;
 }
 
+/* Remove estilo padrao de links. */
 a {
   color: inherit;
   text-decoration: none;
@@ -59,6 +65,7 @@ ol {
   list-style: none;
 }
 
+/* Normaliza tabelas. */
 table {
   border-collapse: collapse;
   border-spacing: 0;

@@ -3,6 +3,104 @@
    Complementa layout.css com submenu, separadores e tooltips
    ============================================================ */
 
+.sidebar-toggle,
+.sidebar-backdrop {
+  display: none;
+}
+
+.user-profile-sidebar {
+  display: none;
+}
+
+.profile-menu {
+  position: relative;
+}
+
+.profile-menu-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.profile-menu-trigger:disabled {
+  cursor: default;
+}
+
+.profile-menu-trigger-sidebar {
+  width: 100%;
+  justify-content: flex-start;
+  gap: 0;
+  text-align: left;
+}
+
+.user-profile-sidebar .side-avatar {
+  display: none;
+}
+
+.profile-menu-trigger-sidebar .side-info,
+.profile-menu-trigger-sidebar .side-name,
+.profile-menu-trigger-sidebar .side-role {
+  display: block;
+}
+
+.profile-dropdown {
+  position: absolute;
+  z-index: 70;
+  display: none;
+  min-width: 180px;
+  padding: var(--space-2);
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.profile-menu.is-open .profile-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.profile-menu-topbar .profile-dropdown {
+  top: calc(100% + var(--space-2));
+  right: 0;
+}
+
+.user-profile-sidebar .profile-dropdown {
+  right: var(--space-4);
+  bottom: calc(100% + var(--space-2));
+  left: var(--space-4);
+  min-width: 0;
+}
+
+.profile-dropdown-item {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding: var(--space-2) var(--space-3);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.profile-dropdown-item:hover {
+  background-color: var(--gray-50);
+  color: var(--text-dark);
+}
+
+.profile-dropdown-logout:hover {
+  background-color: var(--red-light);
+  color: var(--red-dark);
+}
+
 /* Separador entre grupos no menu */
 .sidebar-divider {
   height: 1px;
