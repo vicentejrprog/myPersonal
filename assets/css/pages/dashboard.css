@@ -288,3 +288,14 @@
   color: var(--cor-texto-suave);
   font-size: var(--font-size-sm);
 }
+
+.chart-placeholder--mini {
+  max-height: 180px;
+  overflow: hidden;
+  padding: 0;
+}
+
+.chart-placeholder--mini .evolution-chart {
+  min-height: 0;
+  max-height: 180px;
+}
