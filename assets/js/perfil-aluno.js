@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .map(parte => parte.charAt(0).toUpperCase())
             .join('');
 
-        const avatar = document.querySelector('.avatar');
+        const avatar = document.querySelector('.student-header .avatar');
         const nomeEl = document.querySelector('.student-name');
         const subtitulo = document.querySelector('.page-subtitle');
 

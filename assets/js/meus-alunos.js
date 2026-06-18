@@ -238,7 +238,9 @@ function renderizarAlunosDoLocalStorage() {
 }
 
 function irParaCadastro() {
-  window.location.href = 'editar-aluno.html';
+  sessionStorage.removeItem('alunoSelecionado');
+  localStorage.removeItem('mypersonal:alunoSelecionadoId');
+  window.location.href = 'editar-aluno.html?novo=1';
 }
 
 function getDadosAluno(linha) {
@@ -317,6 +319,68 @@ function configurarCredenciaisAluno() {
   atualizarLogin();
 }
 
+function getAlunoSelecionadoParaEdicao() {
+  if (!window.location.pathname.includes('editar-aluno')) return null;
+  if (new URLSearchParams(window.location.search).get('novo') === '1') return null;
+
+  if (window.AlunoContexto && typeof window.AlunoContexto.buscarAlunoAtual === 'function') {
+    var alunoContexto = window.AlunoContexto.buscarAlunoAtual({ preferirUsuarioLogado: false });
+    if (alunoContexto && (alunoContexto.id || alunoContexto.alunoId || alunoContexto.nome || alunoContexto.email)) {
+      return alunoContexto;
+    }
+  }
+
+  try {
+    var alunoSessao = JSON.parse(sessionStorage.getItem('alunoSelecionado'));
+    if (alunoSessao && (alunoSessao.id || alunoSessao.alunoId || alunoSessao.nome || alunoSessao.email)) {
+      return alunoSessao;
+    }
+  } catch (erro) {}
+
+  var alunoId = localStorage.getItem('mypersonal:alunoSelecionadoId');
+  return alunoId ? { id: alunoId, alunoId: alunoId } : null;
+}
+
+function preencherFormularioEdicaoAluno() {
+  var aluno = getAlunoSelecionadoParaEdicao();
+  if (!aluno) return;
+
+  var campos = {
+    inputNome: aluno.nome || '',
+    inputEmail: aluno.email || '',
+    inputTel: aluno.telefone || aluno.tel || '',
+    inputNasc: aluno.nascimento || aluno.nasc || '',
+    inputSexo: aluno.sexo || '',
+    inputCidade: aluno.cidade || '',
+    inputPeso: aluno.peso || '',
+    inputAltura: aluno.altura || '',
+    inputGordura: aluno.gordura || '',
+    inputObjetivo: aluno.objetivo || ''
+  };
+
+  Object.keys(campos).forEach(function(id) {
+    var campo = document.getElementById(id);
+    if (campo) campo.value = campos[id];
+  });
+
+  var botaoSalvar = document.querySelector('.btn-salvar');
+  if (botaoSalvar) botaoSalvar.textContent = 'Salvar alteracoes';
+
+  var tituloModal = document.querySelector('#overlaySuccesso .modal-titulo');
+  if (tituloModal) tituloModal.textContent = 'Aluno atualizado!';
+
+  var senha = document.getElementById('inputSenhaAluno');
+  var confirmarSenha = document.getElementById('inputConfirmarSenhaAluno');
+  if (senha) senha.placeholder = 'Deixe em branco para manter a senha atual';
+  if (confirmarSenha) confirmarSenha.placeholder = 'Repita somente se alterar a senha';
+
+  document.body.dataset.pageTitle = 'Editar Aluno - ' + (aluno.nome || 'Aluno');
+  var topbarTitle = document.querySelector('.topbar-title');
+  if (topbarTitle) topbarTitle.textContent = document.body.dataset.pageTitle;
+
+  configurarCredenciaisAluno();
+}
+
 function salvarAluno() {
   var inputNome = document.getElementById('inputNome');
   var inputEmail = document.getElementById('inputEmail');
@@ -381,6 +445,96 @@ function salvarAluno() {
   overlaySuccesso.classList.add('visivel');
   limparFormularioAluno();
   configurarCredenciaisAluno();
+}
+
+function salvarAluno() {
+  var inputNome = document.getElementById('inputNome');
+  var inputEmail = document.getElementById('inputEmail');
+  var inputSenha = document.getElementById('inputSenhaAluno');
+  var inputConfirmarSenha = document.getElementById('inputConfirmarSenhaAluno');
+  var overlaySuccesso = document.getElementById('overlaySuccesso');
+  var modalSubtitulo = document.getElementById('modalSubtitulo');
+  if (!inputNome || !overlaySuccesso || !modalSubtitulo) return;
+
+  var nome = inputNome.value.trim();
+  var email = inputEmail ? inputEmail.value.trim().toLowerCase() : '';
+  var senha = inputSenha ? inputSenha.value : '';
+  var confirmarSenha = inputConfirmarSenha ? inputConfirmarSenha.value : '';
+  var alunoEdicao = getAlunoSelecionadoParaEdicao();
+  var modoEdicao = Boolean(alunoEdicao && (alunoEdicao.id || alunoEdicao.alunoId));
+  var idEdicao = modoEdicao ? (alunoEdicao.id || alunoEdicao.alunoId) : '';
+
+  if (nome === '') {
+    alert('Por favor, informe o nome do aluno.');
+    return;
+  }
+
+  if (!validarEmailAlunoCadastro(email)) {
+    alert('Por favor, informe um e-mail valido para o login do aluno.');
+    if (inputEmail) inputEmail.focus();
+    return;
+  }
+
+  if (!modoEdicao && (!senha || senha.length < 6)) {
+    alert('A senha do aluno deve ter pelo menos 6 caracteres.');
+    if (inputSenha) inputSenha.focus();
+    return;
+  }
+
+  if (modoEdicao && senha && senha.length < 6) {
+    alert('A nova senha do aluno deve ter pelo menos 6 caracteres.');
+    if (inputSenha) inputSenha.focus();
+    return;
+  }
+
+  if (senha !== confirmarSenha) {
+    alert('A confirmacao da senha nao confere.');
+    if (inputConfirmarSenha) inputConfirmarSenha.focus();
+    return;
+  }
+
+  var usuarioExistente = encontrarUsuarioPorEmailAluno(email);
+  var emailPertenceAoAlunoAtual = usuarioExistente && [usuarioExistente.id, usuarioExistente.alunoId].includes(idEdicao);
+  if (usuarioExistente && usuarioExistente.status !== 'inativo' && !emailPertenceAoAlunoAtual) {
+    alert('Ja existe um usuario ativo cadastrado com este e-mail.');
+    if (inputEmail) inputEmail.focus();
+    return;
+  }
+
+  var dadosAluno = {
+    id: modoEdicao ? idEdicao : (usuarioExistente && usuarioExistente.id ? usuarioExistente.id : undefined),
+    alunoId: modoEdicao ? idEdicao : undefined,
+    profissionalId: alunoEdicao?.profissionalId || getProfissionalLogadoIdAlunos(),
+    nome: nome,
+    email: email,
+    senha: senha || alunoEdicao?.senha,
+    tel: document.getElementById('inputTel')?.value.trim() || '',
+    nasc: document.getElementById('inputNasc')?.value.trim() || '',
+    sexo: document.getElementById('inputSexo')?.value.trim() || '',
+    cidade: document.getElementById('inputCidade')?.value.trim() || '',
+    peso: document.getElementById('inputPeso')?.value.trim() || '',
+    altura: document.getElementById('inputAltura')?.value.trim() || '',
+    gordura: document.getElementById('inputGordura')?.value.trim() || '',
+    objetivo: document.getElementById('inputObjetivo')?.value.trim() || '',
+    status: 'ativo'
+  };
+
+  var alunoSalvo = window.AlunoContexto && typeof window.AlunoContexto.setAlunoSelecionado === 'function'
+    ? window.AlunoContexto.setAlunoSelecionado(dadosAluno)
+    : salvarAlunoNoLocalStorage(dadosAluno);
+
+  sessionStorage.setItem('alunoSelecionado', JSON.stringify(alunoSalvo));
+  localStorage.setItem('mypersonal:alunoSelecionadoId', alunoSalvo.id || alunoSalvo.alunoId || idEdicao);
+
+  modalSubtitulo.textContent = alunoSalvo.nome + (modoEdicao
+    ? ' foi atualizado com sucesso.'
+    : ' foi salvo com sucesso. Login: ' + alunoSalvo.email + '. A senha foi definida pelo profissional.');
+  overlaySuccesso.classList.add('visivel');
+
+  if (!modoEdicao) {
+    limparFormularioAluno();
+    configurarCredenciaisAluno();
+  }
 }
 
 function configurarBuscaAlunos() {
@@ -509,5 +663,6 @@ document.addEventListener('DOMContentLoaded', function() {
   configurarBuscaAlunos();
   configurarModalCadastroAluno();
   configurarCredenciaisAluno();
+  preencherFormularioEdicaoAluno();
   configurarExclusaoAluno();
 });

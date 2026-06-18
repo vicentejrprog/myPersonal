@@ -91,13 +91,26 @@ function ensureMockAccounts(requiredRole) {
   writeStorageObject(DIET_STORAGE_KEYS.users, users)
 
   const loggedUser = readStorageObject(DIET_STORAGE_KEYS.loggedUser)
-  if (!loggedUser.id || loggedUser.tipo !== requiredRole) {
-    const fallbackId = requiredRole === "profissional" ? DIET_MOCK_PROFESSIONAL_ID : DIET_MOCK_STUDENT_ID
-    writeStorageObject(DIET_STORAGE_KEYS.loggedUser, users[fallbackId])
-    return users[fallbackId]
+  const loggedIsStudent = loggedUser.tipo === "aluno" || loggedUser.perfil === "aluno"
+  const loggedIsProfessional = loggedUser.tipo === "profissional" || (loggedUser.perfil && loggedUser.perfil !== "aluno")
+
+  if (requiredRole === "aluno" && loggedIsStudent) return loggedUser
+  if (requiredRole === "profissional" && loggedIsProfessional) return loggedUser
+
+  if (requiredRole === "profissional") {
+    const professionalId = window.AlunoContexto?.getProfissionalIdAtual
+      ? window.AlunoContexto.getProfissionalIdAtual()
+      : localStorage.getItem("mypersonal:profissionalAtualId")
+
+    return {
+      ...(professionalId && users[professionalId] ? users[professionalId] : users[DIET_MOCK_PROFESSIONAL_ID]),
+      id: professionalId || DIET_MOCK_PROFESSIONAL_ID,
+      tipo: "profissional",
+      perfil: "personal-trainer",
+    }
   }
 
-  return loggedUser
+  return users[DIET_MOCK_STUDENT_ID]
 }
 
 function getStudentsForProfessional(professionalId) {
@@ -183,12 +196,45 @@ function getStudentById(studentId) {
   return null
 }
 
+function getStudentFullName(student = {}) {
+  student = student || {}
+
+  if (window.AlunoContexto && typeof window.AlunoContexto.montarNomeCompleto === "function") {
+    return window.AlunoContexto.montarNomeCompleto(student)
+  }
+
+  const name = String(student.nome || "").trim()
+  const lastName = String(student.sobrenome || "").trim()
+  if (!name) return lastName || "Aluno"
+  if (!lastName) return name
+
+  const lowerName = name.toLowerCase()
+  const lowerLastName = lastName.toLowerCase()
+  if (name.split(/\s+/).length > 1 || lowerName.endsWith(` ${lowerLastName}`) || lowerName === lowerLastName) {
+    return name
+  }
+
+  return `${name} ${lastName}`.trim()
+}
+
+function getInitials(value) {
+  return String(value || "Aluno")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((name) => name[0])
+    .join("")
+    .toUpperCase() || "AL"
+}
+
 function getSelectedStudentId(professionalId) {
   const students = getStudentsForProfessional(professionalId)
   const selectedStudentId = localStorage.getItem(DIET_STORAGE_KEYS.selectedStudent)
-  const selectedStudent = students.find((student) => student.id === selectedStudentId)
+  const selectedStudent = students.find((student) => student.id === selectedStudentId || student.alunoId === selectedStudentId)
+  const selectedFromStore = getStudentById(selectedStudentId)
 
   if (selectedStudent) return selectedStudent.id
+  if (selectedFromStore) return selectedFromStore.id || selectedFromStore.alunoId || selectedStudentId
 
   if (students.length) {
     localStorage.setItem(DIET_STORAGE_KEYS.selectedStudent, students[0].id)
@@ -198,20 +244,21 @@ function getSelectedStudentId(professionalId) {
   return null
 }
 
-function updateCurrentStudentName(studentId) {
+function updateCurrentStudentName(studentId, titlePrefix = "Perfil do Aluno") {
   const student = getStudentById(studentId)
+  const studentName = getStudentFullName(student)
   const studentNameElement = document.querySelector("[data-current-student-name]")
   const avatarElement = document.querySelector(".student-header .avatar")
 
-  if (studentNameElement && student) studentNameElement.textContent = student.nome
+  if (studentNameElement && student) studentNameElement.textContent = studentName
   if (avatarElement && student) {
-    avatarElement.textContent = student.nome
-      .split(" ")
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((name) => name[0])
-      .join("")
-      .toUpperCase()
+    avatarElement.textContent = getInitials(studentName)
+  }
+
+  if (student) {
+    document.body.dataset.pageTitle = `${titlePrefix} - ${studentName}`
+    const topbarTitle = document.querySelector(".topbar-title")
+    if (topbarTitle) topbarTitle.textContent = document.body.dataset.pageTitle
   }
 }
 
@@ -538,6 +585,7 @@ function initDietEditor() {
 
   const studentId = getSelectedStudentId(loggedUser.id)
   editorDraftDiet = studentId ? findCurrentDiet(studentId) || createEmptyDiet(studentId, loggedUser.id) : null
+  updateCurrentStudentName(studentId, "Editar Dieta")
 
   if (!editorDraftDiet) {
     renderEmptyState(document.querySelector("[data-diet-editor]"), "Nenhum aluno associado a este profissional foi encontrado.")

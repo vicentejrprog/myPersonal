@@ -93,6 +93,96 @@
       coxaEsquerda: 59,
       observacoes: "Meta parcial atingida",
     },
+    {
+      id: "avaliacao-lucas-2026-01-12",
+      alunoId: "aluno-lucas-rodrigues",
+      alunoNome: "Lucas Rodrigues",
+      data: "2026-01-12",
+      tipo: "Avaliacao corporal",
+      peso: 78,
+      altura: 175,
+      gordura: 19,
+      massaMagra: 63,
+      cintura: 88,
+      quadril: 97,
+      bracoDireito: 33,
+      bracoEsquerdo: 33,
+      coxaDireita: 55,
+      coxaEsquerda: 55,
+      observacoes: "Inicio do plano de emagrecimento",
+    },
+    {
+      id: "avaliacao-lucas-2026-03-18",
+      alunoId: "aluno-lucas-rodrigues",
+      alunoNome: "Lucas Rodrigues",
+      data: "2026-03-18",
+      tipo: "Reavaliacao",
+      peso: 75,
+      altura: 175,
+      gordura: 15,
+      massaMagra: 64,
+      cintura: 84,
+      quadril: 95,
+      bracoDireito: 34,
+      bracoEsquerdo: 34,
+      coxaDireita: 56,
+      coxaEsquerda: 56,
+      observacoes: "Boa reducao de medidas",
+    },
+    {
+      id: "avaliacao-fernanda-2026-01-20",
+      alunoId: "aluno-fernanda-santos",
+      alunoNome: "Fernanda Santos",
+      data: "2026-01-20",
+      tipo: "Avaliacao corporal",
+      peso: 58,
+      altura: 165,
+      gordura: 22,
+      massaMagra: 45,
+      cintura: 72,
+      quadril: 96,
+      bracoDireito: 27,
+      bracoEsquerdo: 27,
+      coxaDireita: 52,
+      coxaEsquerda: 52,
+      observacoes: "Inicio do acompanhamento de hipertrofia",
+    },
+    {
+      id: "avaliacao-fernanda-2026-03-22",
+      alunoId: "aluno-fernanda-santos",
+      alunoNome: "Fernanda Santos",
+      data: "2026-03-22",
+      tipo: "Reavaliacao",
+      peso: 59,
+      altura: 165,
+      gordura: 20,
+      massaMagra: 47,
+      cintura: 71,
+      quadril: 97,
+      bracoDireito: 28,
+      bracoEsquerdo: 28,
+      coxaDireita: 53,
+      coxaEsquerda: 53,
+      observacoes: "Ganho de massa magra",
+    },
+    {
+      id: "avaliacao-carlos-2026-02-05",
+      alunoId: "aluno-carlos-melo",
+      alunoNome: "Carlos Melo",
+      data: "2026-02-05",
+      tipo: "Avaliacao corporal",
+      peso: 72,
+      altura: 172,
+      gordura: 23,
+      massaMagra: 55,
+      cintura: 86,
+      quadril: 96,
+      bracoDireito: 31,
+      bracoEsquerdo: 31,
+      coxaDireita: 54,
+      coxaEsquerda: 54,
+      observacoes: "Primeira avaliacao do aluno",
+    },
   ];
 
   /* codigo para ler JSON do localStorage com valorPadrao se der erro */
@@ -114,6 +204,14 @@
   function garantirDadosIniciais() {
     if (!localStorage.getItem(CHAVES.avaliacoes)) {
       salvarJson(CHAVES.avaliacoes, avaliacoesIniciais);
+    } else {
+      const avaliacoesAtuais = lerJson(CHAVES.avaliacoes, []);
+      const idsAtuais = new Set(avaliacoesAtuais.map((avaliacao) => avaliacao.id));
+      const avaliacoesFaltantes = avaliacoesIniciais.filter((avaliacao) => !idsAtuais.has(avaliacao.id));
+
+      if (avaliacoesFaltantes.length) {
+        salvarJson(CHAVES.avaliacoes, [...avaliacoesAtuais, ...avaliacoesFaltantes]);
+      }
     }
 
     if (!localStorage.getItem(CHAVES.configuracoesAluno)) {
@@ -136,8 +234,28 @@
     return window.location.pathname.includes("/aluno/") || document.body.dataset.profile === "aluno";
   }
 
-  function formatarAlunoParaEstatistica(dados) {
-    const nomeCompleto = `${dados.nome || ""} ${dados.sobrenome || ""}`.trim() || `${alunoPadrao.nome} ${alunoPadrao.sobrenome}`;
+  function montarNomeCompletoEstatistica(dados = {}) {
+    if (window.AlunoContexto && typeof window.AlunoContexto.montarNomeCompleto === "function") {
+      return window.AlunoContexto.montarNomeCompleto(dados);
+    }
+
+    const nome = String(dados.nome || "").trim();
+    const sobrenome = String(dados.sobrenome || "").trim();
+    if (!nome) return sobrenome;
+    if (!sobrenome) return nome;
+
+    const nomeLower = nome.toLowerCase();
+    const sobrenomeLower = sobrenome.toLowerCase();
+    if (nome.split(/\s+/).length > 1 || nomeLower.endsWith(` ${sobrenomeLower}`) || nomeLower === sobrenomeLower) {
+      return nome;
+    }
+
+    return `${nome} ${sobrenome}`.trim();
+  }
+
+  function formatarAlunoParaEstatistica(dados = {}) {
+    dados = dados || {};
+    const nomeCompleto = montarNomeCompletoEstatistica(dados) || `${alunoPadrao.nome} ${alunoPadrao.sobrenome}`;
     const [nomeFallback, ...sobrenomePartes] = String(nomeCompleto).trim().split(/\s+/);
 
     return {
@@ -154,8 +272,16 @@
   /* codigo para ler o aluno selecionado ou o aluno logado, usando ID unico */
   function buscarAlunoAtual() {
     if (window.AlunoContexto && typeof window.AlunoContexto.buscarAlunoAtual === "function") {
+      if (paginaAtualEAluno() && typeof window.AlunoContexto.buscarAlunoLogado === "function") {
+        const alunoLogado = window.AlunoContexto.buscarAlunoLogado();
+        return alunoLogado
+          ? formatarAlunoParaEstatistica(alunoLogado)
+          : formatarAlunoParaEstatistica({ nome: "Aluno" });
+      }
+
       const aluno = window.AlunoContexto.buscarAlunoAtual({ preferirUsuarioLogado: paginaAtualEAluno() });
-      return formatarAlunoParaEstatistica(aluno);
+      if (aluno) return formatarAlunoParaEstatistica(aluno);
+      if (paginaAtualEAluno()) return formatarAlunoParaEstatistica({ nome: "Aluno" });
     }
 
     try {
@@ -194,14 +320,13 @@
   }
 
   function formatarNomeAluno(aluno = buscarAlunoAtual()) {
-    return `${aluno.nome || ""} ${aluno.sobrenome || ""}`.trim() || `${alunoPadrao.nome} ${alunoPadrao.sobrenome}`;
+    return montarNomeCompletoEstatistica(aluno) || `${alunoPadrao.nome} ${alunoPadrao.sobrenome}`;
   }
 
   /* codigo para refletir o aluno atual em textos das telas de profissional */
   function atualizarContextoAlunoNaTela() {
     const aluno = buscarAlunoAtual();
     const nomeAluno = formatarNomeAluno(aluno);
-    const tituloAnterior = "Eliabe Monteiro";
 
     document.querySelectorAll(".student-name").forEach((elemento) => {
       elemento.textContent = nomeAluno;
@@ -212,14 +337,10 @@
       elemento.textContent = `${partes[0]?.[0] || "A"}${partes[1]?.[0] || ""}`.toUpperCase();
     });
 
-    if (document.body.dataset.pageTitle?.includes(tituloAnterior)) {
-      document.body.dataset.pageTitle = document.body.dataset.pageTitle.replace(tituloAnterior, nomeAluno);
-    }
+    document.body.dataset.pageTitle = `Perfil do Aluno - ${nomeAluno}`;
 
     const topbarTitle = document.querySelector(".topbar-title");
-    if (topbarTitle?.textContent.includes(tituloAnterior)) {
-      topbarTitle.textContent = topbarTitle.textContent.replace(tituloAnterior, nomeAluno);
-    }
+    if (topbarTitle) topbarTitle.textContent = document.body.dataset.pageTitle;
   }
 
 

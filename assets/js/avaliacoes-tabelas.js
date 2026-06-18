@@ -5,7 +5,6 @@
 (function (app) {
   const {
     buscarAvaliacoes,
-    buscarUltimaAvaliacao,
     calcularImc,
     escaparHtml,
     formatarData,
@@ -156,13 +155,31 @@
     }
   }
 
+  /* codigo para limpar dados estaticos quando o aluno ainda nao tem avaliacoes */
+  function renderizarEstadoSemAvaliacoes() {
+    atualizarCardsMetricas(["-", "-", "-", "-"]);
+    atualizarDataUltima(null);
+
+    const dataUltima = document.querySelector(".data-ultima-avaliacao");
+    if (dataUltima) dataUltima.textContent = "Nenhuma avaliacao cadastrada para este aluno.";
+
+    const corpoTabela = document.querySelector(".tabela-avaliacoes tbody");
+    if (corpoTabela) renderizarTabelaHistorico(corpoTabela, [], false);
+
+    renderizarGraficosEvolucao(document, []);
+  }
+
   /* codigo da tela de estatisticas do aluno */
   function renderizarEstatisticaAluno() {
     if (!document.body.dataset.profile || document.body.dataset.profile !== "aluno") return;
     if (!document.querySelector(".tabela-avaliacoes")) return;
 
-    const ultima = buscarUltimaAvaliacao();
-    if (!ultima) return;
+    const avaliacoes = buscarAvaliacoes();
+    const ultima = avaliacoes[avaliacoes.length - 1] || null;
+    if (!ultima) {
+      renderizarEstadoSemAvaliacoes();
+      return;
+    }
 
     atualizarCardsMetricas([
       numeroOuTraco(ultima.peso, " kg"),
@@ -174,8 +191,8 @@
     atualizarDataUltima(ultima);
 
     const corpoTabela = document.querySelector(".tabela-avaliacoes tbody");
-    if (corpoTabela) renderizarTabelaHistorico(corpoTabela, buscarAvaliacoes(), false);
-    renderizarGraficosEvolucao(document);
+    if (corpoTabela) renderizarTabelaHistorico(corpoTabela, avaliacoes, false);
+    renderizarGraficosEvolucao(document, avaliacoes);
   }
 
   /* codigo da tela de estatisticas vista pelo profissional */
@@ -184,8 +201,12 @@
     if (!document.querySelector(".estatisticas-grid")) return;
     if (!window.location.pathname.includes("estatisticaprofissional")) return;
 
-    const ultima = buscarUltimaAvaliacao();
-    if (!ultima) return;
+    const avaliacoes = buscarAvaliacoes();
+    const ultima = avaliacoes[avaliacoes.length - 1] || null;
+    if (!ultima) {
+      renderizarEstadoSemAvaliacoes();
+      return;
+    }
 
     atualizarCardsMetricas([
       numeroOuTraco(ultima.peso, " kg"),
@@ -197,8 +218,8 @@
     atualizarDataUltima(ultima);
 
     const corpoTabela = document.querySelector(".tabela-avaliacoes tbody");
-    if (corpoTabela) renderizarTabelaHistorico(corpoTabela, buscarAvaliacoes(), false);
-    renderizarGraficosEvolucao(document);
+    if (corpoTabela) renderizarTabelaHistorico(corpoTabela, avaliacoes, false);
+    renderizarGraficosEvolucao(document, avaliacoes);
   }
 
   Object.assign(app, {
@@ -207,6 +228,7 @@
     abrirModalDetalhe,
     fecharModalDetalhe,
     atualizarDataUltima,
+    renderizarEstadoSemAvaliacoes,
     renderizarEstatisticaAluno,
     renderizarEstatisticaProfissional,
   });
