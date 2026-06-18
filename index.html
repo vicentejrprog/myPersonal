@@ -57,9 +57,12 @@
 
   <script src="assets/js/validation.js"></script>
   <script src="assets/js/auth-storage.js"></script>
+  <script src="assets/js/demo-seed.js"></script>
   <script>
     // Conta de demonstração na 1ª execução (pode remover): demo@mypersonal.com / 123456
     seedDemo();
+    // Conta demo: aluno carlos@demo.com / demo123 | profissional pierre@demo.com / demo123
+    carregarDadosDemo();
 
     setupFormValidation("login-form", {
       email: [Rules.required, Rules.email],
