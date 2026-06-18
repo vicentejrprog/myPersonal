@@ -59,8 +59,18 @@
             <hr class="separador" />
             <div class="secao-titulo">Credenciais de acesso</div>
             <div class="grade-campos">
-              <div class="campo campo-inteiro"><label>Login / e-mail</label><input type="text" placeholder="Preenchido automaticamente" disabled /></div>
-              <div class="campo campo-inteiro"><label>Senha provisória</label><input type="text" placeholder="Gerada automaticamente" disabled /></div>
+              <div class="campo campo-inteiro">
+                <label>Login / e-mail</label>
+                <input type="text" id="inputLoginAcesso" placeholder="Será o e-mail informado" disabled />
+              </div>
+              <div class="campo campo-inteiro">
+                <label>Senha do aluno</label>
+                <input type="password" id="inputSenhaAluno" placeholder="Escolha uma senha inicial" />
+              </div>
+              <div class="campo campo-inteiro">
+                <label>Confirmar senha</label>
+                <input type="password" id="inputConfirmarSenhaAluno" placeholder="Repita a senha inicial" />
+              </div>
             </div>
           </div>
         </div>
@@ -82,6 +92,8 @@
   </div>
 
   <script src="../../assets/js/sidebar-loader.js"></script>
+  <script src="../../assets/js/auth-storage.js"></script>
+  <script src="../../assets/js/aluno-contexto.js"></script>
   <script src="../../assets/js/meus-alunos.js"></script>
 </body>
 </html>

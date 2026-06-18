@@ -20,6 +20,7 @@
 .day {
   min-width: 46px;
   padding: var(--space-2) var(--space-3);
+  font: inherit;
   color: var(--text-secondary);
   background-color: var(--white);
   border: 1px solid var(--border-color);
@@ -28,6 +29,7 @@
   font-weight: var(--font-weight-medium);
   text-align: center;
   white-space: nowrap;
+  cursor: pointer;
   transition: all var(--transition-fast);
 }
 
@@ -313,6 +315,12 @@
   font-size: var(--font-size-xs);
 }
 
+.meal-editor-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 120px;
+  gap: var(--space-3);
+}
+
 .food-table .col-alimento {
   width: 33%;
 }
@@ -322,7 +330,11 @@
 }
 
 .food-table .col-numero {
-  width: 12.5%;
+  width: 10%;
+}
+
+.food-table .col-acao {
+  width: 10%;
 }
 
 .food-table th {
@@ -340,6 +352,7 @@
   vertical-align: middle;
 }
 
+.meal-editor-head input,
 .food-table input,
 .notes-area textarea {
   width: 100%;
@@ -353,6 +366,7 @@
   border-radius: var(--radius-md);
 }
 
+.meal-editor-head input:focus,
 .food-table input:focus,
 .notes-area textarea:focus {
   outline: none;
@@ -494,6 +508,10 @@
 
   .food-table {
     min-width: 560px;
+  }
+
+  .meal-editor-head {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .btn-row {

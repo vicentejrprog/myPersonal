@@ -55,6 +55,60 @@
   font-size: var(--font-size-sm, 0.875rem);
 }
 
+.chart-placeholder.has-chart {
+  display: block;
+  min-height: 0;
+  background: var(--white, var(--branco));
+  border-style: solid;
+  padding: var(--space-4, 1rem);
+}
+
+.evolution-chart {
+  width: 100%;
+  min-height: 220px;
+  display: block;
+}
+
+.chart-grid-line {
+  stroke: var(--border-light, #e5e7eb);
+  stroke-width: 1;
+}
+
+.chart-line {
+  fill: none;
+  stroke: var(--green-primary, #047857);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-point {
+  fill: var(--white, #fff);
+  stroke: var(--green-primary, #047857);
+  stroke-width: 3;
+}
+
+.chart-axis-label {
+  fill: var(--text-secondary, #6b7280);
+  font-size: 12px;
+}
+
+.chart-value {
+  fill: var(--text-dark, #111827);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.chart-empty {
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted, var(--texto-secundario));
+  font-size: var(--font-size-sm, 0.875rem);
+  text-align: center;
+}
+
 .table-wrapper {
   overflow-x: auto;
 }

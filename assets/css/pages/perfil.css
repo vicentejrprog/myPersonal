@@ -80,8 +80,8 @@
 /* Layout de colunas do conteudo do perfil. */
 .grade-conteudo {
     display: grid;
-    grid-template-columns: minmax(0, 1.85fr) minmax(280px, 1fr);
-    gap: 32px;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-8);
     width: 100%;
 }
 
@@ -119,9 +119,13 @@
     line-height: 1.5;
 }
 
-.caixa-treino-atual { height: 340px; position: relative; }
-.caixa-ultima-avaliacao { height: 150px; }
-.caixa-observacoes { height: 100px; }
+.caixa-treino-atual { max-height: 420px; min-height: 340px; overflow: auto; position: relative; }
+.caixa-ultima-avaliacao {
+    min-height: 178px;
+    height: auto;
+    overflow: visible;
+}
+.caixa-observacoes { height: 100px; resize: vertical; }
 
 .texto-interno-placeholder {
     position: absolute;
@@ -129,6 +133,82 @@
     left: 24px;
     font-style: italic;
     opacity: 0.7;
+}
+
+.perfil-grupo-treino + .perfil-grupo-treino {
+    margin-top: 20px;
+}
+
+.perfil-grupo-treino header {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+    color: var(--cor-texto);
+}
+
+.perfil-grupo-treino header span,
+.perfil-obs-grupo,
+.perfil-ultimo-registro span {
+    color: var(--cor-texto-secundario);
+    font-size: 12px;
+}
+
+.perfil-tabela-treino {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.perfil-tabela-treino th,
+.perfil-tabela-treino td {
+    border-bottom: 1px solid var(--cor-borda);
+    padding: 10px 8px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.perfil-tabela-treino th {
+    color: var(--cor-texto-secundario);
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.perfil-tabela-treino a {
+    color: var(--cor-primaria);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.perfil-obs-grupo {
+    margin-top: 10px;
+}
+
+.perfil-metricas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.perfil-metricas span {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.perfil-metricas strong {
+    color: var(--cor-texto);
+    font-size: 18px;
+}
+
+.perfil-ultimo-registro {
+    border-top: 1px solid var(--cor-borda);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 14px;
+    padding-top: 14px;
 }
 
 /* Botao principal usado nas acoes do perfil. */

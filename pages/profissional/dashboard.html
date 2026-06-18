@@ -74,135 +74,325 @@
       <!-- Agenda — próximos compromissos -->
       <section class="dashboard-box">
         <h2 class="section-title">Agenda — próximos compromissos</h2>
-        <div class="appointments-list">
-          <div class="appointment-row">
-            <span class="appointment-row-time">10/04 · 09:00</span>
-            <div>
-              <p class="appointment-row-info">Consulta com Eliabe Monteiro</p>
-              <p class="appointment-row-aluno">Avaliação corporal</p>
-            </div>
-            <span class="badge-status active">Confirmado</span>
-          </div>
-          <div class="appointment-row">
-            <span class="appointment-row-time">15/04 · 14:00</span>
-            <div>
-              <p class="appointment-row-info">Renovação de treino — Lucas Rodrigues</p>
-              <p class="appointment-row-aluno">Presencial</p>
-            </div>
-            <span class="badge-status pending">Pendente</span>
-          </div>
-          <div class="appointment-row">
-            <span class="appointment-row-time">22/04 · 08:00</span>
-            <div>
-              <p class="appointment-row-info">Avaliação corporal — Carlos Melo</p>
-              <p class="appointment-row-aluno">Online</p>
-            </div>
-            <span class="badge-status info">Online</span>
-          </div>
-        </div>
+        <div class="appointments-list" id="compromissos-list"></div>
       </section>
     </main>
   </div>
 
   <script src="../../assets/js/sidebar-loader.js"></script>
+  <script src="../../assets/js/aluno-contexto.js"></script>
+  <script src="../../assets/js/compromissos-store.js"></script>
   <script>
     // ======================================================
-    // Dashboard dinâmico — métricas e dados variam pelo perfil
-    // Atende: H3i (elementos-chave) e RNF04 (perfis distintos)
+    // Dashboard dinâmico com dados reais do localStorage
     // ======================================================
 
     const profile = (new URLSearchParams(window.location.search)).get("perfil")
                   || localStorage.getItem("mypersonal:perfil")
                   || "personal-trainer";
 
-    // Métricas por perfil
-    const METRICS = {
-      "personal-trainer": [
-        { label: "Alunos ativos", value: "12" },
-        { label: "Treinos hoje",  value: "5" },
-        { label: "Próx. treino",  value: "14:00" },
-        { label: "Mensagens",     value: "3" },
-      ],
-      "nutricionista": [
-        { label: "Alunos ativos",   value: "12" },
-        { label: "Consultas hoje",  value: "3" },
-        { label: "Próx. consulta",  value: "16:00" },
-        { label: "Mensagens",       value: "3" },
-      ],
-      "personal-nutricionista": [
-        { label: "Alunos ativos",   value: "12" },
-        { label: "Treinos hoje",    value: "5" },
-        { label: "Próx. treino",    value: "14:00" },
-        { label: "Consultas hoje",  value: "3" },
-        { label: "Próx. consulta",  value: "16:00" },
-        { label: "Mensagens",       value: "3" },
-      ],
-    };
-
-    // Dados do dia por perfil
-    const DAY_DATA = {
-      "personal-trainer": {
-        title: "Treinos do dia",
-        rows: [
-          { aluno: "Eliabe Monteiro",  tipo: "Treino A",  hora: "09:00", status: "Concluído" },
-          { aluno: "Lucas Rodrigues",  tipo: "Treino B",  hora: "11:00", status: "Em andamento" },
-          { aluno: "Fernanda Santos",  tipo: "Treino C",  hora: "14:00", status: "Agendado" },
-          { aluno: "Carlos Melo",      tipo: "Treino A",  hora: "16:30", status: "Agendado" },
-        ],
-      },
-      "nutricionista": {
-        title: "Consultas do dia",
-        rows: [
-          { aluno: "Ana Paula",        tipo: "Consulta",    hora: "10:00", status: "Confirmada" },
-          { aluno: "Eliabe Monteiro",  tipo: "Reavaliação", hora: "13:00", status: "Confirmada" },
-          { aluno: "Lucas Rodrigues",  tipo: "Consulta",    hora: "16:00", status: "Agendada" },
-        ],
-      },
-      "personal-nutricionista": {
-        title: "Consultas e Treinos do dia",
-        rows: [
-          { aluno: "Eliabe Monteiro",  tipo: "Treino A",    hora: "09:00", status: "Concluído" },
-          { aluno: "Ana Paula",        tipo: "Consulta",    hora: "10:00", status: "Confirmada" },
-          { aluno: "Lucas Rodrigues",  tipo: "Treino B",    hora: "11:00", status: "Em andamento" },
-          { aluno: "Eliabe Monteiro",  tipo: "Reavaliação", hora: "13:00", status: "Confirmada" },
-          { aluno: "Fernanda Santos",  tipo: "Treino C",    hora: "14:00", status: "Agendado" },
-          { aluno: "Lucas Rodrigues",  tipo: "Consulta",    hora: "16:00", status: "Agendada" },
-        ],
-      },
-    };
-
-    // Atualiza título da topbar
     document.body.dataset.pageTitle = "Dashboard do Profissional";
 
-    // Renderiza métricas
-    const metrics = METRICS[profile] || METRICS["personal-trainer"];
-    document.getElementById("metrics-grid").innerHTML = metrics.map((m) => `
-      <div class="metric-card">
-        <span class="metric-label">${m.label}</span>
-        <span class="metric-value">${m.value}</span>
-      </div>
-    `).join("");
-
-    // Renderiza dados do dia
-    const day = DAY_DATA[profile] || DAY_DATA["personal-trainer"];
-    document.getElementById("dia-title").textContent = day.title;
-
     const statusClasses = {
-      "Concluído": "active",
-      "Confirmada": "active",
-      "Em andamento": "info",
       "Agendado": "pending",
       "Agendada": "pending",
+      "Em andamento": "info",
+      "Concluído": "active",
+      "Concluída": "active",
+      "Confirmada": "active",
+      "Cancelado": "danger",
+      "Cancelada": "danger",
     };
 
-    document.getElementById("dia-tbody").innerHTML = day.rows.map((r) => `
-      <tr>
-        <td><strong>${r.aluno}</strong></td>
-        <td>${r.tipo}</td>
-        <td>${r.hora}</td>
-        <td><span class="badge-status ${statusClasses[r.status] || "info"}">${r.status}</span></td>
-      </tr>
-    `).join("");
+    const OPCOES_TREINO = ["Agendado", "Em andamento", "Concluído", "Cancelado"];
+    const OPCOES_CONSULTA = ["Agendada", "Confirmada", "Concluída", "Cancelada"];
+
+    function escaparHtmlDashboard(valor) {
+      return String(valor || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function lerJsonDashboard(chave, fallback) {
+      try {
+        const valor = localStorage.getItem(chave);
+        return valor ? JSON.parse(valor) : fallback;
+      } catch (err) {
+        return fallback;
+      }
+    }
+
+    function dataHojeIso() {
+      const data = new Date();
+      const y = data.getFullYear();
+      const m = String(data.getMonth() + 1).padStart(2, "0");
+      const d = String(data.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    function formatarDataBRDashboard(iso) {
+      const partes = String(iso || "").split("-");
+      return partes.length === 3 ? `${partes[2]}/${partes[1]}` : (iso || "—");
+    }
+
+    function getProfissionalIdDashboard() {
+      if (window.AlunoContexto?.getProfissionalIdAtual) {
+        return window.AlunoContexto.getProfissionalIdAtual();
+      }
+      const usuario = lerJsonDashboard("mypersonal:usuarioLogado", null);
+      return usuario?.id || "profissional-demo";
+    }
+
+    function buscarAlunosDashboard() {
+      const profissionalId = getProfissionalIdDashboard();
+      if (window.AlunoContexto?.listarAlunosDoProfissional) {
+        return window.AlunoContexto.listarAlunosDoProfissional(profissionalId)
+          .filter((aluno) => aluno.status !== "inativo");
+      }
+
+      const usuarios = lerJsonDashboard("mypersonal:usuarios", {});
+      return Object.values(usuarios || {})
+        .filter((usuario) => usuario.tipo === "aluno" || usuario.perfil === "aluno")
+        .filter((aluno) => aluno.status !== "inativo")
+        .filter((aluno) => !aluno.profissionalId || aluno.profissionalId === profissionalId);
+    }
+
+    function aliasesAlunoDashboard(aluno) {
+      if (window.AlunoContexto?.gerarAliasesAluno) return window.AlunoContexto.gerarAliasesAluno(aluno);
+      return [aluno.id, aluno.alunoId].filter(Boolean);
+    }
+
+    function buscarCompromissosDashboard(alunos) {
+      const profissionalId = getProfissionalIdDashboard();
+      const aliases = new Set(alunos.flatMap(aliasesAlunoDashboard));
+
+      return (typeof getCompromissos === "function" ? getCompromissos() : [])
+        .filter((c) => {
+          if (c.profissionalId && c.profissionalId === profissionalId) return true;
+          return aliases.has(c.alunoId);
+        });
+    }
+
+    function isCancelado(status) {
+      return status === "Cancelado" || status === "Cancelada";
+    }
+
+    function isTreino(c) {
+      return c.tipo === "treino" || c.tipo === "troca-treino";
+    }
+
+    function isConsulta(c) {
+      return c.tipo === "consulta" || c.tipo === "avaliacao" || c.tipo === "outro";
+    }
+
+    function tipoCompromissoDashboard(c) {
+      return (window.TIPO_LABEL && window.TIPO_LABEL[c.tipo]) || "Compromisso";
+    }
+
+    function opcoesParaCompromisso(c) {
+      return isTreino(c) ? OPCOES_TREINO : OPCOES_CONSULTA;
+    }
+
+    function contarMensagensDashboard() {
+      const conversasProfissional = lerJsonDashboard("mypersonal:conversas", {});
+      const conversasAluno = lerJsonDashboard("mypersonal:conversasAluno", {});
+      const contar = (obj) => Object.values(obj || {}).reduce((total, conv) => {
+        return total + ((conv.mensagens || []).length || 0);
+      }, 0);
+      return contar(conversasProfissional) + contar(conversasAluno);
+    }
+
+    function buscarProximo(compromissos, filtro) {
+      const hoje = dataHojeIso();
+      return compromissos
+        .filter((c) => !isCancelado(c.status))
+        .filter(filtro)
+        .filter((c) => c.data >= hoje)
+        .sort((a, b) => `${a.data} ${a.horaInicio}`.localeCompare(`${b.data} ${b.horaInicio}`))[0] || null;
+    }
+
+    function montarMetricas(alunos, compromissos) {
+      const hoje = dataHojeIso();
+      const compromissosHoje = compromissos.filter((c) => c.data === hoje && !isCancelado(c.status));
+      const treinosHoje = compromissosHoje.filter(isTreino).length;
+      const consultasHoje = compromissosHoje.filter(isConsulta).length;
+      const proximoTreino = buscarProximo(compromissos, isTreino);
+      const proximaConsulta = buscarProximo(compromissos, isConsulta);
+      const mensagens = contarMensagensDashboard();
+
+      if (profile === "nutricionista") {
+        return [
+          { label: "Alunos ativos", value: alunos.length },
+          { label: "Consultas hoje", value: consultasHoje },
+          { label: "Próx. consulta", value: proximaConsulta?.horaInicio || "—" },
+          { label: "Mensagens", value: mensagens },
+        ];
+      }
+
+      if (profile === "personal-nutricionista") {
+        return [
+          { label: "Alunos ativos", value: alunos.length },
+          { label: "Treinos hoje", value: treinosHoje },
+          { label: "Próx. treino", value: proximoTreino?.horaInicio || "—" },
+          { label: "Consultas hoje", value: consultasHoje },
+          { label: "Próx. consulta", value: proximaConsulta?.horaInicio || "—" },
+          { label: "Mensagens", value: mensagens },
+        ];
+      }
+
+      return [
+        { label: "Alunos ativos", value: alunos.length },
+        { label: "Treinos hoje", value: treinosHoje },
+        { label: "Próx. treino", value: proximoTreino?.horaInicio || "—" },
+        { label: "Mensagens", value: mensagens },
+      ];
+    }
+
+    function renderizarMetricas(metricas) {
+      document.getElementById("metrics-grid").innerHTML = metricas.map((m) => `
+        <div class="metric-card">
+          <span class="metric-label">${escaparHtmlDashboard(m.label)}</span>
+          <span class="metric-value">${escaparHtmlDashboard(m.value)}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderizarTabelaDia(compromissos) {
+      const hoje = dataHojeIso();
+      const tbody = document.getElementById("dia-tbody");
+
+      const titulos = {
+        "personal-trainer": "Treinos do dia",
+        "nutricionista": "Consultas do dia",
+        "personal-nutricionista": "Consultas e Treinos do dia",
+      };
+      document.getElementById("dia-title").textContent = titulos[profile] || titulos["personal-trainer"];
+
+      const linhas = compromissos
+        .filter((c) => c.data === hoje)
+        .filter((c) => profile === "nutricionista" ? isConsulta(c) : profile === "personal-trainer" ? isTreino(c) : true)
+        .sort((a, b) => String(a.horaInicio || "").localeCompare(String(b.horaInicio || "")));
+
+      if (!linhas.length) {
+        tbody.innerHTML = '<tr><td colspan="4">Nenhum compromisso cadastrado para hoje.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = linhas.map((r) => {
+        const atual = r.status || (isTreino(r) ? "Agendado" : "Agendada");
+        const opcoes = opcoesParaCompromisso(r);
+        const lista = opcoes.includes(atual) ? opcoes : [atual, ...opcoes];
+        const options = lista.map((s) => `<option value="${escaparHtmlDashboard(s)}"${s === atual ? " selected" : ""}>${escaparHtmlDashboard(s)}</option>`).join("");
+
+        return `
+          <tr>
+            <td><strong>${escaparHtmlDashboard(r.alunoNome || "Aluno")}</strong></td>
+            <td>${escaparHtmlDashboard(tipoCompromissoDashboard(r))}</td>
+            <td>${escaparHtmlDashboard(r.horaInicio || "—")}</td>
+            <td>
+              <select class="status-select ${statusClasses[atual] || "info"}" data-id="${escaparHtmlDashboard(r.id)}" aria-label="Alterar status de ${escaparHtmlDashboard(r.alunoNome || "aluno")}">
+                ${options}
+              </select>
+            </td>
+          </tr>`;
+      }).join("");
+
+      document.querySelectorAll(".status-select").forEach((sel) => {
+        sel.addEventListener("change", () => {
+          const novo = sel.value;
+          sel.className = `status-select ${statusClasses[novo] || "info"}`;
+          if (typeof atualizarStatusCompromisso === "function") {
+            atualizarStatusCompromisso(sel.dataset.id, novo);
+          }
+        });
+      });
+    }
+
+    function iniciais(nome) {
+      return String(nome || "A")
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((parte) => parte[0]?.toUpperCase() || "")
+        .join("") || "AL";
+    }
+
+    function renderizarAlunosRecentes(alunos) {
+      const lista = document.querySelector(".recent-list");
+      if (!lista) return;
+
+      if (!alunos.length) {
+        lista.innerHTML = '<div class="recent-item"><span class="recent-item-name">Nenhum aluno cadastrado.</span></div>';
+        return;
+      }
+
+      lista.innerHTML = alunos.slice(0, 4).map((aluno) => `
+        <div class="recent-item">
+          <div class="avatar avatar-sm">${escaparHtmlDashboard(iniciais(aluno.nome || aluno.email))}</div>
+          <span class="recent-item-name">${escaparHtmlDashboard(aluno.nome || aluno.email)}</span>
+          <a href="perfilaluno.html" class="recent-item-action" data-aluno-id="${escaparHtmlDashboard(aluno.id || aluno.alunoId)}">ver perfil</a>
+        </div>
+      `).join("");
+
+      lista.querySelectorAll("[data-aluno-id]").forEach((link) => {
+        link.addEventListener("click", (event) => {
+          const aluno = alunos.find((item) => [item.id, item.alunoId].includes(link.dataset.alunoId));
+          if (aluno && window.AlunoContexto?.setAlunoSelecionado) {
+            event.preventDefault();
+            window.AlunoContexto.setAlunoSelecionado(aluno);
+            window.location.href = "perfilaluno.html";
+          }
+        });
+      });
+    }
+
+    function renderizarProximosCompromissos(compromissos) {
+      const lista = document.getElementById("compromissos-list");
+      const hoje = dataHojeIso();
+      const proximos = compromissos
+        .filter((c) => c.data >= hoje)
+        .sort((a, b) => `${a.data} ${a.horaInicio}`.localeCompare(`${b.data} ${b.horaInicio}`))
+        .slice(0, 6);
+
+      if (!proximos.length) {
+        lista.innerHTML = '<div class="appointment-row"><div><p class="appointment-row-info">Nenhum compromisso futuro cadastrado.</p></div></div>';
+        return;
+      }
+
+      lista.innerHTML = proximos.map((c) => {
+        const detalhes = [
+          c.local,
+          window.RECORRENCIA_LABEL && window.RECORRENCIA_LABEL[c.recorrencia],
+          window.LEMBRETE_LABEL && window.LEMBRETE_LABEL[c.lembrete],
+          c.descricao,
+        ].filter(Boolean).join(" · ");
+
+        return `
+          <div class="appointment-row">
+            <span class="appointment-row-time">${escaparHtmlDashboard(formatarDataBRDashboard(c.data))} · ${escaparHtmlDashboard(c.horaInicio || "—")}</span>
+            <div>
+              <p class="appointment-row-info">${escaparHtmlDashboard(tipoCompromissoDashboard(c))} — ${escaparHtmlDashboard(c.alunoNome || "Aluno")}</p>
+              <p class="appointment-row-aluno">${escaparHtmlDashboard(detalhes || "Sem detalhes")}</p>
+            </div>
+            <span class="badge-status ${statusClasses[c.status] || "info"}">${escaparHtmlDashboard(c.status || "Agendado")}</span>
+          </div>`;
+      }).join("");
+    }
+
+    function renderizarDashboard() {
+      const alunos = buscarAlunosDashboard();
+      const compromissos = buscarCompromissosDashboard(alunos);
+
+      renderizarMetricas(montarMetricas(alunos, compromissos));
+      renderizarTabelaDia(compromissos);
+      renderizarAlunosRecentes(alunos);
+      renderizarProximosCompromissos(compromissos);
+    }
+
+    renderizarDashboard();
   </script>
 </body>
 </html>

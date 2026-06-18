@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/pages/compromisso.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
 </head>
-<body data-page-title="Novo Compromisso" data-back="agenda.html|Agenda">
+<body data-page-title="Novo Compromisso" data-back="agenda.html|Agenda" data-active-page="agenda">
   <div class="app-layout">
     <div id="sidebar-mount"></div>
     <div id="topbar-mount"></div>
@@ -43,11 +43,6 @@
                 <label for="aluno">Aluno</label>
                 <select id="aluno" name="aluno" class="form-control">
                   <option value="">Selecionar aluno...</option>
-                  <option value="1">Eliabe Monteiro</option>
-                  <option value="2">Lucas Rodrigues</option>
-                  <option value="3">Ana Paula Silva</option>
-                  <option value="4">Fernanda Santos</option>
-                  <option value="5">Carlos Melo</option>
                 </select>
                 <span class="error-message"></span>
               </div>
@@ -118,7 +113,7 @@
             <h2 class="form-section-title">Posição no calendário</h2>
 
             <div class="mini-calendar">
-              <div class="mini-calendar-header">Abril 2026</div>
+              <div class="mini-calendar-header" id="mini-calendar-header">Mês atual</div>
               <div class="mini-calendar-grid">
                 <div class="mini-calendar-cell is-day-name">D</div>
                 <div class="mini-calendar-cell is-day-name">S</div>
@@ -133,12 +128,7 @@
 
             <h2 class="form-section-title" style="margin-top: var(--space-6);">Alunos com agenda neste horário</h2>
             <div class="conflicts-list">
-              <div class="conflict-item">
-                <strong>Eliabe Monteiro</strong> · 09:00–10:00
-              </div>
-              <div class="conflict-item">
-                <strong>Ana Paula</strong> · 10:30–11:30
-              </div>
+              <!-- preenchido pelo localStorage -->
             </div>
           </div>
         </div>
@@ -154,28 +144,148 @@
   </div>
 
   <script src="../../assets/js/sidebar-loader.js"></script>
+  <script src="../../assets/js/auth-storage.js"></script>
+  <script src="../../assets/js/aluno-contexto.js"></script>
   <script src="../../assets/js/validation.js"></script>
+  <script src="../../assets/js/compromissos-store.js"></script>
   <script>
-    // Preenche o mini calendário
-    const miniGrid = document.querySelector(".mini-calendar-grid");
-    const startOffset = 3;  // abril 2026 começa quarta
-    const daysInMonth = 30;
-    const conflicts = [10, 15]; // dias com conflito (exemplo)
+    function buscarAlunosDoLocalStorage() {
+      if (window.AlunoContexto && typeof window.AlunoContexto.listarAlunosDoProfissional === "function") {
+        return window.AlunoContexto.listarAlunosDoProfissional()
+          .filter((usuario) => usuario.status !== "inativo")
+          .map((usuario) => ({
+            id: usuario.id || usuario.alunoId || usuario.email,
+            nome: usuario.nome || usuario.email,
+          }))
+          .filter((aluno) => aluno.id && aluno.nome);
+      }
 
-    for (let i = 0; i < startOffset; i++) {
-      const empty = document.createElement("div");
-      empty.className = "mini-calendar-cell";
-      miniGrid.appendChild(empty);
+      if (typeof getUsuarios !== "function") return [];
+
+      return Object.values(getUsuarios())
+        .filter((usuario) => usuario.tipo === "aluno" || usuario.perfil === "aluno")
+        .filter((usuario) => usuario.status !== "inativo")
+        .map((usuario) => ({
+          id: usuario.id || usuario.alunoId || usuario.email,
+          nome: usuario.nome || usuario.email,
+        }))
+        .filter((aluno) => aluno.id && aluno.nome);
     }
 
-    for (let day = 1; day <= daysInMonth; day++) {
-      const cell = document.createElement("div");
-      cell.className = "mini-calendar-cell";
-      cell.textContent = day;
-      if (day === 22) cell.classList.add("is-selected");
-      if (conflicts.includes(day)) cell.classList.add("has-conflict");
-      miniGrid.appendChild(cell);
+    function carregarAlunosNoSelect() {
+      const alunoSelect = document.getElementById("aluno");
+      const alunos = buscarAlunosDoLocalStorage();
+
+      alunoSelect.innerHTML = '<option value="">Selecionar aluno...</option>';
+
+      if (!alunos.length) {
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "Nenhum aluno ativo cadastrado";
+        option.disabled = true;
+        alunoSelect.appendChild(option);
+        return;
+      }
+
+      alunos.forEach((aluno) => {
+        const option = document.createElement("option");
+        option.value = aluno.id;
+        option.textContent = aluno.nome;
+        alunoSelect.appendChild(option);
+      });
     }
+
+    carregarAlunosNoSelect();
+
+    const NOMES_MES_MINI = [
+      "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+      "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
+
+    function pad2Mini(numero) {
+      return String(numero).padStart(2, "0");
+    }
+
+    function isoMini(data) {
+      return `${data.getFullYear()}-${pad2Mini(data.getMonth() + 1)}-${pad2Mini(data.getDate())}`;
+    }
+
+    function getProfissionalAtualCompromisso() {
+      return window.AlunoContexto?.getProfissionalIdAtual?.() || "profissional-demo";
+    }
+
+    function compromissosDoProfissional() {
+      const profissionalId = getProfissionalAtualCompromisso();
+      const lista = typeof getCompromissos === "function" ? getCompromissos() : [];
+      return lista.filter((compromisso) => {
+        return !compromisso.profissionalId || compromisso.profissionalId === profissionalId;
+      });
+    }
+
+    function renderizarMiniCalendario() {
+      const miniGrid = document.querySelector(".mini-calendar-grid");
+      const miniHeader = document.getElementById("mini-calendar-header");
+      if (!miniGrid || !miniHeader) return;
+
+      const hoje = new Date();
+      const ano = hoje.getFullYear();
+      const mes = hoje.getMonth();
+      const offset = new Date(ano, mes, 1).getDay();
+      const daysInMonth = new Date(ano, mes + 1, 0).getDate();
+      const compromissos = compromissosDoProfissional();
+      const datasComCompromisso = new Set(compromissos.map((c) => c.data));
+
+      miniHeader.textContent = `${NOMES_MES_MINI[mes]} ${ano}`;
+      miniGrid.querySelectorAll(".mini-calendar-cell:not(.is-day-name)").forEach((cell) => cell.remove());
+
+      for (let i = 0; i < offset; i++) {
+        const empty = document.createElement("div");
+        empty.className = "mini-calendar-cell";
+        miniGrid.appendChild(empty);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const cell = document.createElement("div");
+        const data = new Date(ano, mes, day);
+        const dateKey = isoMini(data);
+        cell.className = "mini-calendar-cell";
+        cell.textContent = day;
+        if (day === hoje.getDate()) cell.classList.add("is-selected");
+        if (datasComCompromisso.has(dateKey)) cell.classList.add("has-conflict");
+        miniGrid.appendChild(cell);
+      }
+    }
+
+    function renderizarListaConflitos() {
+      const lista = document.querySelector(".conflicts-list");
+      if (!lista) return;
+
+      const compromissos = compromissosDoProfissional()
+        .filter((c) => c.status !== "Cancelado" && c.status !== "Cancelada")
+        .sort((a, b) => `${a.data} ${a.horaInicio}`.localeCompare(`${b.data} ${b.horaInicio}`))
+        .slice(0, 4);
+
+      lista.innerHTML = "";
+
+      if (!compromissos.length) {
+        const item = document.createElement("div");
+        item.className = "conflict-item";
+        item.textContent = "Nenhum compromisso cadastrado.";
+        lista.appendChild(item);
+        return;
+      }
+
+      compromissos.forEach((compromisso) => {
+        const item = document.createElement("div");
+        item.className = "conflict-item";
+        const data = compromisso.data ? compromisso.data.split("-").reverse().join("/") : "Data não informada";
+        item.innerHTML = `<strong>${compromisso.alunoNome || "Aluno"}</strong> · ${data} · ${compromisso.horaInicio || "--:--"}–${compromisso.horaFim || "--:--"}`;
+        lista.appendChild(item);
+      });
+    }
+
+    renderizarMiniCalendario();
+    renderizarListaConflitos();
 
     // Validação do formulário
     setupFormValidation("compromisso-form", {
@@ -185,7 +295,33 @@
       "hora-inicio": [Rules.required],
       "hora-fim":    [Rules.required],
     }, () => {
-      alert("Compromisso salvo com sucesso!");
+      const alunoSelect = document.getElementById("aluno");
+      const alunoNome = alunoSelect.options[alunoSelect.selectedIndex].text;
+      const horaInicio = document.getElementById("hora-inicio").value;
+      const horaFim = document.getElementById("hora-fim").value;
+
+      if (horaFim <= horaInicio) {
+        alert("A hora final deve ser maior que a hora inicial.");
+        return;
+      }
+
+      const ocorrencias = adicionarCompromissosRecorrentes({
+        tipo: document.getElementById("tipo").value,
+        alunoId: alunoSelect.value,
+        alunoNome: alunoNome,
+        profissionalId: window.AlunoContexto?.getProfissionalIdAtual?.() || "profissional-demo",
+        data: document.getElementById("data").value,          // YYYY-MM-DD
+        horaInicio: horaInicio,
+        horaFim: horaFim,
+        local: document.getElementById("local").value,
+        recorrencia: document.getElementById("recorrencia").value,
+        lembrete: document.getElementById("lembrete").value,
+        descricao: document.getElementById("descricao").value,
+        status: "Agendado",
+      });
+
+      const total = ocorrencias.length;
+      alert(total > 1 ? `${total} compromissos recorrentes salvos com sucesso!` : "Compromisso salvo com sucesso!");
       window.location.href = "agenda.html";
     });
   </script>

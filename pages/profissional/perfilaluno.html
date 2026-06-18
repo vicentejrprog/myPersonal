@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="../../assets/css/pages/acoes-profissional.css">
     <link rel="stylesheet" href="../../assets/css/responsive.css">
 </head>
-<body data-profile="personal-trainer" data-active-page="alunos" data-page-title="Perfil do Aluno — Eliabe Monteiro" data-back="meus-alunos.html|Meus Alunos">
+<body data-profile="personal-trainer" data-active-page="alunos" data-page-title="Perfil do Aluno - Eliabe Monteiro" data-back="meus-alunos.html|Meus Alunos">
 
     <div class="app-layout">
         <div id="sidebar-mount"></div>
@@ -28,23 +28,23 @@
                     <p class="page-subtitle">Aluno desde: Jan/2025</p>
                 </div>
                 <div class="perfil-acoes">
-                    <button class="btn btn-secondary" onclick="window.location.href='editar-aluno.html'">✏ Editar</button>
-                    <button class="btn-excluir">🗑 Excluir</button>
+                    <button class="btn btn-secondary" onclick="window.location.href='editar-aluno.html'">Editar</button>
+                    <button class="btn-excluir">Excluir</button>
                 </div>
             </header>
 
-            <nav class="tabs" aria-label="Seções do aluno">
+            <nav class="tabs" aria-label="Secoes do aluno">
                 <a href="perfilaluno.html" class="tab active">Treino</a>
                 <a href="perfil_do_aluno_aba_dieta.html" class="tab">Dieta</a>
-                <a href="estatisticaprofissional.html" class="tab">Estatísticas</a>
+                <a href="estatisticaprofissional.html" class="tab">Estatisticas</a>
             </nav>
 
             <div class="grade-conteudo">
                 <div class="coluna-esquerda">
                     <section class="secao-conteudo">
                         <h2 class="titulo-secao">Treino atual</h2>
-                        <div class="caixa-conteudo caixa-treino-atual">
-                            <div class="texto-interno-placeholder">[tabela: exercício / séries / reps / observação / vídeo]</div>
+                        <div class="caixa-conteudo caixa-treino-atual" id="perfilTreinoAtual">
+                            <div class="texto-interno-placeholder">Nenhum treino cadastrado.</div>
                         </div>
                         <a href="editar-treino.html" class="botao-principal-arredondado" style="text-decoration: none; text-align: center;">Editar treino</a>
                     </section>
@@ -53,17 +53,15 @@
                 <div class="coluna-direita">
                     <section class="secao-conteudo">
                         <h2 class="titulo-secao">Última avaliação</h2>
-                        <div class="caixa-conteudo caixa-ultima-avaliacao">
-                            [medidas corporais: peso / %gordura / etc]
+                        <div class="caixa-conteudo caixa-ultima-avaliacao" id="perfilUltimaAvaliacao">
+                            Sem dados de avaliação.
                         </div>
                     </section>
 
                     <section class="secao-conteudo">
-                        <h2 class="titulo-secao">Observações do profissional</h2>
-                        <div class="caixa-conteudo caixa-observacoes">
-                            [textarea: observações livres]
-                        </div>
-                        <button type="button" class="botao-principal-arredondado">Salvar</button>
+                        <h2 class="titulo-secao">Observacoes do profissional</h2>
+                        <textarea class="caixa-conteudo caixa-observacoes" id="perfilObservacoesProf" placeholder="Observacoes livres sobre o aluno..."></textarea>
+                        <button type="button" class="botao-principal-arredondado" id="btnSalvarObservacoesPerfil">Salvar</button>
                     </section>
                 </div>
             </div>
@@ -72,6 +70,9 @@
     </div>
 
     <script src="../../assets/js/sidebar-loader.js"></script>
+  <script src="../../assets/js/aluno-contexto.js"></script>
     <script src="../../assets/js/meus-alunos.js"></script>
+    <script src="../../assets/js/avaliacoes-dados.js"></script>
+    <script src="../../assets/js/perfil-aluno.js"></script>
 </body>
 </html>

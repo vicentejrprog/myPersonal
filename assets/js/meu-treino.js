@@ -1,19 +1,11 @@
-﻿document.addEventListener('DOMContentLoaded', () => {
-
-    // Dados simulados do treino configurado pelo profissional.
-    const dadosDoTreinoConfigurado = {
-        "1": {
-            nome: "Supino reto com barra",
-            series: "4",
-            reps: "12",
-            descanso: "60s",
-            dica: "Obs: Manter escápulas retraídas durante o movimento.",
-            videoUrl: "https://www.youtube.com/watch?v=sqOw2Y6Ju9A"
-        }
+document.addEventListener('DOMContentLoaded', () => {
+    const TREINOS_STORAGE_KEY = 'mypersonal_treinos_alunos';
+    const REGISTROS_STORAGE_KEY = 'mypersonal_registros_treino';
+    const ALUNO_PADRAO = {
+        id: 'aluno-eliabe-monteiro',
+        nome: 'Eliabe Monteiro'
     };
 
-
-    // Referencias dos elementos exibidos dentro do modal de video.
     const modal = document.getElementById('modal-video');
     const modalTitulo = document.getElementById('modal-titulo-exercicio');
     const modalIframe = document.getElementById('modal-iframe-video');
@@ -23,144 +15,346 @@
     const modalDica = document.getElementById('modal-dica-professor');
     const btnFecharX = document.getElementById('btn-fechar-x');
     const btnFecharMaster = document.getElementById('btn-fechar-master');
-
-    // Controles principais usados para registrar o estado do treino do aluno.
-    const abas = document.querySelectorAll('.aba-treino');
+    const containerExercicios = document.getElementById('container-exercicios');
+    const grupoAbas = document.querySelector('.grupo-abas-treino');
     const botoesStatus = document.querySelectorAll('.btn-status');
     const botoesEmoji = document.querySelectorAll('.btn-emoji-aluno');
     const botaoSalvar = document.querySelector('.botao-principal-verde');
     const botaoCancelar = document.querySelector('.btn-voltar-simples');
-    const botoesPlay = document.querySelectorAll('.btn-play');
+    const campoObservacoes = document.querySelector('.card-observacoes textarea');
+    const dataAtual = formatarData(new Date());
+
+    let treinoAtual = carregarTreinoAluno();
+    let grupoAtivoId = treinoAtual.grupos[0].id;
+    let statusAtual = 'Em andamento';
+    let sensacaoSelecionada = 'Boa';
+
+    document.querySelector('.valor-data').textContent = dataAtual;
+
+    function slugify(valor) {
+        return String(valor || '')
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '') || 'aluno-padrao';
+    }
+
+    function formatarData(data) {
+        return data.toLocaleDateString('pt-BR');
+    }
+
+    function lerJson(chave, fallback) {
+        try {
+            return JSON.parse(localStorage.getItem(chave)) || fallback;
+        } catch (erro) {
+            console.warn('Nao foi possivel ler ' + chave + '.', erro);
+            return fallback;
+        }
+    }
+
+    function salvarJson(chave, valor) {
+        localStorage.setItem(chave, JSON.stringify(valor));
+    }
+
+    function getAlunoAtual() {
+        if (window.AlunoContexto && typeof window.AlunoContexto.buscarAlunoAtual === 'function') {
+            return window.AlunoContexto.buscarAlunoAtual({ preferirUsuarioLogado: true });
+        }
+
+        try {
+            const usuarioLogado = JSON.parse(localStorage.getItem('mypersonal:usuarioLogado'));
+            if (usuarioLogado && (usuarioLogado.tipo === 'aluno' || usuarioLogado.perfil === 'aluno')) {
+                return usuarioLogado;
+            }
+
+            const alunoSessao = JSON.parse(sessionStorage.getItem('alunoSelecionado'));
+            if (alunoSessao && alunoSessao.nome) return alunoSessao;
+        } catch (erro) {
+            console.warn('Nao foi possivel ler o aluno atual.', erro);
+        }
+
+        return ALUNO_PADRAO;
+    }
+
+    function getAlunoId() {
+        const aluno = getAlunoAtual();
+        return aluno.id || aluno.alunoId || slugify(aluno.nome) || ALUNO_PADRAO.id;
+    }
+
+    function getAliasesAluno() {
+        const aluno = getAlunoAtual();
+        if (window.AlunoContexto && typeof window.AlunoContexto.gerarAliasesAluno === 'function') {
+            return window.AlunoContexto.gerarAliasesAluno(aluno);
+        }
+
+        return [getAlunoId(), slugify(aluno.nome), 'aluno-' + slugify(aluno.nome), ALUNO_PADRAO.id, 'eliabe-monteiro'].filter(Boolean);
+    }
 
 
-    // Guarda as escolhas atuais para compor o payload no momento de salvar.
-    let statusAtual = "Em andamento";
-    let sensacaoSelecionada = "Boa";
+    function criarTreinoPadrao() {
+        const aluno = getAlunoAtual();
+
+        return {
+            alunoId: getAlunoId(),
+            alunoNome: aluno.nome || ALUNO_PADRAO.nome,
+            atualizadoEm: new Date().toISOString(),
+            grupos: [
+                {
+                    id: 'treino-a',
+                    aba: 'Treino A',
+                    nome: 'Treino A - Peito e Triceps',
+                    musculatura: 'Peitoral, Triceps, Ombros',
+                    observacoesGerais: 'Priorizar execucao controlada e registrar cargas ao final.',
+                    exercicios: [
+                        {
+                            nome: 'Supino reto com barra',
+                            series: '4',
+                            reps: '12',
+                            descanso: '60s',
+                            observacao: 'Manter escapulas retraidas',
+                            video: 'https://www.youtube.com/watch?v=sqOw2Y6Ju9A'
+                        }
+                    ]
+                },
+                {
+                    id: 'treino-b',
+                    aba: 'Treino B',
+                    nome: 'Treino B - Costas e Biceps',
+                    musculatura: 'Costas, Biceps',
+                    observacoesGerais: '',
+                    exercicios: []
+                },
+                {
+                    id: 'treino-c',
+                    aba: 'Treino C',
+                    nome: 'Treino C - Pernas',
+                    musculatura: 'Quadriceps, Posterior, Gluteos',
+                    observacoesGerais: '',
+                    exercicios: []
+                }
+            ]
+        };
+    }
 
 
-    // Alterna a aba ativa e indica qual treino deve ser carregado.
-    abas.forEach(aba => {
-        aba.addEventListener('click', () => {
-            abas.forEach(a => a.classList.remove('ativa'));
-            aba.classList.add('ativa');
-            console.log(`Carregando dados do: ${aba.textContent}`);
+    function carregarTreinoAluno() {
+        const alunoId = getAlunoId();
+        const aluno = getAlunoAtual();
+        const treinos = lerJson(TREINOS_STORAGE_KEY, {});
+        const aliases = getAliasesAluno();
+        const chaveExistente = aliases.find(chave => treinos[chave] && treinos[chave].grupos && treinos[chave].grupos.length);
+
+        if (chaveExistente) {
+            const treinoEncontrado = { ...treinos[chaveExistente], alunoId, alunoNome: aluno.nome || treinos[chaveExistente].alunoNome };
+            treinos[alunoId] = treinoEncontrado;
+            salvarJson(TREINOS_STORAGE_KEY, treinos);
+            return treinoEncontrado;
+        }
+
+        const treinoPadrao = criarTreinoPadrao();
+        treinos[alunoId] = treinoPadrao;
+        salvarJson(TREINOS_STORAGE_KEY, treinos);
+        return treinoPadrao;
+    }
+
+
+    function getGrupoAtivo() {
+        return treinoAtual.grupos.find(grupo => grupo.id === grupoAtivoId) || treinoAtual.grupos[0];
+    }
+
+    function renderizarAbas() {
+        grupoAbas.innerHTML = '';
+
+        treinoAtual.grupos.forEach(grupo => {
+            const botao = document.createElement('button');
+            botao.type = 'button';
+            botao.className = 'aba-treino' + (grupo.id === grupoAtivoId ? ' ativa' : '');
+            botao.textContent = grupo.aba || grupo.nome || 'Treino';
+            botao.dataset.grupoId = grupo.id;
+            botao.addEventListener('click', () => {
+                grupoAtivoId = grupo.id;
+                renderizarAbas();
+                renderizarExercicios();
+                carregarRegistroDoDia();
+            });
+            grupoAbas.appendChild(botao);
         });
-    });
+    }
 
+    function renderizarExercicios() {
+        const grupo = getGrupoAtivo();
+        const exercicios = grupo.exercicios || [];
+        containerExercicios.innerHTML = '';
 
-    // Atualiza o status geral do treino selecionado pelo aluno.
+        if (!exercicios.length) {
+            containerExercicios.innerHTML = '<div class="linha-treino linha-vazia"><div class="w-ex">Nenhum exercicio cadastrado neste grupo.</div></div>';
+            return;
+        }
+
+        exercicios.forEach((exercicio, index) => {
+            const linha = document.createElement('div');
+            linha.className = 'linha-treino';
+            linha.dataset.index = String(index);
+            linha.innerHTML = `
+                <div class="w-num">${index + 1}</div>
+                <div class="w-ex">
+                    <div class="nome-treino">${exercicio.nome || 'Exercicio sem nome'}</div>
+                    <div class="dica-prof">${exercicio.observacao || 'Sem observacao do profissional'}</div>
+                </div>
+                <div class="w-alvo alvo-series">${exercicio.series || '-'}</div>
+                <div class="w-alvo alvo-reps">${exercicio.reps || '-'}</div>
+                <div class="w-alvo alvo-desc">${exercicio.descanso || '-'}</div>
+                <div class="w-video">
+                    <button type="button" class="btn-play" ${exercicio.video ? '' : 'disabled'}>▶</button>
+                </div>
+                <div class="w-reg"><input type="text" class="registro-series" placeholder="-"></div>
+                <div class="w-reg"><input type="text" class="registro-reps" placeholder="-"></div>
+                <div class="w-reg"><input type="text" class="registro-carga" placeholder="-"></div>
+                <div class="w-obs"><input type="text" class="registro-obs" placeholder="Notas..."></div>
+            `;
+
+            const botaoVideo = linha.querySelector('.btn-play');
+            botaoVideo.addEventListener('click', () => abrirModalVideo(exercicio));
+            containerExercicios.appendChild(linha);
+        });
+    }
+
+    function converterYoutubeParaEmbed(url) {
+        if (!url) return '';
+        let embedUrl = url.trim();
+
+        if (embedUrl.includes('youtube.com/watch?v=')) {
+            const videoId = embedUrl.split('v=')[1].split('&')[0];
+            embedUrl = 'https://www.youtube.com/embed/' + videoId;
+        } else if (embedUrl.includes('youtu.be/')) {
+            const videoId = embedUrl.split('youtu.be/')[1].split('?')[0];
+            embedUrl = 'https://www.youtube.com/embed/' + videoId;
+        }
+
+        return embedUrl;
+    }
+
+    function abrirModalVideo(exercicio) {
+        modalTitulo.textContent = exercicio.nome || 'Exercicio';
+        modalSeries.textContent = exercicio.series || '-';
+        modalReps.textContent = exercicio.reps || '-';
+        modalDesc.textContent = exercicio.descanso || '-';
+        modalDica.textContent = exercicio.observacao || 'Sem observacao do profissional.';
+        modalIframe.setAttribute('src', converterYoutubeParaEmbed(exercicio.video));
+        modal.classList.add('ativo');
+    }
+
+    function fecharModalVideo() {
+        modal.classList.remove('ativo');
+        modalIframe.setAttribute('src', '');
+    }
+
+    function getChaveRegistro() {
+        return [getAlunoId(), getGrupoAtivo().id, dataAtual].join('|');
+    }
+
+    function lerRegistros() {
+        return lerJson(REGISTROS_STORAGE_KEY, {});
+    }
+
+    function carregarRegistroDoDia() {
+        const registros = lerRegistros();
+        const registro = registros[getChaveRegistro()];
+
+        if (!registro) {
+            campoObservacoes.value = '';
+            return;
+        }
+
+        statusAtual = registro.statusTreino || statusAtual;
+        sensacaoSelecionada = registro.sensacaoFinal || sensacaoSelecionada;
+        campoObservacoes.value = registro.feedbackGeral || '';
+
+        botoesStatus.forEach(botao => {
+            botao.classList.toggle('ativo', botao.textContent.trim() === statusAtual);
+        });
+
+        botoesEmoji.forEach(botao => {
+            const texto = botao.querySelector('.emoji-txt').textContent.trim();
+            botao.classList.toggle('selecionado', texto === sensacaoSelecionada);
+        });
+
+        document.querySelectorAll('.linha-treino').forEach((linha, index) => {
+            const exercicio = registro.exercicios[index];
+            if (!exercicio) return;
+
+            linha.querySelector('.registro-series').value = exercicio.seriesRealizadas || '';
+            linha.querySelector('.registro-reps').value = exercicio.repeticoesRealizadas || '';
+            linha.querySelector('.registro-carga').value = exercicio.cargaUtilizada || '';
+            linha.querySelector('.registro-obs').value = exercicio.observacaoParticular || '';
+        });
+    }
+
     botoesStatus.forEach(botao => {
         botao.addEventListener('click', () => {
             botoesStatus.forEach(b => b.classList.remove('ativo'));
             botao.classList.add('ativo');
-            statusAtual = botao.textContent;
-            console.log(`Status alterado para: ${statusAtual}`);
+            statusAtual = botao.textContent.trim();
         });
     });
 
-
-    // Registra a sensacao do aluno ao final ou durante o treino.
     botoesEmoji.forEach(botao => {
         botao.addEventListener('click', () => {
             botoesEmoji.forEach(b => b.classList.remove('selecionado'));
             botao.classList.add('selecionado');
-            sensacaoSelecionada = botao.querySelector('.emoji-txt').textContent;
-            console.log(`Sensação selecionada: ${sensacaoSelecionada}`);
+            sensacaoSelecionada = botao.querySelector('.emoji-txt').textContent.trim();
         });
     });
-
-
-    // Abre o modal do exercicio com os dados e o video configurados.
-    botoesPlay.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const linha = e.target.closest('.linha-treino');
-            const idExercicio = linha.getAttribute('data-id');
-
-            const dadosConfigurados = dadosDoTreinoConfigurado[idExercicio];
-
-            if (dadosConfigurados) {
-                // Preenche o modal com as informacoes do exercicio escolhido.
-                modalTitulo.textContent = dadosConfigurados.nome;
-                modalSeries.textContent = dadosConfigurados.series;
-                modalReps.textContent = dadosConfigurados.reps;
-                modalDesc.textContent = dadosConfigurados.descanso;
-                modalDica.textContent = dadosConfigurados.dica;
-
-                // Converte link comum do YouTube para o formato usado pelo iframe.
-                let embedUrl = dadosConfigurados.videoUrl;
-                if (embedUrl.includes("youtube.com/watch?v=")) {
-                    const videoId = embedUrl.split("v=")[1].split("&")[0];
-                    embedUrl = `https://www.youtube.com/embed/${videoId}`;
-                } else if (embedUrl.includes("youtu.be/")) {
-                    const videoId = embedUrl.split("youtu.be/")[1].split("?")[0];
-                    embedUrl = `https://www.youtube.com/embed/${videoId}`;
-                }
-
-                modalIframe.setAttribute('src', embedUrl);
-
-                modal.classList.add('ativo');
-            }
-        });
-    });
-
-
-    // Fecha o modal e interrompe o video em reproducao.
-    function fecharModalVideo() {
-        modal.classList.remove('ativo');
-        modalIframe.setAttribute('src', ''); // Limpa o src para cortar o audio imediatamente.
-    }
 
     btnFecharX.addEventListener('click', fecharModalVideo);
     btnFecharMaster.addEventListener('click', fecharModalVideo);
-
-    // Fecha o modal quando o clique acontece fora do card principal.
-    modal.addEventListener('click', (e) => {
-        if(e.target === modal) fecharModalVideo();
+    modal.addEventListener('click', event => {
+        if (event.target === modal) fecharModalVideo();
     });
 
-
-    // Coleta os dados preenchidos pelo aluno e monta o registro do treino.
     botaoSalvar.addEventListener('click', () => {
-        const linhasTreino = document.querySelectorAll('.linha-treino');
+        const grupo = getGrupoAtivo();
         const registroExercicios = [];
 
-        linhasTreino.forEach(linha => {
-            const nomeExercicios = linha.querySelector('.nome-treino').textContent;
-            const inputs = linha.querySelectorAll('.w-reg input');
-            const obsInput = linha.querySelector('.w-obs input');
+        document.querySelectorAll('.linha-treino').forEach((linha, index) => {
+            const exercicioBase = grupo.exercicios[index];
+            if (!exercicioBase) return;
 
-            const dadosExercicio = {
-                exercicio: nomeExercicios,
-                seriesRealizadas: inputs[0].value || null,
-                repeticoesRealizadas: inputs[1].value || null,
-                cargaUtilizada: inputs[2].value || null,
-                observacaoParticular: obsInput.value || ""
-            };
-
-            registroExercicios.push(dadosExercicio);
+            registroExercicios.push({
+                exercicio: exercicioBase.nome,
+                seriesRealizadas: linha.querySelector('.registro-series').value.trim() || null,
+                repeticoesRealizadas: linha.querySelector('.registro-reps').value.trim() || null,
+                cargaUtilizada: linha.querySelector('.registro-carga').value.trim() || null,
+                observacaoParticular: linha.querySelector('.registro-obs').value.trim()
+            });
         });
 
-        const observacoesGerais = document.querySelector('textarea').value;
-
-
-        const payloadTreino = {
-            treinoSelecionado: document.querySelector('.aba-treino.ativa').textContent,
+        const registros = lerRegistros();
+        registros[getChaveRegistro()] = {
+            alunoId: getAlunoId(),
+            alunoNome: getAlunoAtual().nome || treinoAtual.alunoNome || ALUNO_PADRAO.nome,
+            treinoSelecionado: grupo.aba || grupo.nome,
+            grupoId: grupo.id,
             statusTreino: statusAtual,
-            dataRegistro: document.querySelector('.valor-data').textContent,
+            dataRegistro: dataAtual,
             exercicios: registroExercicios,
-            feedbackGeral: observacoesGerais,
-            sensacaoFinal: sensacaoSelecionada
+            feedbackGeral: campoObservacoes.value.trim(),
+            sensacaoFinal: sensacaoSelecionada,
+            salvoEm: new Date().toISOString()
         };
 
-        console.log("Enviando dados do treino para o servidor:", payloadTreino);
-        alert("Registro de treino salvo com sucesso!");
+        salvarJson(REGISTROS_STORAGE_KEY, registros);
+        alert('Registro de treino salvo com sucesso!');
     });
 
-
-    // Cancela as alteracoes e retorna para a pagina principal do treino.
     botaoCancelar.addEventListener('click', () => {
-        if(confirm("Deseja realmente descartar as alterações do treino de hoje?")) {
-            window.location.href = "meu-treino.html";
+        if (confirm('Deseja realmente descartar as alteracoes do treino de hoje?')) {
+            carregarRegistroDoDia();
         }
     });
+
+    renderizarAbas();
+    renderizarExercicios();
+    carregarRegistroDoDia();
 });

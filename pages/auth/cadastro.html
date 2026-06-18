@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar conta | MyPersonal</title>
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/variables.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body>
+  <main class="auth-layout">
+    <section class="auth-brand">
+      <div class="logo">MP</div>
+      <h1 class="app-name">MyPersonal</h1>
+      <p class="app-tagline">Plataforma de acompanhamento entre profissionais e alunos</p>
+
+      <div class="auth-features">
+        <div class="auth-feature"><span class="auth-feature-check">✓</span><span>Treinos e dietas centralizados</span></div>
+        <div class="auth-feature"><span class="auth-feature-check">✓</span><span>Agenda e evolução física</span></div>
+        <div class="auth-feature"><span class="auth-feature-check">✓</span><span>Histórico e comunicação</span></div>
+      </div>
+    </section>
+
+    <section class="auth-form-wrapper">
+      <h2 class="auth-form-title">Criar conta</h2>
+      <p class="auth-form-subtitle">Preencha seus dados para começar</p>
+
+      <form id="cadastro-form" novalidate>
+        <div class="input-group">
+          <label for="nome">Nome completo</label>
+          <input type="text" id="nome" name="nome" class="form-control" placeholder="Seu nome" autocomplete="name">
+          <span class="error-message"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" class="form-control" placeholder="seu@email.com" autocomplete="email">
+          <span class="error-message"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="senha">Senha</label>
+          <div class="password-wrapper">
+            <input type="password" id="senha" name="senha" class="form-control" placeholder="••••••••" autocomplete="new-password">
+            <button type="button" class="password-toggle" aria-label="Mostrar senha">👁</button>
+          </div>
+          <span class="error-message"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="confirmar-senha">Confirmar senha</label>
+          <div class="password-wrapper">
+            <input type="password" id="confirmar-senha" name="confirmar-senha" class="form-control" placeholder="••••••••" autocomplete="new-password">
+            <button type="button" class="password-toggle" aria-label="Mostrar senha">👁</button>
+          </div>
+          <span class="error-message"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Criar conta</button>
+
+        <div class="auth-divider">ou</div>
+
+        <a href="../../index.html" class="btn btn-secondary btn-block btn-lg">Já tenho conta</a>
+      </form>
+    </section>
+  </main>
+
+  <script src="../../assets/js/validation.js"></script>
+  <script src="../../assets/js/auth-storage.js"></script>
+  <script>
+    setupFormValidation("cadastro-form", {
+      nome: [Rules.required, Rules.minLength(3)],
+      email: [Rules.required, Rules.email],
+      senha: [Rules.required, Rules.password],
+      "confirmar-senha": [Rules.required, Rules.match("senha", "senha")],
+    }, () => {
+      const usuario = {
+        nome: document.getElementById("nome").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        senha: document.getElementById("senha").value,
+      };
+
+      const resultado = cadastrarUsuario(usuario);
+      if (!resultado.ok) {
+        const campo = document.getElementById("email");
+        const grupo = campo.closest(".input-group");
+        campo.classList.add("is-invalid");
+        grupo.classList.add("has-error");
+        grupo.querySelector(".error-message").textContent = resultado.erro;
+        return;
+      }
+
+      // Conta criada com sucesso: volta para o login
+      window.location.href = "../../index.html";
+    });
+
+    // Toggle de visibilidade para os dois campos de senha
+    document.querySelectorAll(".password-toggle").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const input = btn.parentElement.querySelector(".form-control");
+        const oculta = input.type === "password";
+        input.type = oculta ? "text" : "password";
+        btn.textContent = oculta ? "🙈" : "👁";
+        btn.setAttribute("aria-label", oculta ? "Ocultar senha" : "Mostrar senha");
+      });
+    });
+  </script>
+</body>
+</html>

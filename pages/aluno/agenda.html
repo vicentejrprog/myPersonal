@@ -12,28 +12,21 @@
   <link rel="stylesheet" href="../../assets/css/pages/agenda.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
 </head>
-<body data-page-title="Agenda">
+<body data-profile="aluno" data-page-title="Agenda" data-active-page="agenda">
   <div class="app-layout">
     <div id="sidebar-mount"></div>
     <div id="topbar-mount"></div>
 
     <main class="main-content">
-
-      <!-- Header da agenda: navegação de mês + novo compromisso -->
       <div class="agenda-header">
         <h2 class="agenda-month" id="month-label">Mês atual</h2>
         <div class="agenda-nav">
           <button class="btn-icon" id="prev-month" aria-label="Mês anterior">‹</button>
           <button class="btn-icon" id="next-month" aria-label="Próximo mês">›</button>
         </div>
-        <a href="cadastrar-compromisso.html" class="btn btn-primary agenda-new-btn">
-          + Novo compromisso
-        </a>
       </div>
 
-      <!-- Calendário -->
       <div class="calendar" id="calendar">
-        <!-- Cabeçalho dos dias -->
         <div class="calendar-day-header">Dom</div>
         <div class="calendar-day-header">Seg</div>
         <div class="calendar-day-header">Ter</div>
@@ -41,10 +34,8 @@
         <div class="calendar-day-header">Qui</div>
         <div class="calendar-day-header">Sex</div>
         <div class="calendar-day-header">Sáb</div>
-        <!-- Células do mês geradas via JS -->
       </div>
 
-      <!-- Legenda -->
       <div class="calendar-legend">
         <div class="legend-item"><span class="legend-dot" style="background:var(--green-primary)"></span> Treino</div>
         <div class="legend-item"><span class="legend-dot" style="background:var(--blue-info-dark)"></span> Consulta</div>
@@ -52,7 +43,6 @@
         <div class="legend-item"><span class="legend-dot" style="background:var(--gray-500)"></span> Outro</div>
         <div class="legend-item"><span class="legend-dot" style="background:var(--cor-erro-texto)"></span> Feriado</div>
       </div>
-
     </main>
   </div>
 
@@ -70,7 +60,6 @@
       "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
     ];
 
-
     const feriadosPorAno = {};           // cache por ano (evita refetch ao navegar)
     const calendar = document.getElementById("calendar");
     const monthLabel = document.getElementById("month-label");
@@ -82,34 +71,28 @@
     const pad2 = (n) => String(n).padStart(2, "0");
     const isoDate = (y, m, d) => `${y}-${pad2(m + 1)}-${pad2(d)}`;
 
-    function getProfissionalAtualAgenda() {
-      if (window.AlunoContexto && typeof window.AlunoContexto.getProfissionalIdAtual === "function") {
-        return window.AlunoContexto.getProfissionalIdAtual();
+    function buscarAlunoAtualAgenda() {
+      if (window.AlunoContexto && typeof window.AlunoContexto.buscarAlunoAtual === "function") {
+        return window.AlunoContexto.buscarAlunoAtual({ preferirUsuarioLogado: true });
       }
 
       try {
         const usuario = JSON.parse(localStorage.getItem("mypersonal:usuarioLogado"));
-        return usuario?.id || "profissional-demo";
-      } catch (err) {
-        return "profissional-demo";
-      }
+        if (usuario && (usuario.tipo === "aluno" || usuario.perfil === "aluno")) return usuario;
+      } catch (err) {}
+
+      return null;
     }
 
-    function compromissoDoProfissionalAtual(compromisso) {
-      const profissionalId = getProfissionalAtualAgenda();
-      if (compromisso.profissionalId) return compromisso.profissionalId === profissionalId;
+    function pertenceAoAlunoAtual(compromisso) {
+      const aluno = buscarAlunoAtualAgenda();
+      if (!aluno) return false;
 
-      const alunos = window.AlunoContexto?.listarAlunosDoProfissional
-        ? window.AlunoContexto.listarAlunosDoProfissional(profissionalId, { incluirInativos: true })
-        : [];
+      const aliases = window.AlunoContexto && typeof window.AlunoContexto.gerarAliasesAluno === "function"
+        ? window.AlunoContexto.gerarAliasesAluno(aluno)
+        : [aluno.id, aluno.alunoId].filter(Boolean);
 
-      const aliases = new Set(alunos.flatMap((aluno) => {
-        return window.AlunoContexto?.gerarAliasesAluno
-          ? window.AlunoContexto.gerarAliasesAluno(aluno)
-          : [aluno.id, aluno.alunoId].filter(Boolean);
-      }));
-
-      return aliases.has(compromisso.alunoId);
+      return aliases.includes(compromisso.alunoId);
     }
 
     function renderCalendar(year, month) {
@@ -122,7 +105,6 @@
       const daysInMonth = new Date(year, month + 1, 0).getDate();
       const hoje = new Date();
 
-      // Células vazias antes do dia 1
       for (let i = 0; i < offset; i++) {
         const empty = document.createElement("div");
         empty.className = "calendar-cell is-empty";
@@ -144,15 +126,14 @@
         num.textContent = day;
         cell.appendChild(num);
 
-        // Compromissos criados no cadastro (store compartilhado)
+        // Compromissos do store — mostra somente compromissos do aluno logado
         compromissosDoDia(dateKey)
-          .filter(compromissoDoProfissionalAtual)
-          .forEach((c) => cell.appendChild(criarEventoCompromisso(c, false)));
+          .filter(pertenceAoAlunoAtual)
+          .forEach((c) => cell.appendChild(criarEventoCompromisso(c, true)));
 
         calendar.appendChild(cell);
       }
 
-      // Feriados: assíncrono, não bloqueia o render do calendário
       decorarFeriados(year, month);
     }
 
@@ -191,6 +172,16 @@
       viewMonth++;
       if (viewMonth > 11) { viewMonth = 0; viewYear++; }
       renderCalendar(viewYear, viewMonth);
+    });
+
+    // Cancelamento: o aluno clica no compromisso para marcar como cancelado
+    calendar.addEventListener("click", (e) => {
+      const ev = e.target.closest(".is-cancelavel");
+      if (!ev) return;
+      if (confirm("Deseja cancelar este compromisso? Ele continuará visível para o profissional como Cancelado.")) {
+        cancelarCompromisso(ev.dataset.compromissoId);
+        renderCalendar(viewYear, viewMonth);
+      }
     });
 
     renderCalendar(viewYear, viewMonth);

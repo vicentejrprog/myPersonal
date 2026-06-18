@@ -12,15 +12,13 @@
   <link rel="stylesheet" href="../../assets/css/pages/mensagens.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
 </head>
-<body data-page-title="Mensagens" class="chat-page">
+<body data-profile="aluno" data-page-title="Mensagens" data-active-page="mensagens" class="chat-page">
   <div class="app-layout">
     <div id="sidebar-mount"></div>
     <div id="topbar-mount"></div>
 
     <main class="main-content">
       <div class="chat-layout">
-
-        <!-- Coluna esq: lista de conversas -->
         <aside class="chat-list">
           <div class="chat-search">
             <input type="search" class="form-control" placeholder="Buscar conversa...">
@@ -29,7 +27,6 @@
           <div class="chat-conversations" id="chat-conversations"></div>
         </aside>
 
-        <!-- Coluna dir: conversa ativa -->
         <section class="chat-thread">
           <header class="chat-thread-header">
             <p class="name" id="thread-name">Conversa</p>
@@ -43,31 +40,26 @@
             <button type="submit" class="btn btn-primary">Enviar</button>
           </form>
         </section>
-
       </div>
     </main>
   </div>
 
   <script src="../../assets/js/sidebar-loader.js"></script>
   <script>
-    // ======================================================
-    // Chat: histórico por conversa + persistência (localStorage)
-    // ======================================================
+    const STORAGE_KEY_ALUNO = "mypersonal:conversasAluno";
 
-    const STORAGE_KEY = "mypersonal:conversas";
-
-    function carregarConversas() {
+    function carregarConversasAluno() {
       try {
-        const salvo = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        const salvo = JSON.parse(localStorage.getItem(STORAGE_KEY_ALUNO));
         return salvo && typeof salvo === "object" ? salvo : {};
       } catch (err) {
         return {};
       }
     }
 
-    function salvarConversas() {
+    function salvarConversasAluno() {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(conversas));
+        localStorage.setItem(STORAGE_KEY_ALUNO, JSON.stringify(conversasAluno));
       } catch (err) {}
     }
 
@@ -111,17 +103,19 @@
       return item;
     }
 
-    const conversas = carregarConversas();
-    let ativaConv = Object.keys(conversas)[0] || "";
-
-    const messagesEl = document.getElementById("chat-messages");
+    const form = document.getElementById("chat-form");
+    const input = document.getElementById("message-input");
+    const messages = document.getElementById("chat-messages");
     const conversasEl = document.getElementById("chat-conversations");
     const threadName = document.getElementById("thread-name");
     const statusEl = document.querySelector(".chat-thread-header .status");
 
+    const conversasAluno = carregarConversasAluno();
+    let conversaAtiva = Object.keys(conversasAluno)[0] || "";
+
     function renderizarListaConversas() {
       conversasEl.innerHTML = "";
-      const ids = Object.keys(conversas);
+      const ids = Object.keys(conversasAluno);
 
       if (!ids.length) {
         const vazio = document.createElement("div");
@@ -132,21 +126,21 @@
       }
 
       ids.forEach((id) => {
-        const item = criarItemConversa(id, conversas[id]);
-        if (id === ativaConv) item.classList.add("is-active");
+        const item = criarItemConversa(id, conversasAluno[id]);
+        if (id === conversaAtiva) item.classList.add("is-active");
         conversasEl.appendChild(item);
       });
     }
 
     function selecionarConversa(convId) {
-      ativaConv = convId;
+      conversaAtiva = convId;
       renderizarListaConversas();
-      renderThread(ativaConv);
+      renderThread(convId);
     }
 
     function renderThread(convId) {
-      const conv = conversas[convId];
-      messagesEl.innerHTML = "";
+      const conv = conversasAluno[convId];
+      messages.innerHTML = "";
 
       if (!conv) {
         threadName.textContent = "Conversa";
@@ -170,30 +164,32 @@
         bubble.textContent = m.texto;
 
         msg.append(autor, bubble);
-        messagesEl.appendChild(msg);
+        messages.appendChild(msg);
       });
 
-      messagesEl.scrollTop = messagesEl.scrollHeight;
+      messages.scrollTop = messages.scrollHeight;
     }
-
-    const form = document.getElementById("chat-form");
-    const input = document.getElementById("message-input");
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const texto = input.value.trim();
-      if (!texto || !ativaConv || !conversas[ativaConv]) return;
+      const text = input.value.trim();
+      if (!text || !conversaAtiva || !conversasAluno[conversaAtiva]) return;
 
-      conversas[ativaConv].mensagens ||= [];
-      conversas[ativaConv].mensagens.push({ autor: "Você", texto, tipo: "sent" });
-      salvarConversas();
+      conversasAluno[conversaAtiva].mensagens ||= [];
+      conversasAluno[conversaAtiva].mensagens.push({
+        autor: "Você",
+        texto: text,
+        tipo: "sent",
+      });
+
+      salvarConversasAluno();
       renderizarListaConversas();
-      renderThread(ativaConv);
+      renderThread(conversaAtiva);
       input.value = "";
     });
 
     renderizarListaConversas();
-    renderThread(ativaConv);
+    renderThread(conversaAtiva);
   </script>
 </body>
 </html>

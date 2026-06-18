@@ -12,95 +12,32 @@
   <link rel="stylesheet" href="../../assets/css/pages/dietas.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
 </head>
-<body data-profile="aluno" data-page-title="Minha Dieta" data-active-page="minha-dieta">
+<body data-profile="aluno" data-page-title="Minha Dieta" data-active-page="minha-dieta" data-diet-page="student">
   <div class="app-layout">
     <div id="sidebar-mount"></div>
     <div id="topbar-mount"></div>
 
     <main class="main-content">
-      <div class="days" aria-label="Dias da semana">
-        <span class="day active">Segunda</span>
-        <span class="day">Terça</span>
-        <span class="day">Quarta</span>
-        <span class="day">Quinta</span>
-        <span class="day">Sexta</span>
-        <span class="day">Sáb</span>
-        <span class="day">Dom</span>
-      </div>
+      <div class="days" aria-label="Dias da semana"></div>
 
-      <div class="meal-grid">
-        <article class="card meal-card">
-          <h2>Café da manhã</h2>
-          <span class="time">07:00</span>
-          <div class="muted-box">
-            <ul class="food-list">
-              <li><span>Aveia com banana</span><strong>40g / 210 kcal</strong></li>
-              <li><span>Iogurte natural</span><strong>170g / 120 kcal</strong></li>
-              <li><span>Café sem açúcar</span><strong>1 xíc. / 5 kcal</strong></li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="card meal-card">
-          <h2>Almoço</h2>
-          <span class="time">12:00</span>
-          <div class="muted-box">
-            <ul class="food-list">
-              <li><span>Arroz integral</span><strong>100g / 130 kcal</strong></li>
-              <li><span>Frango grelhado</span><strong>120g / 198 kcal</strong></li>
-              <li><span>Salada com azeite</span><strong>1 prato / 90 kcal</strong></li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="card meal-card">
-          <h2>Lanche da tarde</h2>
-          <span class="time">16:00</span>
-          <div class="muted-box">
-            <ul class="food-list">
-              <li><span>Pão integral</span><strong>2 fatias / 140 kcal</strong></li>
-              <li><span>Queijo branco</span><strong>40g / 95 kcal</strong></li>
-              <li><span>Maçã</span><strong>1 un. / 70 kcal</strong></li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="card meal-card">
-          <h2>Jantar</h2>
-          <span class="time">20:00</span>
-          <div class="muted-box">
-            <ul class="food-list">
-              <li><span>Omelete de legumes</span><strong>2 ovos / 230 kcal</strong></li>
-              <li><span>Batata doce</span><strong>100g / 118 kcal</strong></li>
-              <li><span>Brócolis cozido</span><strong>80g / 28 kcal</strong></li>
-            </ul>
-          </div>
-        </article>
-      </div>
+      <div class="meal-grid" data-diet-meals></div>
 
       <h2 class="section-title">Totais do dia</h2>
-      <div class="totals">
-        <div class="total-card"><span>Calorias</span><strong>1.434 kcal</strong></div>
-        <div class="total-card"><span>Proteína</span><strong>118 g</strong></div>
-        <div class="total-card"><span>Carboidrato</span><strong>152 g</strong></div>
-        <div class="total-card"><span>Gordura</span><strong>42 g</strong></div>
-      </div>
+      <div class="totals" data-diet-totals></div>
 
       <div class="two-columns">
         <section>
           <h2 class="section-title">Observações do profissional sobre a dieta</h2>
           <div class="muted-box medium-box">
-            <p class="note-box">Beber pelo menos 2 litros de água ao longo do dia. Evitar refrigerante durante a semana e avisar o profissional caso sinta fome fora dos horários planejados.</p>
+            <p class="note-box" data-diet-notes></p>
           </div>
         </section>
 
         <section>
           <h2 class="section-title">Histórico de dietas anteriores</h2>
           <div class="muted-box medium-box">
-            <ul class="history-list">
-              <li><span>12/05/2026</span><strong>Dieta atual</strong></li>
-              <li><span>28/04/2026</span><strong>Versão 02</strong></li>
-              <li><span>10/04/2026</span><strong>Versão 01</strong></li>
+            <ul class="history-list" data-diet-history>
+              <li><span>-</span><strong>Sem histórico</strong></li>
             </ul>
           </div>
         </section>
@@ -109,5 +46,7 @@
   </div>
 
   <script src="../../assets/js/sidebar-loader.js"></script>
+  <script src="../../assets/js/aluno-contexto.js"></script>
+  <script src="../../assets/js/dietas-storage.js"></script>
 </body>
 </html>

@@ -12,135 +12,34 @@
   <link rel="stylesheet" href="../../assets/css/pages/dietas.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
 </head>
-<body data-page-title="Editar Dieta — Eliabe Monteiro" data-back="perfil_do_aluno_aba_dieta.html|Perfil do Aluno" data-active-page="alunos">
+<body data-page-title="Editar Dieta — Eliabe Monteiro" data-back="perfil_do_aluno_aba_dieta.html|Perfil do Aluno" data-active-page="alunos" data-diet-page="professional-editor">
   <div class="app-layout">
     <div id="sidebar-mount"></div>
     <div id="topbar-mount"></div>
 
     <main class="main-content">
       <h2 class="section-title">Dia da semana</h2>
-      <div class="days">
-        <span class="day active">Seg</span>
-        <span class="day">Ter</span>
-        <span class="day">Qua</span>
-        <span class="day">Qui</span>
-        <span class="day">Sex</span>
-        <span class="day">Sáb</span>
-        <span class="day">Dom</span>
+      <div class="days" data-short-days="true"></div>
+
+      <div class="btn-row align-start">
+        <button class="btn btn-secondary" type="button" data-add-meal>Adicionar refeição</button>
       </div>
 
-      <div class="editor-grid">
-        <article class="card editor-card">
-          <h2>Café da manhã — 07h</h2>
-          <table class="food-table">
-            <colgroup>
-              <col class="col-alimento">
-              <col class="col-qtd">
-              <col class="col-numero">
-              <col class="col-numero">
-              <col class="col-numero">
-              <col class="col-numero">
-            </colgroup>
-            <thead>
-              <tr><th>Alimento</th><th>Qtd</th><th>Cal</th><th>Prot</th><th>Carb</th><th>Gord</th></tr>
-            </thead>
-            <tbody>
-              <tr><td><input type="text" aria-label="Alimento" value="Aveia com banana"></td><td><input type="text" aria-label="Quantidade" value="40g"></td><td><input type="number" aria-label="Calorias" value="210"></td><td><input type="number" aria-label="Proteína" value="6"></td><td><input type="number" aria-label="Carboidrato" value="35"></td><td><input type="number" aria-label="Gordura" value="4"></td></tr>
-              <tr><td><input type="text" aria-label="Alimento" value="Iogurte natural"></td><td><input type="text" aria-label="Quantidade" value="170g"></td><td><input type="number" aria-label="Calorias" value="120"></td><td><input type="number" aria-label="Proteína" value="10"></td><td><input type="number" aria-label="Carboidrato" value="9"></td><td><input type="number" aria-label="Gordura" value="5"></td></tr>
-              <tr><td><input type="text" aria-label="Alimento" value="Café sem açúcar"></td><td><input type="text" aria-label="Quantidade" value="1 xíc."></td><td><input type="number" aria-label="Calorias" value="5"></td><td><input type="number" aria-label="Proteína" value="0"></td><td><input type="number" aria-label="Carboidrato" value="0"></td><td><input type="number" aria-label="Gordura" value="0"></td></tr>
-            </tbody>
-          </table>
-          <div class="meal-actions"><button class="add-food" type="button" data-add-food>+ Adicionar alimento</button><span data-total-refeicao>Total: 335 kcal</span></div>
-        </article>
-
-        <article class="card editor-card">
-          <h2>Almoço — 12h</h2>
-          <table class="food-table">
-            <colgroup>
-              <col class="col-alimento">
-              <col class="col-qtd">
-              <col class="col-numero">
-              <col class="col-numero">
-              <col class="col-numero">
-              <col class="col-numero">
-            </colgroup>
-            <thead>
-              <tr><th>Alimento</th><th>Qtd</th><th>Cal</th><th>Prot</th><th>Carb</th><th>Gord</th></tr>
-            </thead>
-            <tbody>
-              <tr><td><input type="text" aria-label="Alimento" value="Arroz integral"></td><td><input type="text" aria-label="Quantidade" value="100g"></td><td><input type="number" aria-label="Calorias" value="130"></td><td><input type="number" aria-label="Proteína" value="3"></td><td><input type="number" aria-label="Carboidrato" value="28"></td><td><input type="number" aria-label="Gordura" value="1"></td></tr>
-              <tr><td><input type="text" aria-label="Alimento" value="Frango grelhado"></td><td><input type="text" aria-label="Quantidade" value="120g"></td><td><input type="number" aria-label="Calorias" value="198"></td><td><input type="number" aria-label="Proteína" value="37"></td><td><input type="number" aria-label="Carboidrato" value="0"></td><td><input type="number" aria-label="Gordura" value="5"></td></tr>
-              <tr><td><input type="text" aria-label="Alimento" value="Salada com azeite"></td><td><input type="text" aria-label="Quantidade" value="1 prato"></td><td><input type="number" aria-label="Calorias" value="90"></td><td><input type="number" aria-label="Proteína" value="2"></td><td><input type="number" aria-label="Carboidrato" value="4"></td><td><input type="number" aria-label="Gordura" value="7"></td></tr>
-            </tbody>
-          </table>
-          <div class="meal-actions"><button class="add-food" type="button" data-add-food>+ Adicionar alimento</button><span data-total-refeicao>Total: 418 kcal</span></div>
-        </article>
-
-        <article class="card editor-card">
-          <h2>Lanche — 16h</h2>
-          <table class="food-table">
-            <colgroup>
-              <col class="col-alimento">
-              <col class="col-qtd">
-              <col class="col-numero">
-              <col class="col-numero">
-              <col class="col-numero">
-              <col class="col-numero">
-            </colgroup>
-            <thead>
-              <tr><th>Alimento</th><th>Qtd</th><th>Cal</th><th>Prot</th><th>Carb</th><th>Gord</th></tr>
-            </thead>
-            <tbody>
-              <tr><td><input type="text" aria-label="Alimento" value="Pão integral"></td><td><input type="text" aria-label="Quantidade" value="2 fatias"></td><td><input type="number" aria-label="Calorias" value="140"></td><td><input type="number" aria-label="Proteína" value="6"></td><td><input type="number" aria-label="Carboidrato" value="24"></td><td><input type="number" aria-label="Gordura" value="2"></td></tr>
-              <tr><td><input type="text" aria-label="Alimento" value="Queijo branco"></td><td><input type="text" aria-label="Quantidade" value="40g"></td><td><input type="number" aria-label="Calorias" value="95"></td><td><input type="number" aria-label="Proteína" value="8"></td><td><input type="number" aria-label="Carboidrato" value="1"></td><td><input type="number" aria-label="Gordura" value="6"></td></tr>
-              <tr><td><input type="text" aria-label="Alimento" value="Maçã"></td><td><input type="text" aria-label="Quantidade" value="1 un."></td><td><input type="number" aria-label="Calorias" value="70"></td><td><input type="number" aria-label="Proteína" value="0"></td><td><input type="number" aria-label="Carboidrato" value="19"></td><td><input type="number" aria-label="Gordura" value="0"></td></tr>
-            </tbody>
-          </table>
-          <div class="meal-actions"><button class="add-food" type="button" data-add-food>+ Adicionar alimento</button><span data-total-refeicao>Total: 305 kcal</span></div>
-        </article>
-
-        <article class="card editor-card">
-          <h2>Jantar — 20h</h2>
-          <table class="food-table">
-            <colgroup>
-              <col class="col-alimento">
-              <col class="col-qtd">
-              <col class="col-numero">
-              <col class="col-numero">
-              <col class="col-numero">
-              <col class="col-numero">
-            </colgroup>
-            <thead>
-              <tr><th>Alimento</th><th>Qtd</th><th>Cal</th><th>Prot</th><th>Carb</th><th>Gord</th></tr>
-            </thead>
-            <tbody>
-              <tr><td><input type="text" aria-label="Alimento" value="Omelete de legumes"></td><td><input type="text" aria-label="Quantidade" value="2 ovos"></td><td><input type="number" aria-label="Calorias" value="230"></td><td><input type="number" aria-label="Proteína" value="18"></td><td><input type="number" aria-label="Carboidrato" value="6"></td><td><input type="number" aria-label="Gordura" value="15"></td></tr>
-              <tr><td><input type="text" aria-label="Alimento" value="Batata doce"></td><td><input type="text" aria-label="Quantidade" value="100g"></td><td><input type="number" aria-label="Calorias" value="118"></td><td><input type="number" aria-label="Proteína" value="2"></td><td><input type="number" aria-label="Carboidrato" value="27"></td><td><input type="number" aria-label="Gordura" value="0"></td></tr>
-              <tr><td><input type="text" aria-label="Alimento" value="Brócolis cozido"></td><td><input type="text" aria-label="Quantidade" value="80g"></td><td><input type="number" aria-label="Calorias" value="28"></td><td><input type="number" aria-label="Proteína" value="3"></td><td><input type="number" aria-label="Carboidrato" value="5"></td><td><input type="number" aria-label="Gordura" value="0"></td></tr>
-            </tbody>
-          </table>
-          <div class="meal-actions"><button class="add-food" type="button" data-add-food>+ Adicionar alimento</button><span data-total-refeicao>Total: 376 kcal</span></div>
-        </article>
-      </div>
+      <div class="editor-grid" data-diet-editor></div>
 
       <h2 class="section-title">Totais do dia</h2>
-      <div class="totals">
-        <div class="total-card"><span>Calorias</span><strong data-total-calorias>1.434 kcal</strong></div>
-        <div class="total-card"><span>Proteína</span><strong data-total-proteina>95 g</strong></div>
-        <div class="total-card"><span>Carboidrato</span><strong data-total-carboidrato>158 g</strong></div>
-        <div class="total-card"><span>Gordura</span><strong data-total-gordura>45 g</strong></div>
-      </div>
+      <div class="totals" data-diet-totals></div>
 
       <div class="notes-area">
         <label class="section-title" for="observacoes">Observações gerais da dieta</label>
-        <textarea id="observacoes" placeholder="Orientações gerais, restrições, metas nutricionais">Beber pelo menos 2 litros de água ao longo do dia. Evitar refrigerante durante a semana e avisar o profissional caso sinta fome fora dos horários planejados.</textarea>
+        <textarea id="observacoes" placeholder="Orientações gerais, restrições, metas nutricionais"></textarea>
       </div>
 
       <div class="btn-row">
         <a class="btn btn-secondary" href="perfil_do_aluno_aba_dieta.html">Cancelar</a>
         <div class="btn-group">
-          <button class="btn btn-secondary" type="button" data-open-diet-modal>Salvar dieta</button>
-          <button class="btn btn-primary" type="button" data-open-diet-modal>Salvar e notificar aluno</button>
+          <button class="btn btn-secondary" type="button" data-save-diet>Salvar dieta</button>
+          <button class="btn btn-primary" type="button" data-save-diet>Salvar e notificar aluno</button>
         </div>
       </div>
     </main>
@@ -159,42 +58,7 @@
   </div>
 
   <script src="../../assets/js/sidebar-loader.js"></script>
-  <script src="../../assets/js/calorias-dieta.js"></script>
-  <script>
-    const dietNotes = document.getElementById("observacoes");
-    const dietModal = document.getElementById("diet-success-modal");
-    const dietModalButtons = document.querySelectorAll("[data-open-diet-modal]");
-
-    function resizeDietNotes() {
-      dietNotes.style.height = "auto";
-      dietNotes.style.height = `${dietNotes.scrollHeight}px`;
-    }
-
-    function openDietModal() {
-      dietModal.classList.add("is-open");
-      dietModal.setAttribute("aria-hidden", "false");
-      dietModal.querySelector(".modal-card a").focus();
-    }
-
-    function closeDietModal() {
-      dietModal.classList.remove("is-open");
-      dietModal.setAttribute("aria-hidden", "true");
-    }
-
-    dietModalButtons.forEach((button) => {
-      button.addEventListener("click", openDietModal);
-    });
-
-    resizeDietNotes();
-    dietNotes.addEventListener("input", resizeDietNotes);
-
-    dietModal.addEventListener("click", (event) => {
-      if (event.target === dietModal) closeDietModal();
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") closeDietModal();
-    });
-  </script>
+  <script src="../../assets/js/aluno-contexto.js"></script>
+  <script src="../../assets/js/dietas-storage.js"></script>
 </body>
 </html>

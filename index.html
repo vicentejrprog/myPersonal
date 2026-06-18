@@ -50,23 +50,41 @@
 
         <div class="auth-divider">ou</div>
 
-        <a href="#" class="btn btn-secondary btn-block btn-lg">Criar conta</a>
+        <a href="pages/auth/cadastro.html" class="btn btn-secondary btn-block btn-lg">Criar conta</a>
       </form>
     </section>
   </main>
 
   <script src="assets/js/validation.js"></script>
+  <script src="assets/js/auth-storage.js"></script>
   <script>
+    // Conta de demonstração na 1ª execução (pode remover): demo@mypersonal.com / 123456
+    seedDemo();
+
     setupFormValidation("login-form", {
       email: [Rules.required, Rules.email],
       senha: [Rules.required, Rules.password],
     }, () => {
+      const email = document.getElementById("email").value.trim();
+      const senha = document.getElementById("senha").value;
+      const usuario = encontrarUsuario(email);
+
+      if (!usuario || usuario.senha !== senha) {
+        const campo = document.getElementById("senha");
+        const grupo = campo.closest(".input-group");
+        campo.classList.add("is-invalid");
+        grupo.classList.add("has-error");
+        grupo.querySelector(".error-message").textContent = "E-mail ou senha incorretos.";
+        return;
+      }
+
+      salvarUsuarioLogado(usuario);
       window.location.href = "pages/auth/identificacao-perfil.html";
     });
 
+    // Toggle de visibilidade da senha
     const toggleSenha = document.getElementById("toggle-senha");
     const senhaInput  = document.getElementById("senha");
-
     toggleSenha.addEventListener("click", () => {
       const oculta = senhaInput.type === "password";
       senhaInput.type = oculta ? "text" : "password";

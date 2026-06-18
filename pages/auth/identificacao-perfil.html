@@ -64,6 +64,7 @@
     </div>
   </main>
 
+  <script src="../../assets/js/auth-storage.js"></script>
   <script>
     // Lógica de seleção do perfil
     // Atende RNF04: perfis de acesso distintos
@@ -74,29 +75,54 @@
       "personal-nutricionista": "Continuar como Personal Nutricionista",
       "nutricionista": "Continuar como Nutricionista",
       "personal-trainer": "Continuar como Personal Trainer",
-      "aluno": "Continuar como Aluno"
+      "aluno": "Continuar como Aluno",
     };
 
-    let selectedCard = document.querySelector(".profile-card.is-selected");
+    const perfilSalvo = localStorage.getItem("mypersonal:perfil");
+    const usuarioLogado = getUsuarioLogado();
+
+    if (!usuarioLogado) {
+      window.location.href = "../../index.html";
+    }
+
+    let selectedCard = document.querySelector(`.profile-card[data-profile="${perfilSalvo}"]`)
+      || document.querySelector(".profile-card.is-selected")
+      || cards[0];
+
+    function selecionarCard(card) {
+      cards.forEach((c) => c.classList.remove("is-selected"));
+      card.classList.add("is-selected");
+      selectedCard = card;
+
+      const profile = card.getAttribute("data-profile");
+      continueBtn.textContent = labels[profile] || "Continuar";
+    }
+
+    if (selectedCard) {
+      selecionarCard(selectedCard);
+    }
 
     cards.forEach((card) => {
       card.addEventListener("click", () => {
-        // Remove seleção anterior
-        cards.forEach((c) => c.classList.remove("is-selected"));
-        // Aplica nova seleção
-        card.classList.add("is-selected");
-        selectedCard = card;
-        // Atualiza texto do botão
-        const profile = card.getAttribute("data-profile");
-        continueBtn.textContent = labels[profile];
+        selecionarCard(card);
       });
     });
 
-    // Redireciona ao clicar em continuar
+    // Salva o perfil escolhido e redireciona ao clicar em continuar
     continueBtn.addEventListener("click", () => {
-      if (selectedCard) {
-        window.location.href = selectedCard.getAttribute("data-redirect");
+      if (!selectedCard) return;
+
+      const profile = selectedCard.getAttribute("data-profile");
+      const redirect = selectedCard.getAttribute("data-redirect");
+      const resultado = atualizarPerfilUsuarioLogado(profile);
+
+      if (!resultado.ok) {
+        alert(resultado.erro || "Não foi possível salvar o perfil escolhido.");
+        window.location.href = "../../index.html";
+        return;
       }
+
+      window.location.href = redirect;
     });
   </script>
 </body>

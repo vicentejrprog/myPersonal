@@ -204,33 +204,6 @@ select.form-control {
   border-color: var(--red-dark);
 }
 
-/* Wrapper para campo de senha com botão de alternância */
-.password-wrapper {
-  position: relative;
-}
-
-.password-wrapper .form-control {
-  padding-right: 2.5rem;
-}
-
-.password-toggle {
-  position: absolute;
-  right: var(--space-3);
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text-secondary);
-  font-size: var(--font-size-base);
-  padding: 0;
-  line-height: 1;
-}
-
-.password-toggle:hover {
-  color: var(--text-dark);
-}
-
 /* ════════════════════════════════════════════════
    CARDS
    ════════════════════════════════════════════════ */
@@ -368,6 +341,26 @@ select.form-control {
   color: var(--blue-info-dark);
 }
 
+/* ===== Select de status (dashboard) — reaproveita as cores do badge ===== */
+.status-select {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--gray-300);
+  cursor: pointer;
+}
+
+.status-select.active  { background-color: var(--green-light);  color: var(--green-dark); }
+.status-select.pending { background-color: var(--yellow-light); color: var(--orange-warning); }
+.status-select.info    { background-color: var(--blue-info);    color: var(--blue-info-dark); }
+.status-select.danger  { background-color: var(--red-light);    color: var(--red-dark); }
+
+.status-select:focus {
+  outline: 2px solid var(--green-primary);
+  outline-offset: 1px;
+}
+
 /* ════════════════════════════════════════════════
    AVATAR
    ════════════════════════════════════════════════ */
@@ -487,3 +480,30 @@ select.form-control {
 .mt-2 { margin-top: var(--space-2); }
 .mt-4 { margin-top: var(--space-4); }
 .mt-6 { margin-top: var(--space-6); }
+
+/* ===== Toggle de visibilidade da senha ===== */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper .form-control {
+  padding-right: 2.5rem;
+}
+
+.password-toggle {
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  padding: 0;
+  line-height: 1;
+}
+
+.password-toggle:hover {
+  color: var(--text-dark);
+}

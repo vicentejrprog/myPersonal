@@ -141,3 +141,8 @@
   /* Marcador compacto de compromisso no dia. */
 .calendar-event { font-size: 9px; }
 }
+
+.calendar-event.is-cancelado {
+  opacity: 0.65;
+  text-decoration: line-through;
+}

@@ -43,14 +43,14 @@
           </div>
           <span class="quick-card-arrow">→</span>
         </a>
-        <a href="../profissional/agenda.html?perfil=aluno" class="quick-card">
+        <a href="agenda.html" class="quick-card">
           <div class="quick-card-info">
             <span class="quick-card-title">Agenda</span>
             <span class="quick-card-desc">próximos compromissos</span>
           </div>
           <span class="quick-card-arrow">→</span>
         </a>
-        <a href="../profissional/mensagens.html?perfil=aluno" class="quick-card">
+        <a href="mensagens.html" class="quick-card">
           <div class="quick-card-info">
             <span class="quick-card-title">Mensagens</span>
             <span class="quick-card-desc">falar com profissional</span>
@@ -88,41 +88,164 @@
   </div>
 
   <script src="../../assets/js/sidebar-loader.js"></script>
+  <script src="../../assets/js/aluno-contexto.js"></script>
+  <script src="../../assets/js/compromissos-store.js"></script>
   <script>
     // ======================================================
-    // Home do Aluno — renderização dinâmica
-    // Atende: US05, US07, US09 / RF01, RF03, RF05, RF07
+    // Home do aluno integrada ao localStorage
     // ======================================================
 
-    const treinoDeHoje = [
-      { nome: "Supino reto com barra",     series: 4, reps: 12, video: "#" },
-      { nome: "Crucifixo com halteres",    series: 3, reps: 15, video: "#" },
-      { nome: "Tríceps na polia",          series: 4, reps: 12, video: "#" },
-      { nome: "Desenvolvimento com barra", series: 3, reps: 10, video: "#" },
-      { nome: "Elevação lateral",          series: 3, reps: 15, video: "#" },
-    ];
+    const TREINOS_STORAGE_KEY_HOME = "mypersonal_treinos_alunos";
 
-    const proximosCompromissos = [
-      { dataHora: "10/04 · 09:00", titulo: "Consulta com Pierre" },
-      { dataHora: "15/04 · 14:00", titulo: "Renovação de treino" },
-      { dataHora: "22/04 · 08:00", titulo: "Avaliação corporal" },
-    ];
+    function lerJsonHome(chave, fallback) {
+      try {
+        const valor = localStorage.getItem(chave);
+        return valor ? JSON.parse(valor) : fallback;
+      } catch (err) {
+        return fallback;
+      }
+    }
 
-    document.getElementById("training-list").innerHTML = treinoDeHoje.map((ex) => `
-      <div class="training-row">
-        <span class="training-row-name">${ex.nome}</span>
-        <span class="training-row-meta">${ex.series} séries</span>
-        <span class="training-row-meta">${ex.reps} reps</span>
-        <a href="${ex.video}" class="training-row-video">▶ ver vídeo</a>
-      </div>
-    `).join("");
+    function alunoAtualHome() {
+      if (window.AlunoContexto && typeof window.AlunoContexto.buscarAlunoAtual === "function") {
+        return window.AlunoContexto.buscarAlunoAtual({ preferirUsuarioLogado: true });
+      }
 
-    document.getElementById("appointments-list").innerHTML = proximosCompromissos.map((c) => `
-      <div class="next-appointment-card">
-        <p class="date-time">${c.dataHora}</p>
-        <p class="title">${c.titulo}</p>
-      </div>
-    `).join("");
+      try {
+        const usuario = JSON.parse(localStorage.getItem("mypersonal:usuarioLogado"));
+        if (usuario && (usuario.tipo === "aluno" || usuario.perfil === "aluno")) return usuario;
+      } catch (err) {}
+
+      return { id: "aluno-eliabe-monteiro", nome: "Eliabe Monteiro" };
+    }
+
+    function aliasesAlunoHome(aluno) {
+      if (window.AlunoContexto && typeof window.AlunoContexto.gerarAliasesAluno === "function") {
+        return window.AlunoContexto.gerarAliasesAluno(aluno);
+      }
+      return [aluno.id, aluno.alunoId].filter(Boolean);
+    }
+
+    function formatarDataHoraCompromisso(dataIso, hora) {
+      if (!dataIso) return hora || "—";
+      const partes = dataIso.split("-");
+      const data = partes.length === 3 ? `${partes[2]}/${partes[1]}` : dataIso;
+      return hora ? `${data} · ${hora}` : data;
+    }
+
+    function buscarTreinoDoAluno(aluno) {
+      const treinos = lerJsonHome(TREINOS_STORAGE_KEY_HOME, {});
+      const aliases = aliasesAlunoHome(aluno);
+      const chave = aliases.find((alias) => treinos[alias]);
+      return chave ? treinos[chave] : null;
+    }
+
+    function buscarGrupoTreinoDeHoje(treino) {
+      const grupos = treino?.grupos || [];
+      if (!grupos.length) return null;
+
+      const comExercicios = grupos.filter((grupo) => (grupo.exercicios || []).length);
+      if (!comExercicios.length) return grupos[0];
+
+      const indice = new Date().getDay() % comExercicios.length;
+      return comExercicios[indice];
+    }
+
+    function renderizarTreinoHome(aluno) {
+      const lista = document.getElementById("training-list");
+      lista.innerHTML = "";
+
+      const treino = buscarTreinoDoAluno(aluno);
+      const grupo = buscarGrupoTreinoDeHoje(treino);
+      const exercicios = (grupo?.exercicios || []).slice(0, 5);
+
+      if (!exercicios.length) {
+        const vazio = document.createElement("div");
+        vazio.className = "training-row";
+        vazio.textContent = "Nenhum treino cadastrado para hoje.";
+        lista.appendChild(vazio);
+        return;
+      }
+
+      exercicios.forEach((ex) => {
+        const row = document.createElement("div");
+        row.className = "training-row";
+
+        const nome = document.createElement("span");
+        nome.className = "training-row-name";
+        nome.textContent = ex.nome || "Exercício";
+
+        const series = document.createElement("span");
+        series.className = "training-row-meta";
+        series.textContent = `${ex.series || "—"} séries`;
+
+        const reps = document.createElement("span");
+        reps.className = "training-row-meta";
+        reps.textContent = `${ex.reps || "—"} reps`;
+
+        const video = document.createElement("a");
+        video.className = "training-row-video";
+        video.textContent = "▶ ver vídeo";
+        video.href = ex.video || "#";
+        if (ex.video) {
+          video.target = "_blank";
+          video.rel = "noreferrer";
+        }
+
+        row.append(nome, series, reps, video);
+        lista.appendChild(row);
+      });
+    }
+
+    function renderizarCompromissosHome(aluno) {
+      const lista = document.getElementById("appointments-list");
+      lista.innerHTML = "";
+
+      const aliases = aliasesAlunoHome(aluno);
+      const hoje = new Date();
+      hoje.setHours(0, 0, 0, 0);
+
+      const compromissos = (typeof getCompromissos === "function" ? getCompromissos() : [])
+        .filter((c) => aliases.includes(c.alunoId))
+        .filter((c) => c.status !== "Cancelado" && c.status !== "Cancelada")
+        .filter((c) => {
+          const data = new Date(`${c.data}T00:00:00`);
+          return !Number.isNaN(data.getTime()) && data >= hoje;
+        })
+        .sort((a, b) => `${a.data} ${a.horaInicio}`.localeCompare(`${b.data} ${b.horaInicio}`))
+        .slice(0, 5);
+
+      if (!compromissos.length) {
+        const vazio = document.createElement("div");
+        vazio.className = "next-appointment-card";
+        vazio.textContent = "Nenhum compromisso futuro cadastrado.";
+        lista.appendChild(vazio);
+        return;
+      }
+
+      compromissos.forEach((c) => {
+        const card = document.createElement("div");
+        card.className = "next-appointment-card";
+
+        const dataHora = document.createElement("p");
+        dataHora.className = "date-time";
+        dataHora.textContent = formatarDataHoraCompromisso(c.data, c.horaInicio);
+
+        const titulo = document.createElement("p");
+        titulo.className = "title";
+        titulo.textContent = `${(window.TIPO_LABEL && window.TIPO_LABEL[c.tipo]) || "Compromisso"}${c.local ? " · " + c.local : ""}`;
+
+        card.append(dataHora, titulo);
+        lista.appendChild(card);
+      });
+    }
+
+    const aluno = alunoAtualHome();
+    const primeiroNome = String(aluno.nome || "Aluno").split(" ")[0] || "Aluno";
+    document.body.dataset.pageTitle = `Olá, ${primeiroNome}!`;
+
+    renderizarTreinoHome(aluno);
+    renderizarCompromissosHome(aluno);
   </script>
 </body>
 </html>
