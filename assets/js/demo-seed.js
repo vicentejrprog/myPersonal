@@ -500,7 +500,192 @@ function carregarDadosDemo() {
     JSON.stringify([...compromissosSemCarlos, ...treinosSerie, ...avaliacoesSerie, trocaTreino])
   );
 
-  /* ---------- 6. Configurações do aluno ---------- */
+  /* ---------- 6. Registros de treino (estatísticas) ---------- */
+  const registrosTreino = {};
+  try { Object.assign(registrosTreino, JSON.parse(localStorage.getItem("mypersonal_registros_treino") || "{}")); } catch (_) {}
+
+  const sessoesDemo = [
+    // ── Mai/2026 ──────────────────────────────────────────────────────────────
+    { data: "19/05/2026", grupoId: "treino-a", aba: "Treino A", status: "Concluído", sensacao: "Boa",     feedback: "Semana de adaptação. Cargas controladas.",
+      exercicios: [
+        { exercicio: "Supino reto com barra",         seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "60 kg", observacaoParticular: "" },
+        { exercicio: "Supino inclinado com halteres", seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "22 kg", observacaoParticular: "" },
+        { exercicio: "Crucifixo reto",                seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "14 kg", observacaoParticular: "" },
+        { exercicio: "Crossover no cabo",             seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "12 kg", observacaoParticular: "" },
+        { exercicio: "Tríceps polia alta",            seriesRealizadas: "4", repeticoesRealizadas: "12", cargaUtilizada: "20 kg", observacaoParticular: "" },
+        { exercicio: "Tríceps testa com barra W",     seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "18 kg", observacaoParticular: "" },
+        { exercicio: "Desenvolvimento com halteres",  seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "18 kg", observacaoParticular: "" },
+      ],
+    },
+    { data: "21/05/2026", grupoId: "treino-b", aba: "Treino B", status: "Concluído", sensacao: "Boa",     feedback: "",
+      exercicios: [
+        { exercicio: "Puxada frente (pegada aberta)", seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "55 kg", observacaoParticular: "" },
+        { exercicio: "Remada curvada com barra",      seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "50 kg", observacaoParticular: "" },
+        { exercicio: "Serrote com halteres",          seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "24 kg", observacaoParticular: "" },
+        { exercicio: "Pulldown no cabo",              seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "35 kg", observacaoParticular: "" },
+        { exercicio: "Rosca direta com barra",        seriesRealizadas: "3", repeticoesRealizadas: "10", cargaUtilizada: "30 kg", observacaoParticular: "" },
+        { exercicio: "Rosca martelo com halteres",    seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "16 kg", observacaoParticular: "" },
+        { exercicio: "Rosca concentrada",             seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "14 kg", observacaoParticular: "" },
+      ],
+    },
+    { data: "23/05/2026", grupoId: "treino-c", aba: "Treino C", status: "Concluído", sensacao: "Cansado", feedback: "Perna pesada, mas finalizei tudo.",
+      exercicios: [
+        { exercicio: "Agachamento livre com barra",   seriesRealizadas: "4", repeticoesRealizadas: "8",  cargaUtilizada: "70 kg", observacaoParticular: "" },
+        { exercicio: "Leg press 45°",                 seriesRealizadas: "4", repeticoesRealizadas: "12", cargaUtilizada: "140 kg", observacaoParticular: "" },
+        { exercicio: "Cadeira extensora",             seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "50 kg", observacaoParticular: "" },
+        { exercicio: "Mesa flexora",                  seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "40 kg", observacaoParticular: "" },
+        { exercicio: "Stiff com halteres",            seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "26 kg", observacaoParticular: "" },
+        { exercicio: "Desenvolvimento militar",       seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "40 kg", observacaoParticular: "" },
+        { exercicio: "Elevação lateral com halteres", seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "10 kg", observacaoParticular: "" },
+        { exercicio: "Panturrilha no leg press",      seriesRealizadas: "4", repeticoesRealizadas: "20", cargaUtilizada: "80 kg", observacaoParticular: "" },
+      ],
+    },
+    { data: "26/05/2026", grupoId: "treino-a", aba: "Treino A", status: "Concluído", sensacao: "Muito boa", feedback: "Supino bateu recorde pessoal.",
+      exercicios: [
+        { exercicio: "Supino reto com barra",         seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "65 kg", observacaoParticular: "PR!" },
+        { exercicio: "Supino inclinado com halteres", seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "24 kg", observacaoParticular: "" },
+        { exercicio: "Crucifixo reto",                seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "14 kg", observacaoParticular: "" },
+        { exercicio: "Crossover no cabo",             seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "14 kg", observacaoParticular: "" },
+        { exercicio: "Tríceps polia alta",            seriesRealizadas: "4", repeticoesRealizadas: "12", cargaUtilizada: "22 kg", observacaoParticular: "" },
+        { exercicio: "Tríceps testa com barra W",     seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "20 kg", observacaoParticular: "" },
+        { exercicio: "Desenvolvimento com halteres",  seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "20 kg", observacaoParticular: "" },
+      ],
+    },
+    { data: "28/05/2026", grupoId: "treino-b", aba: "Treino B", status: "Concluído", sensacao: "Boa",     feedback: "",
+      exercicios: [
+        { exercicio: "Puxada frente (pegada aberta)", seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "58 kg", observacaoParticular: "" },
+        { exercicio: "Remada curvada com barra",      seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "52 kg", observacaoParticular: "" },
+        { exercicio: "Serrote com halteres",          seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "26 kg", observacaoParticular: "" },
+        { exercicio: "Pulldown no cabo",              seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "38 kg", observacaoParticular: "" },
+        { exercicio: "Rosca direta com barra",        seriesRealizadas: "3", repeticoesRealizadas: "10", cargaUtilizada: "32 kg", observacaoParticular: "" },
+        { exercicio: "Rosca martelo com halteres",    seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "18 kg", observacaoParticular: "" },
+        { exercicio: "Rosca concentrada",             seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "14 kg", observacaoParticular: "" },
+      ],
+    },
+    { data: "30/05/2026", grupoId: "treino-c", aba: "Treino C", status: "Concluído", sensacao: "Boa",     feedback: "Agachamento ficou mais sólido.",
+      exercicios: [
+        { exercicio: "Agachamento livre com barra",   seriesRealizadas: "4", repeticoesRealizadas: "8",  cargaUtilizada: "75 kg", observacaoParticular: "" },
+        { exercicio: "Leg press 45°",                 seriesRealizadas: "4", repeticoesRealizadas: "12", cargaUtilizada: "150 kg", observacaoParticular: "" },
+        { exercicio: "Cadeira extensora",             seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "52 kg", observacaoParticular: "" },
+        { exercicio: "Mesa flexora",                  seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "42 kg", observacaoParticular: "" },
+        { exercicio: "Stiff com halteres",            seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "28 kg", observacaoParticular: "" },
+        { exercicio: "Desenvolvimento militar",       seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "42 kg", observacaoParticular: "" },
+        { exercicio: "Elevação lateral com halteres", seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "10 kg", observacaoParticular: "" },
+        { exercicio: "Panturrilha no leg press",      seriesRealizadas: "4", repeticoesRealizadas: "20", cargaUtilizada: "80 kg", observacaoParticular: "" },
+      ],
+    },
+    // ── Jun/2026 ──────────────────────────────────────────────────────────────
+    { data: "02/06/2026", grupoId: "treino-a", aba: "Treino A", status: "Concluído", sensacao: "Muito boa", feedback: "",
+      exercicios: [
+        { exercicio: "Supino reto com barra",         seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "65 kg", observacaoParticular: "" },
+        { exercicio: "Supino inclinado com halteres", seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "24 kg", observacaoParticular: "" },
+        { exercicio: "Crucifixo reto",                seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "16 kg", observacaoParticular: "" },
+        { exercicio: "Crossover no cabo",             seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "14 kg", observacaoParticular: "" },
+        { exercicio: "Tríceps polia alta",            seriesRealizadas: "4", repeticoesRealizadas: "12", cargaUtilizada: "22 kg", observacaoParticular: "" },
+        { exercicio: "Tríceps testa com barra W",     seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "20 kg", observacaoParticular: "" },
+        { exercicio: "Desenvolvimento com halteres",  seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "20 kg", observacaoParticular: "" },
+      ],
+    },
+    { data: "04/06/2026", grupoId: "treino-b", aba: "Treino B", status: "Concluído", sensacao: "Boa",     feedback: "Foco total nas costas, ótima conexão muscular.",
+      exercicios: [
+        { exercicio: "Puxada frente (pegada aberta)", seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "60 kg", observacaoParticular: "" },
+        { exercicio: "Remada curvada com barra",      seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "55 kg", observacaoParticular: "" },
+        { exercicio: "Serrote com halteres",          seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "28 kg", observacaoParticular: "" },
+        { exercicio: "Pulldown no cabo",              seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "40 kg", observacaoParticular: "" },
+        { exercicio: "Rosca direta com barra",        seriesRealizadas: "3", repeticoesRealizadas: "10", cargaUtilizada: "34 kg", observacaoParticular: "" },
+        { exercicio: "Rosca martelo com halteres",    seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "18 kg", observacaoParticular: "" },
+        { exercicio: "Rosca concentrada",             seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "16 kg", observacaoParticular: "" },
+      ],
+    },
+    { data: "06/06/2026", grupoId: "treino-c", aba: "Treino C", status: "Concluído", sensacao: "Boa",     feedback: "",
+      exercicios: [
+        { exercicio: "Agachamento livre com barra",   seriesRealizadas: "4", repeticoesRealizadas: "8",  cargaUtilizada: "80 kg", observacaoParticular: "" },
+        { exercicio: "Leg press 45°",                 seriesRealizadas: "4", repeticoesRealizadas: "12", cargaUtilizada: "150 kg", observacaoParticular: "" },
+        { exercicio: "Cadeira extensora",             seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "55 kg", observacaoParticular: "" },
+        { exercicio: "Mesa flexora",                  seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "44 kg", observacaoParticular: "" },
+        { exercicio: "Stiff com halteres",            seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "30 kg", observacaoParticular: "" },
+        { exercicio: "Desenvolvimento militar",       seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "44 kg", observacaoParticular: "" },
+        { exercicio: "Elevação lateral com halteres", seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "12 kg", observacaoParticular: "" },
+        { exercicio: "Panturrilha no leg press",      seriesRealizadas: "4", repeticoesRealizadas: "20", cargaUtilizada: "90 kg", observacaoParticular: "" },
+      ],
+    },
+    { data: "09/06/2026", grupoId: "treino-a", aba: "Treino A", status: "Concluído", sensacao: "Muito boa", feedback: "Série mais pesada no supino, execução perfeita.",
+      exercicios: [
+        { exercicio: "Supino reto com barra",         seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "67,5 kg", observacaoParticular: "Melhor série até agora" },
+        { exercicio: "Supino inclinado com halteres", seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "26 kg", observacaoParticular: "" },
+        { exercicio: "Crucifixo reto",                seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "16 kg", observacaoParticular: "" },
+        { exercicio: "Crossover no cabo",             seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "14 kg", observacaoParticular: "" },
+        { exercicio: "Tríceps polia alta",            seriesRealizadas: "4", repeticoesRealizadas: "12", cargaUtilizada: "24 kg", observacaoParticular: "" },
+        { exercicio: "Tríceps testa com barra W",     seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "20 kg", observacaoParticular: "" },
+        { exercicio: "Desenvolvimento com halteres",  seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "22 kg", observacaoParticular: "" },
+      ],
+    },
+    { data: "11/06/2026", grupoId: "treino-b", aba: "Treino B", status: "Concluído", sensacao: "Boa",     feedback: "",
+      exercicios: [
+        { exercicio: "Puxada frente (pegada aberta)", seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "62 kg", observacaoParticular: "" },
+        { exercicio: "Remada curvada com barra",      seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "57 kg", observacaoParticular: "" },
+        { exercicio: "Serrote com halteres",          seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "28 kg", observacaoParticular: "" },
+        { exercicio: "Pulldown no cabo",              seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "42 kg", observacaoParticular: "" },
+        { exercicio: "Rosca direta com barra",        seriesRealizadas: "3", repeticoesRealizadas: "10", cargaUtilizada: "34 kg", observacaoParticular: "" },
+        { exercicio: "Rosca martelo com halteres",    seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "20 kg", observacaoParticular: "" },
+        { exercicio: "Rosca concentrada",             seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "16 kg", observacaoParticular: "" },
+      ],
+    },
+    { data: "13/06/2026", grupoId: "treino-c", aba: "Treino C", status: "Concluído", sensacao: "Muito boa", feedback: "Agachamento 80 kg fluindo bem.",
+      exercicios: [
+        { exercicio: "Agachamento livre com barra",   seriesRealizadas: "4", repeticoesRealizadas: "8",  cargaUtilizada: "80 kg", observacaoParticular: "" },
+        { exercicio: "Leg press 45°",                 seriesRealizadas: "4", repeticoesRealizadas: "12", cargaUtilizada: "160 kg", observacaoParticular: "" },
+        { exercicio: "Cadeira extensora",             seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "55 kg", observacaoParticular: "" },
+        { exercicio: "Mesa flexora",                  seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "45 kg", observacaoParticular: "" },
+        { exercicio: "Stiff com halteres",            seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "30 kg", observacaoParticular: "" },
+        { exercicio: "Desenvolvimento militar",       seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "46 kg", observacaoParticular: "" },
+        { exercicio: "Elevação lateral com halteres", seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "12 kg", observacaoParticular: "" },
+        { exercicio: "Panturrilha no leg press",      seriesRealizadas: "4", repeticoesRealizadas: "20", cargaUtilizada: "90 kg", observacaoParticular: "" },
+      ],
+    },
+    { data: "16/06/2026", grupoId: "treino-a", aba: "Treino A", status: "Concluído", sensacao: "Boa",     feedback: "Semana forte.",
+      exercicios: [
+        { exercicio: "Supino reto com barra",         seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "67,5 kg", observacaoParticular: "" },
+        { exercicio: "Supino inclinado com halteres", seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "26 kg", observacaoParticular: "" },
+        { exercicio: "Crucifixo reto",                seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "16 kg", observacaoParticular: "" },
+        { exercicio: "Crossover no cabo",             seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "16 kg", observacaoParticular: "" },
+        { exercicio: "Tríceps polia alta",            seriesRealizadas: "4", repeticoesRealizadas: "12", cargaUtilizada: "24 kg", observacaoParticular: "" },
+        { exercicio: "Tríceps testa com barra W",     seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "22 kg", observacaoParticular: "" },
+        { exercicio: "Desenvolvimento com halteres",  seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "22 kg", observacaoParticular: "" },
+      ],
+    },
+    { data: "18/06/2026", grupoId: "treino-b", aba: "Treino B", status: "Concluído", sensacao: "Muito boa", feedback: "Rosca chegando próximo a PR.",
+      exercicios: [
+        { exercicio: "Puxada frente (pegada aberta)", seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "64 kg", observacaoParticular: "" },
+        { exercicio: "Remada curvada com barra",      seriesRealizadas: "4", repeticoesRealizadas: "10", cargaUtilizada: "58 kg", observacaoParticular: "" },
+        { exercicio: "Serrote com halteres",          seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "30 kg", observacaoParticular: "" },
+        { exercicio: "Pulldown no cabo",              seriesRealizadas: "3", repeticoesRealizadas: "15", cargaUtilizada: "44 kg", observacaoParticular: "" },
+        { exercicio: "Rosca direta com barra",        seriesRealizadas: "3", repeticoesRealizadas: "10", cargaUtilizada: "36 kg", observacaoParticular: "PR em vista" },
+        { exercicio: "Rosca martelo com halteres",    seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "20 kg", observacaoParticular: "" },
+        { exercicio: "Rosca concentrada",             seriesRealizadas: "3", repeticoesRealizadas: "12", cargaUtilizada: "16 kg", observacaoParticular: "" },
+      ],
+    },
+  ];
+
+  sessoesDemo.forEach((sessao) => {
+    const chave = `${DEMO_ALUNO_ID}|${sessao.grupoId}|${sessao.data}`;
+    registrosTreino[chave] = {
+      alunoId:          DEMO_ALUNO_ID,
+      alunoNome:        "Carlos Mendes",
+      treinoSelecionado: sessao.aba,
+      grupoId:          sessao.grupoId,
+      statusTreino:     sessao.status,
+      dataRegistro:     sessao.data,
+      exercicios:       sessao.exercicios,
+      feedbackGeral:    sessao.feedback,
+      sensacaoFinal:    sessao.sensacao,
+      salvoEm:          `2026-${sessao.data.slice(3, 5)}-${sessao.data.slice(0, 2)}T${sessao.grupoId === "treino-a" ? "17" : sessao.grupoId === "treino-b" ? "18" : "19"}:30:00.000Z`,
+    };
+  });
+
+  localStorage.setItem("mypersonal_registros_treino", JSON.stringify(registrosTreino));
+
+  /* ---------- 7. Configurações do aluno ---------- */
   localStorage.setItem("mypersonal:configuracoesAluno", JSON.stringify({
     id: DEMO_ALUNO_ID,
     nome: "Carlos",
