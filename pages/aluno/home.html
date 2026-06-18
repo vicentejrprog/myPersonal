@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="../../assets/css/layout.css">
   <link rel="stylesheet" href="../../assets/css/sidebar.css">
   <link rel="stylesheet" href="../../assets/css/pages/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/pages/estatisticas.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
 </head>
 <body data-profile="aluno" data-page-title="Olá, Eliabe!">
@@ -90,6 +91,8 @@
   <script src="../../assets/js/sidebar-loader.js"></script>
   <script src="../../assets/js/aluno-contexto.js"></script>
   <script src="../../assets/js/compromissos-store.js"></script>
+  <script src="../../assets/js/avaliacoes-dados.js"></script>
+  <script src="../../assets/js/avaliacoes-graficos.js"></script>
   <script>
     // ======================================================
     // Home do aluno integrada ao localStorage
@@ -246,6 +249,11 @@
 
     renderizarTreinoHome(aluno);
     renderizarCompromissosHome(aluno);
+
+    if (window.MyPersonal && typeof window.MyPersonal.renderizarGraficosEvolucao === "function") {
+      const avaliacoes = window.MyPersonal.buscarAvaliacoes();
+      window.MyPersonal.renderizarGraficosEvolucao(document, avaliacoes);
+    }
   </script>
 </body>
 </html>
